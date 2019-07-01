@@ -1,0 +1,25 @@
+.vote .voted{
+    height: 20px;
+    width: 20px;
+}
+
+.vote .voted:hover{
+    color: blue;
+}
+
+.vote .likeList{
+    height: 20px;
+    width: 20px;
+}
+.vote .disLikeList{
+    height: 20px;
+    width: 20px
+}
+
+.likeList:hover{
+    color: blue;
+}
+
+.disLikeList:hover{
+    color: blue;
+}

@@ -1,0 +1,32 @@
+.search-box{
+    height: 34px;
+    border: 2px solid red;
+    border-radius: 50px;
+    width: 500px;
+    background: #2f3640;
+    display: flex;
+    background: white;
+    margin: 10px;
+}
+.search-box .search-btn{
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    margin-top: 2px;
+    margin-left: 7px;
+}
+
+.search-box .input-text{
+    width: 92%;
+    border: 0;
+    float: left;
+    height: 30px;
+}
+
+.search-box .input-text:focus{
+    border: none;
+}
+
+.search-box .search-btn .icon-search{
+}
+

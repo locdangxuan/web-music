@@ -1,0 +1,18 @@
+.header .col-logo{
+  text-align: center;
+   background-color: #f15927;
+}
+
+.header .col-search{
+    display: flex;
+    align-items: center;
+}
+
+.header .col-info{
+    display: flex;
+    align-items: center;
+}
+.header{
+  background-color: #f15927;
+  border-bottom: 1px solid #555;
+}
