@@ -7,15 +7,13 @@ import {FaSearch} from "react-icons/fa";
 class Search extends Component{
     render(){
         return(
-            <div className = "search-box">
-                <a className = "search-btn" 
-                   href = "#">
-                    <FaSearch className = "icon-search"/>
-                </a>
-                <input type = "text" 
-                       name = "" 
-                       placeholder = "    Search"
-                       className = "input-text"/>
+            <div className="container h-100">
+                <div className="d-flex justify-content-center h-100">
+                    <div className="searchbar">
+                        <input className="search_input" type="text" name="" placeholder="Search..."/>
+                        <a href="#" className="search_icon"><FaSearch className = "icon-search"/></a>
+                    </div>
+                </div>
             </div>
         )
     }

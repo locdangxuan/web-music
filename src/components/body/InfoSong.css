@@ -4,6 +4,7 @@
 
 .info-song:hover{
     background: #FF8452;
+    cursor: pointer;
 }
 
 .songName{
