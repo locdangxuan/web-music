@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Login from './Login';
-import SignUp from './SignUp'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, Label, Input } from 'reactstrap';
+import Register from './Register'
+import { Row, Col } from 'reactstrap';
 
 export default class Authentication extends Component{
     render(){
@@ -11,7 +11,7 @@ export default class Authentication extends Component{
                     <Login/>
                 </Col>
                 <Col md="6">
-                    <SignUp/>
+                    <Register/>
                 </Col>
                 
             </Row>

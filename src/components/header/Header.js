@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Header.css'
-import Logo from './header/Logo';
-import Search from './header/Search';
-import Authentication from './header/Authentication'
+import Logo from './Logo/Logo';
+import Search from './Search/Search';
+import Authentication from './Authentication/Authentication'
 import { Row, Col } from 'reactstrap';
 
 

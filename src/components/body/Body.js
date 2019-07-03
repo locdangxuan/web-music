@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './Body.css';
-import Playlist from './body/Playlist';
-import VideoSong from './body/VideoSong'
+import Playlist from './ListSong/Playlist';
+import VideoSong from './ListSong/VideoSong'
 import { Container, Row, Col } from 'reactstrap';
 
 class Body extends Component{
@@ -23,8 +23,6 @@ class Body extends Component{
                         </Col>
                     </Row>
                 </Container>
-                
-                
            </div>
         )
     }

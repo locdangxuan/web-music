@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup } from 'reactstrap';
-export default class SignUp extends Component{
+export default class Register extends Component{
     constructor(props) {
-    super(props);
-    this.state = {
-        modal: false
-    };
+        super(props);
+        this.state = {
+            modal: false
+        };
 
-    this.toggle = this.toggle.bind(this);
+        this.toggle = this.toggle.bind(this);
     }
 
     toggle() {

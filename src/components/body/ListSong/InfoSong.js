@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import './InfoSong.css'
 import {Row, Col } from 'reactstrap';
 import Vote from './Vote'
-import Image from '../Image/Flower.jpeg'
+import Image from '/home/locdangxuan/Dev/web-music/src/components/Image/Flower.jpeg'
 
 class InfoSong extends Component{
     render(){

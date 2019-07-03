@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Video from '../Image/youtube.png';
+import Video from '/home/locdangxuan/Dev/web-music/src/components/Image/youtube.png';
 import {MdThumbUp} from 'react-icons/md';
 import {MdThumbDown} from 'react-icons/md';
 import {Row, Col } from 'reactstrap';
@@ -26,7 +26,6 @@ export default class VideoSong extends Component{
                                 <MdThumbDown className="disLike"></MdThumbDown>                                
                                 <p>500</p>
                             </div>
-                            
                         </div>
                     </Col>
                 </Row>
