@@ -1,0 +1,41 @@
+.musicCard {
+    /* display: flex; */
+    font-family: "Times New Roman", Times, serif;
+    margin-top: 2px;
+    /* padding-right: 10px;
+    align-items: center; */
+  }
+
+  .img-song-search{
+      width: 100%;
+  }
+  
+/*   
+  .musicCard .picture {
+    background-size: 30px;
+    padding: 8px 8px 8px 8px;
+    margin-right: 10px;
+  }
+  
+  .musicCard .info {
+    flex-grow: 1;
+  }
+  
+  .musicCard .song-title {
+    font-size: 20spx;
+    margin-bottom: 8px;
+  }
+  
+  .musicCard .singer {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .musicCard .views {
+    font-size: 16px;
+    color: #999;
+    margin-right: 20px;
+  }
+  .musicCard .addBtn {
+    font-size: 20px;
+  } */

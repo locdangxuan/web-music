@@ -1,20 +1,28 @@
-import React, {Component} from 'react';
-import Login from './Login';
-import Register from './Register'
-import { Row, Col } from 'reactstrap';
+import React , { Component } from 'react';
+import './Authentication.css';
+import Authenticated from './Authenticated';
+import UnAuthenticated from './UnAuthenticated';
 
 export default class Authentication extends Component{
+    constructor(props)
+    {
+        super(props);
+        this.state = {loggedIn: false};
+        const token = JSON.parse(localStorage.getItem('Token')); 
+        this.changeState = this.changeState.bind(this);
+    }
+    changeState(value)
+    {
+        console.log(value);
+        this.setState({loggedIn: value});
+    }
     render(){
+        const {loggedIn} = this.state;
         return(
-            <Row className="authentication">
-                <Col md="6">
-                    <Login/>
-                </Col>
-                <Col md="6">
-                    <Register/>
-                </Col>
-                
-            </Row>
+        <div>
+        {loggedIn && <Authenticated getValue = {this.changeState}/>}
+        {loggedIn === false && <UnAuthenticated getValue = {this.changeState}/>}
+        </div>
         )
     }
 }

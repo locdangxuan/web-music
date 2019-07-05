@@ -1,4 +1,4 @@
-.info-song{
+    .info-song{
     border-bottom: 1px solid #555;
 }
 
@@ -17,6 +17,11 @@
     color: blue;
 }
 .imgSinger{
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
+}
+.imgSong{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

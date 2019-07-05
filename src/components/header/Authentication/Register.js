@@ -6,11 +6,9 @@ export default class Register extends Component{
         this.state = {
             modal: false
         };
-
-        this.toggle = this.toggle.bind(this);
     }
 
-    toggle() {
+    toggle = () => {
         this.setState(prevState => ({
             modal: !prevState.modal
         }));

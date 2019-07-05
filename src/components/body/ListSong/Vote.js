@@ -9,33 +9,36 @@ class Vote extends Component{
         // console.log('Vote constructor');
         super(props);
         this.state = {
-            vote: 0,
+            upVote: 0,
+            downVote: 0,
             status: false
         };
     }
-    upVote(){
+    upVoteClick(){
         if(this.state.status === false){
             this.setState({
-                vote: this.state.vote + 1,
+                upVote: this.state.upVote + 1,
+                downVote: this.state.downVote,
                 status: true
             })
         }else{
             this.setState({
-                vote: this.state.vote - 1,
-                status: false
+                upVote: this.state.upVote - 1,
+                status: false,
             })
         }
     }
 
-    downVote(){
+    downVoteClick(){
         if(this.state.status === false){
             this.setState({
-                vote: this.state.vote - 1,
+                upVote: this.state.upVote,
+                downVote: this.state.downVote - 1,
                 status: true
             })
         }else{
             this.setState({
-                vote: this.state.vote + 1,
+                downVote: this.state.downVote + 1,
                 status: false
             })
         }
@@ -44,24 +47,20 @@ class Vote extends Component{
         // console.log('vote render')
         return(
             <div className = "vote">
-                <MdThumbUp className="likeList" onClick = {() => this.upVote()}></MdThumbUp>   
-                <div><span>{this.state.vote}</span>   </div>
-                <MdThumbDown className="disLikeList" onClick = {() => this.downVote()}></MdThumbDown>
-                                     
+                {/* <MdThumbUp className="likeList" onClick = {() => this.upVote()}></MdThumbUp>   
+                <div><span>{this.state.vote}</span> </div>
+                <MdThumbDown className="disLikeList" onClick = {() => this.downVote()}></MdThumbDown> */}
+                <div className="up-vote">
+                    <MdThumbUp className="likeList" onClick = {() => this.upVoteClick()}></MdThumbUp>   
+                    <div><span>{this.state.upVote}</span> </div>
+                </div>
+                <div className="down-vote">
+                    <MdThumbDown className="disLikeList" onClick = {() => this.downVoteClick()}></MdThumbDown>
+                    <div><span>{this.state.downVote}</span> </div>
+                </div>
             </div>
         )
     }
 
-    // componentDidMount(){
-    //     console.log("vote did mount");
-    // }
-
-    // componentDidUpdate(){
-    //     console.log("Vote did update");
-    // }
-
-    // componentWillMount(){
-    //     console.log('Vote will mount');
-    // }
 }
 export default Vote 

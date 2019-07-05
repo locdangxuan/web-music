@@ -9,14 +9,14 @@ class InfoSong extends Component{
         let url = Image;
         return(
         <Row className="info-song">
-            <Col xs="4">
+            <Col xs="3" className="imgSong">
                 <img src = {url} alt="singer" className="imgSinger"/>
             </Col>
             <Col xs="6">
                 <p className="songName">{this.props.songName}</p>
                 <p className="songSinger">{this.props.songSinger}</p>
             </Col>
-            <Col xs="2">
+            <Col xs="3">
                 <Vote/>
             </Col>
         </Row>

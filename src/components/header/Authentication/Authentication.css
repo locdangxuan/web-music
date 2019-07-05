@@ -1,0 +1,77 @@
+.Authentication
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    float: right;
+    text-align: center;
+    padding-left: 20px;
+}
+.Toggler
+{
+    padding-top: 10px;
+    /* margin-left: 20px; */
+    text-decoration-color: linear-gradient(to right, #db36a4, #f7ff00);
+    text-decoration: underline;
+}
+input[type="password"]
+{
+    font: 15px/24px 'Muli', sans-serif; 
+    color: #333; 
+    width: 100%; 
+    box-sizing: border-box; 
+    letter-spacing: 1px;
+}
+
+input[type="text"]
+{
+    font: 15px/24px "Lato", Arial, sans-serif; 
+    color: #333; 
+    width: 100%; 
+    box-sizing: border-box; 
+    letter-spacing: 1px;
+}
+.effect-6
+{
+    border: 0; 
+    padding: 5px 0 7px;
+     border: 1px solid transparent; 
+     border-bottom-color: #ccc; 
+     transition: 0.4s;
+    }
+.effect-6:focus
+{
+    padding: 5px 14px 7px;
+    transition: 0.4s;}
+.effect-6 ~ .focus-border
+{
+    position: absolute; 
+    height: 36px; 
+    bottom: 0; 
+    right: 0; 
+    width: 0; 
+    transition: 0.4s;}
+.user{
+    display: flex;
+}
+.userInfo
+{
+    margin: 5px 50px 0px 10px;
+}
+.logoutBtn
+{
+    padding-top: 0px;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.logoutBtn:hover
+{
+    font-weight: bold;
+    color: purple;
+    text-decoration: underline;
+}
+.Login
+{
+    margin-right: 20px;
+}

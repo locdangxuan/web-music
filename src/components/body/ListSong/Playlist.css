@@ -3,7 +3,16 @@
     width: 100%;
     overflow: auto;
     background-color: #FF9D37;
-    
+    position: sticky;
+    top: 0;
+    border: 1px solid #555;
+}
+
+.category{
+  position: sticky;
+  top: 0;
+  background: #f15927;
+  width: 100%;
 }
 
   /* width */
@@ -18,7 +27,7 @@
    
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #f15927; 
   }
   
   /* Handle on hover */

@@ -1,51 +1,57 @@
 
-    body,html{
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        background: #e74c3c !important;
-        }
+.search
+{
+    margin-top: 10px;
+}
+    input {
+        outline: none;
+    }
+    input[type=search] {
+        -webkit-appearance: textfield;
+        font-family: inherit;
+        font-size: 100%;
+    }
+    input::-webkit-search-decoration,
+    input::-webkit-search-cancel-button {
+        display: none; 
+    }
     
-        .searchbar{
-        margin-bottom: auto;
-        margin-top: auto;
-        height: 60px;
-        background-color: #353b48;
-        border-radius: 30px;
-        padding: 10px;
-        }
     
-        .search_input{
-        color: white;
-        border: 0;
-        outline: 0;
-        background: none;
-        width: 0;
-        caret-color:transparent;
-        line-height: 40px;
-        transition: width 0.4s linear;
-        }
+    input[type=search] {
+        background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+        border: solid 1px #ccc;
+        padding: 9px 10px 9px 32px;
+        width: 55px;
+        
+        -webkit-border-radius: 10em;
+        -moz-border-radius: 10em;
+        border-radius: 10em;
+        
+        -webkit-transition: all .5s;
+        -moz-transition: all .5s;
+        transition: all .5s;
+    }
+    input[type=search]:hover {
+        width: 550px;
+        background-color: #fff;
+        border-color: orange;
+        -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+        -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+        box-shadow: 0 0 5px rgba(109,207,246,.5);
+    }
+    input[type=search]:focus {
+        width: 550px;
+        background-color: #fff;
+        border-color: orange;
+        -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+        -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+        box-shadow: 0 0 5px rgba(109,207,246,.5);
+    }
     
-        .searchbar:hover > .search_input{
-        padding: 0 10px;
-        width: 450px;
-        caret-color:red;
-        transition: width 0.4s linear;
-        }
     
-        .searchbar:hover > .search_icon{
-        background: white;
-        color: #e74c3c;
-        }
-    
-        .search_icon{
-        height: 40px;
-        width: 40px;
-        float: right;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        color:white;
-        }
+    input:-moz-placeholder {
+        color: #999;
+    }
+    input::-webkit-input-placeholder {
+        color: #999;
+    }

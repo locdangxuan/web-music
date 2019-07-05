@@ -1,43 +1,80 @@
-import React, {Component} from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup } from 'reactstrap';
-export default class Login extends Component{
-    constructor(props) {
-    super(props);
-    this.state = {
-        modal: false
-    };
+import React , { Component } from 'react';
+import './Authentication.css';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, FormGroup, Label} from 'reactstrap';
 
-    this.toggle = this.toggle.bind(this);
+export default class Login extends Component
+{
+    constructor()
+    {
+        super();
+        this.state = 
+        {
+            loginmodal : false,
+            loginSuccess : false
+        }
+        this.loginToggle = this.loginToggle.bind(this);
+        this.loginBtn = this.loginBtn.bind(this);
+    }
+    render()
+    {
+
+        return(
+            <div>
+                <Button outline color="danger" className = "Toggler"  onClick={this.loginToggle}>Login</Button>               
+                 <Modal isOpen={this.state.loginmodal} toggle={this.loginToggle} className={this.props.className}>
+                 <ModalHeader toggle={this.loginToggle}>Login</ModalHeader>
+                 <ModalBody>
+                  <Form>
+                  <FormGroup>
+                   <br/>
+                   <input type="text" className="effect-6" placeholder="Username" ref = "username" onKeyUp={this.enterPressed}/>   
+                  </FormGroup>
+                  <FormGroup>                 
+                   <br/>
+                   <input type="password" className="effect-6" placeholder="Input Password" ref = "password" onKeyUp={this.enterPressed}/>                        
+                  </FormGroup>
+                  </Form>
+                 </ModalBody>
+                 <ModalFooter>
+                  <Button outline color = "warning" className = "LoginBtn" onClick={this.loginBtn}>Login</Button>{' '}
+                  <Button outline color = "warning" onClick={this.loginToggle}>Cancel</Button>
+                 </ModalFooter>
+                 </Modal>
+            </div>
+        )
     }
 
-    toggle() {
+    loginToggle() 
+    {
         this.setState(prevState => ({
-            modal: !prevState.modal
+            loginmodal: !prevState.loginmodal,
+            registermodal: prevState.registermodal,
+            isSignedIn : prevState.isSignedIn,
         }));
     }
 
-    render() {
-        return (
-            <div>
-                <Button color="danger" onClick={this.toggle}>Log in</Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Log in</ModalHeader>
-                    <ModalBody>
-                        <FormGroup>
-                            <Label for="exampleEmail">User name</Label>
-                            <Input type="email" name="username"  placeholder="username" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="examplePassword">Password</Label>
-                            <Input type="password" name="password" placeholder="password" />
-                        </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                    <Button color="primary" onClick={this.toggle}>Log in</Button>{' '}
-                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                    </ModalFooter>
-                </Modal>
-            </div>
-        );
+    enterPressed(event)
+    {
+        if(event.keyCode === 13 && event.target.id === 'loginPart')
+            this.loginBtn();
+    }
+
+    loginBtn()
+    {
+        var username = this.refs.username.value;
+        var password = this.refs.password.value;
+        var valid = this.accountAuthentication(username,password);
+        console.log(this.state.user);
+        if( valid === false)
+        {
+            alert('Invalid Username or Password');
+        }
+        else{
+            this.setState({
+                ...this.state,
+                isSignedIn: true
+            })
+        }
     }
 }
