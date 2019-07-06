@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Video from '/home/locdangxuan/Dev/web-music/src/components/Image/youtube.png';
+// import Video from '/home/locdangxuan/Dev/web-music/src/components/Image/youtube.png';
 import {MdThumbUp} from 'react-icons/md';
 import {MdThumbDown} from 'react-icons/md';
 import {Row, Col } from 'reactstrap';
@@ -7,7 +7,7 @@ import './VideoSong.css'
 import InfoSongSearch from '../ListAddSong/InfoSongSearch'
 export default class VideoSong extends Component{
     render(){
-        let url = Video;
+        // let url = Video;
         return(
             <div className="videoSong text-center">
                 {/* <img src={url} alt="VideoSong" className="video img-fluid" style = {{width: "700px"}}/> */}
