@@ -42,8 +42,8 @@ export default class UnAuthenticated extends Component
                             </Form>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="secondary" className = "LoginBtn" onClick={this.loginBtn}>Login</Button>{' '}
-                            <Button color="secondary" onClick={this.loginToggle}>Cancel</Button>
+                            <Button color="primary" className = "LoginBtn" onClick={this.loginBtn}>Login</Button>{' '}
+                            <Button color="primary" onClick={this.loginToggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>
                 </div>
@@ -74,8 +74,8 @@ export default class UnAuthenticated extends Component
                             </Form>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="secondary" className = "RegisterBtn" onClick={this.registerBtn}>Sign Up</Button>{' '}
-                            <Button color="secondary" onClick={this.Registertoggle}>Cancel</Button>
+                            <Button color="primary" className = "RegisterBtn" onClick={this.registerBtn}>Sign Up</Button>{' '}
+                            <Button color="primary" onClick={this.Registertoggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>           
                 </div>   
@@ -142,10 +142,10 @@ export default class UnAuthenticated extends Component
     accountAuthentication = (username,password) => {
         // var user = {username: username,password: password};
         // var json = JSON.stringify(user);
-        // axios.post('',json)
+        // axios.post('https://lovely-hot-springs-99494.herokuapp.com/api/users/authenticate',json)
         //      .then(response => {
-        //          console.log(response);
-        //          localStorage.setItem('Token',JSON.parse(response.data[0]);
+        //          console.log(response.data[0]);
+        //          localStorage.setItem('Token',JSON.parse(response.data[0]));
         //      })
         //      .catch(error => {
         //          alert('Loi~ ' + error);

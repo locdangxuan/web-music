@@ -1,18 +1,16 @@
-    .info-song{
-    border-bottom: 1px solid #555;
-}
 
 .info-song:hover{
-    background: #FF8452;
+    background: #efefef;
     cursor: pointer;
 }
 
 .songName{
-    font-family: sans-serif;
+    font-family: "Times New Roman", Times, serif;
     font-weight: bold;
+    font-size: 18px;
 }
 .songSinger{
-    font-size: 12px;
+    font-size: 14px;
     /* color: #a0a0a0; */
     color: blue;
 }
@@ -24,4 +22,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.imgSong .rank {
+    margin: 5px; 
+}
+.title{
+    font-family: "Times New Roman", Times, serif;
+    margin-top: 15px;
+    padding-right: 10px;
+    align-items: center;
+}
+.rank{
+    display: flex;
+    align-items: center;
+    /* padding-left: 5px; */
+
 }

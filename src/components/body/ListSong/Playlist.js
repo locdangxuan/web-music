@@ -42,7 +42,7 @@ class Playlist extends Component{
                         </InfoSong>
             })
         return(
-            <div className="Play-list-song">
+            <div className="Play-list-song" id="style-2">
                 {listSong}
                 <InfoSong songName="NameOfSong" songSinger="NameofSinger"></InfoSong>
                 <InfoSong songName="NameOfSong" songSinger="NameofSinger"></InfoSong>

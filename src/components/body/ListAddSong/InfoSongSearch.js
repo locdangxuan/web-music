@@ -14,7 +14,6 @@ export default class InfoSongSearch extends Component
             imgsrc : this.props.imgsrc,
             song_title : this.props.song_title,
             singer : this.props.singer,
-            views : this.props.views,
             id : this.props.id
         }      
         this.onClickHandle = this.onClickHandle.bind(this);
@@ -45,15 +44,15 @@ export default class InfoSongSearch extends Component
         return(
             <Row className="musicCard">
                 <Col xs="3" className="picture">
-                <   img src={imgsrc} alt="#" width={100} />
+                <   img src={imgsrc} alt="#" className="img-fluid"/>
                 </Col>
                 <Col xs="7" className="info">
                     <div className="song-title"><Link to={'/playing/' + id}>{song_title}</Link></div>
                     <div className="singer">{singer}</div>
                 </Col>
-                <Col xs="2">
+                <Col xs="2" className="button-add">
                     {isLoggedIn && 
-                    <Button outline color = "warning" className="addBtn" onClick={this.onClickHandle}>Add to playlist</Button>
+                    <Button outline color = "primary" className="addBtn" onClick={this.onClickHandle}>Add</Button>
                     }
                 </Col>
                 

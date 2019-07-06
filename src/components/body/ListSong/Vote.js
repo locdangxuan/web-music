@@ -6,7 +6,6 @@ import {MdThumbDown} from 'react-icons/md';
 
 class Vote extends Component{
     constructor(props){
-        // console.log('Vote constructor');
         super(props);
         this.state = {
             upVote: 0,
@@ -52,11 +51,11 @@ class Vote extends Component{
                 <MdThumbDown className="disLikeList" onClick = {() => this.downVote()}></MdThumbDown> */}
                 <div className="up-vote">
                     <MdThumbUp className="likeList" onClick = {() => this.upVoteClick()}></MdThumbUp>   
-                    <div><span>{this.state.upVote}</span> </div>
+                    <div className="text-center"><span className="num-vote">{this.state.upVote}</span> </div>
                 </div>
                 <div className="down-vote">
                     <MdThumbDown className="disLikeList" onClick = {() => this.downVoteClick()}></MdThumbDown>
-                    <div><span>{this.state.downVote}</span> </div>
+                    <div className="text-center"><span className="num-vote">{this.state.downVote}</span> </div>
                 </div>
             </div>
         )

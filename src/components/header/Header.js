@@ -15,7 +15,6 @@ class Header extends Component{
     }
     changeBodyComponent = (value) => {
         console.log(value);
-        alert(value);
     }
     
     render(){

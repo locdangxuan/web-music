@@ -1,6 +1,6 @@
 .header .col-logo{
   text-align: center;
-   background-color: #f15927;
+   /* background-color: #FAF3FF; */
 }
 
 .header .col-search{
@@ -13,6 +13,9 @@
     align-items: center;
 }
 .header{
-  background-color: #f15927;
-  border-bottom: 1px solid #555;
+  background-color: #F7F7F7;
+  box-shadow: 0 1px 1px #e3e3e3;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }

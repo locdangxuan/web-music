@@ -9,14 +9,15 @@ class InfoSong extends Component{
         let url = Image;
         return(
         <Row className="info-song">
-            <Col xs="3" className="imgSong">
-                <img src = {url} alt="singer" className="imgSinger"/>
+            <Col xs="5" className="imgSong">
+                <p className="rank">1</p>
+                <img src = {url} alt="singer" className="imgSinger img-fluid"/>
             </Col>
-            <Col xs="6">
+            <Col xs="4" className="title">
                 <p className="songName">{this.props.songName}</p>
                 <p className="songSinger">{this.props.songSinger}</p>
             </Col>
-            <Col xs="3">
+            <Col xs="3" style={{alignSelf: "center"}}>
                 <Vote/>
             </Col>
         </Row>

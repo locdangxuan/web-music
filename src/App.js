@@ -19,7 +19,7 @@ class App extends Component {
           <Header />
           <div className = "body">
             <Container>
-              <Row style={{backgroundColor: "#FF9D37", paddingTop: "20px"}}>
+              <Row style={{backgroundColor: "white", paddingTop: "20px"}}>
                   <Col xs="7">
                       <Route path = "/searching/:text" component={ListSongSearch}></Route>
                       {/* <VideoSong/> */}

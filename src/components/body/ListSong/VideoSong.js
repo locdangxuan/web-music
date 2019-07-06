@@ -4,6 +4,7 @@ import {MdThumbUp} from 'react-icons/md';
 import {MdThumbDown} from 'react-icons/md';
 import {Row, Col } from 'reactstrap';
 import './VideoSong.css'
+import InfoSongSearch from '../ListAddSong/InfoSongSearch'
 export default class VideoSong extends Component{
     render(){
         let url = Video;
@@ -20,11 +21,11 @@ export default class VideoSong extends Component{
                         <div className="numOfReact">
                             <div className="react">
                                 <MdThumbUp className="like"></MdThumbUp>
-                                <p>12000</p>
+                                <p>5</p>
                             </div>
                             <div className="react">
                                 <MdThumbDown className="disLike"></MdThumbDown>                                
-                                <p>500</p>
+                                <p>5</p>
                             </div>
                         </div>
                     </Col>
