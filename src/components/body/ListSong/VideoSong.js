@@ -10,7 +10,7 @@ export default class VideoSong extends Component{
         let url = Video;
         return(
             <div className="videoSong text-center">
-                <img src={url} alt="VideoSong" className="video img-fluid" style = {{width: "700px"}}/>
+                {/* <img src={url} alt="VideoSong" className="video img-fluid" style = {{width: "700px"}}/> */}
                 <Row>
                     <Col xs="6">
                         <h1>Attention</h1>
