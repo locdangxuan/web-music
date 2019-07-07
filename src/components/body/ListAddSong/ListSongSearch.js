@@ -21,8 +21,7 @@ export default class ListSongSearch extends Component
     }
     componentDidUpdate()
     {
-        //console.log(this.state.text);
-        //console.log(this.props.match.params.text);
+        
         if(this.state.text !== this.props.match.params.text)
         {
             this.setState({

@@ -16,7 +16,7 @@ class Playlist extends Component{
                 },
                 {
                     id: 2,
-                    songName: "Sayphone",
+                    songName: "Payphone",
                     songSinger: "Marron 5",
                     voted: false
                 },
