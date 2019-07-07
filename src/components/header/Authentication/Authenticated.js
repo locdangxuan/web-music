@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import './Authentication.css';
-import Icon from '/home/locdangxuan/Dev/web-music/src/components/Image/gastly.svg';
+import Icon from '../../Image/gastly.svg';
 import { Button } from 'reactstrap';
 
 
