@@ -22,12 +22,11 @@ class App extends Component {
               <Row style={{backgroundColor: "white", paddingTop: "20px"}}>
                   <Col xs="7">
                       <Route path = "/searching/:text" component={ListSongSearch}></Route>
-                      {/* <VideoSong/> */}
                       <Route path = "/playing/" component={VideoSong}></Route>
-                      {/* <ListSongSearch/> */}
                   </Col>
                   <Col xs="5" >
-                      <Playlist/>
+                  <Route path = "/playing/" component={Playlist}></Route>
+                      {/* <Playlist/> */}
                   </Col>
               </Row>
             </Container>
