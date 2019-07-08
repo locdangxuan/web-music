@@ -1,7 +1,7 @@
 import React , { Component } from 'react';
 import './Authentication.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Form, FormGroup, Label} from 'reactstrap';
+import { Form, FormGroup, Label, Row, Col} from 'reactstrap';
 import axios from 'axios';
 
 export default class UnAuthenticated extends Component
@@ -53,32 +53,41 @@ export default class UnAuthenticated extends Component
                         <ModalHeader toggle={this.toggle}>Sign Up</ModalHeader>
                         <ModalBody>
                             <Form>
-                            <div className="effect-6">
-                            <FormGroup>
-                                <Label for="userName">Username</Label>
-                                <input type="text" id = "registerPart"  placeholder="Username" ref= "userNameRegister" onKeyUp={this.enterPressed}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="passWord">Password</Label>
-                                <input type="password" id = "registerPart" placeholder="Input Password" ref= "password" onKeyUp={this.enterPressed}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="passWordAuth">Password</Label>
-                                <input type="password" id = "registerPart" placeholder="Input Password Again" ref= "passwordValid" onKeyUp={this.enterPressed}/>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label for="Email">Email</Label>
-                                <input type="text" id = "registerPart" placeholder="example@gmail.com" ref= "emailRegister" onKeyUp={this.enterPressed}/>
-                            </FormGroup>
-                            </div>
+                                <FormGroup>
+                                    <Label for="userName">Username</Label>
+                                    <input className="effect-6" type="text" id = "registerPart"  placeholder="Username" ref= "userNameRegister" onKeyUp={this.enterPressed}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="fullName">Fullname</Label>
+                                    <Row>
+                                        <Col xs = "6">
+                                        <input className="effect-6" type="text" id = "registerPart" placeholder="First Name" ref= "firstname" onKeyUp={this.enterPressed}/>
+                                        </Col>
+                                        <Col xs = "6">
+                                        <input className="effect-6" type="text" id = "registerPart" placeholder="Last Name" ref= "lastname" onKeyUp={this.enterPressed}/>
+                                        </Col>
+                                    </Row>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="passWord">Password</Label>
+                                    <input className="effect-6" type="password" id = "registerPart" placeholder="Input Password" ref= "password" onKeyUp={this.enterPressed}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="passWordAuth">Password</Label>
+                                    <input className="effect-6" type="password" id = "registerPart" placeholder="Input Password Again" ref= "passwordValid" onKeyUp={this.enterPressed}/>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="Email">Email</Label>
+                                    <input className="effect-6" type="text" id = "registerPart" placeholder="example@gmail.com" ref= "emailRegister" onKeyUp={this.enterPressed}/>
+                                </FormGroup>
                             </Form>
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" className = "RegisterBtn" onClick={this.registerBtn}>Sign Up</Button>{' '}
-                            <Button color="primary" onClick={this.Registertoggle}>Cancel</Button>
+                            <Button outline color="primary" className = "RegisterBtn" onClick={this.registerBtn}>Sign Up</Button>{' '}
+                            <Button outline color="primary" onClick={this.Registertoggle}>Cancel</Button>
                         </ModalFooter>
                     </Modal>           
-                </div>   
+                </div>    
             </div>
         )  
     }
@@ -104,78 +113,56 @@ export default class UnAuthenticated extends Component
     }
     registerBtn = () => {
         var username = this.refs.userNameRegister.value;
+        var firstName = this.refs.firstname.value;
+        var lastName = this.refs.lastname.value;
         var password = this.refs.password.value;
         var passwordValid = this.refs.passwordValid.value;
         var email = this.refs.emailRegister.value;
-        if(username.length <8)
-        {
-            alert('username does not match required length ( 8 letters or more )');
-        }
+        if(username === '' || firstName === ''|| password === '' || passwordValid === '' || email === '' || lastName === '')
+            alert('Please fill all the information below');
         else
         {
-            if(password !== passwordValid)
+            if(username.length <8)
             {
-                alert('passwords does not match each others');
+                alert('username does not match required length ( 8 letters or more )');
             }
             else
             {
-                var user = {username : username,password: password,email: email};
-                var newRegister = JSON.stringify(user);
-                alert(newRegister);
-                // axios.post('',newRegister)
-                //      .then(response => 
-                //         {
-                //         this.setState({ registermodal: false});
-                //         alert('Account successfully created');
-                //         })
-                //      .catch(error => console.log(error))
-                axios.get('',newRegister)
-                     .then(response => 
-                        {
-                        this.setState({ registermodal: false});
-                        alert('Account successfully created');
-                        })
-                     .catch(error => console.log(error)) 
+                if(password !== passwordValid)
+                {
+                    alert('passwords does not match each others');
+                }
+                else
+                {
+                    var newUser = {username : username,password: password,email: email,firstName : firstName,lastName: lastName};
+                    // axios post automatically transform user to JSON file
+                    axios.post('https://gorgeous-grand-teton-66654.herokuapp.com/api/users/register',newUser)
+                         .then(response => 
+                            {
+                            this.setState({ registermodal: false});
+                            alert(response.data);
+                            })
+                         .catch(error => console.log(error))
+                }
             }
         }
     }
-    accountAuthentication = (username,password) => {
-        // var user = {username: username,password: password};
-        // var json = JSON.stringify(user);
-        // axios.post('https://lovely-hot-springs-99494.herokuapp.com/api/users/authenticate',json)
-        //      .then(response => {
-        //          console.log(response.data[0]);
-        //          localStorage.setItem('Token',JSON.parse(response.data[0]));
-        //      })
-        //      .catch(error => {
-        //          alert('Loi~ ' + error);
-        //      })
-        axios.get(`http://localhost:4000/user/?username=${username}&password=${password}`)
-             .then((response) =>
-                {
-                if(response.data[0]===undefined)    return false;
-                else
-                {                
-                    if(response.data[0] === null)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        console.log(response.data[0]);
-                        localStorage.setItem('Token',JSON.stringify(response.data[0]));
-                        console.log('Before');
-                        this.loginToggle();
-                        this.props.getValue(true);
-                        console.log('After');
-                        return true;
-                    }
-                }   
-    
-                })
+    accountAuthentication = (username, password) => {
+        var user = {username: username,password: password};
+        // axios post automatically transform user to JSON file
+        axios.post('https://lovely-hot-springs-99494.herokuapp.com/api/users/authenticate',user)
+             .then(response => {
+                 console.log(response);
+                 localStorage.setItem('Token',JSON.stringify(response.data));
+                 console.log(JSON.stringify(response.data[0]));
+                 this.loginToggle();
+                 this.props.getValue(true);
+                 return true;
+             })
              .catch(error => {
+                 alert('Loi~ ' + error);
                  return false;
-                })
+             })
     }
 
     loginBtn = () => {

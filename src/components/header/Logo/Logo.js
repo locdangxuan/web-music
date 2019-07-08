@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from '../../Image/code-engine-studio.png'
+import logo from '../../Image/ces.png'
 import './Logo.css'
 class Logo extends Component{
     shouldComponentUpdate(){
@@ -8,7 +8,7 @@ class Logo extends Component{
     render(){
         let url = logo;
         return (
-            <div className = 'logo-background'>
+            <div className = 'logo-background img-fluid'>
                <img src = {url} alt = "logo" className = "logo-header"/>
             </div>
         )

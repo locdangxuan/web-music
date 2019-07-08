@@ -4,7 +4,7 @@ import {MdThumbUp} from 'react-icons/md';
 import {MdThumbDown} from 'react-icons/md';
 import {Row, Col } from 'reactstrap';
 import './VideoSong.css'
-import InfoSongSearch from '../ListAddSong/InfoSongSearch'
+// import InfoSongSearch from '../ListAddSong/InfoSongSearch'
 export default class VideoSong extends Component{
     render(){
         let url = Video;

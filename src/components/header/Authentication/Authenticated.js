@@ -11,14 +11,13 @@ export default class Authenticated extends Component
         super(props);
         const token = JSON.parse(localStorage.getItem('Token'));
         var isLoggedIn = false;
-        //console.log(token);
+        console.log(token);
         if(token !== null) { isLoggedIn = true; };
         this.state = { isLoggedIn,currentUser: token };
-        this.logoutBtnClicked = this.logoutBtnClicked.bind(this);
+
 
     }
-    logoutBtnClicked()
-    {
+    logoutBtnClicked = () => {
         localStorage.removeItem('Token');
         this.props.getValue(false);
     }
@@ -28,10 +27,10 @@ export default class Authenticated extends Component
         return(
             <div className="Authenticated">
                 <div className = "user">
-                <img src = {Icon} width = { 40 } alt="Icon"></img>
-                <p className = "userInfo">{currentUser.fullname}</p>
-                <Button className = "logoutBtn" onClick={this.logoutBtnClicked}>Logout</Button>
-                </div>              
+                    <img src = {Icon} width = { 40 } alt="Icon"></img>
+                    <p className = "userInfo">{currentUser.firstName + ' ' + currentUser.lastName}</p>
+                    <Button className = "logoutBtn" onClick={this.logoutBtnClicked}>Logout</Button>
+                </div>               
             </div> 
         )
         

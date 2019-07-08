@@ -22,13 +22,13 @@ class Header extends Component{
            <div className="header">
                <div className="container">
                 <Row>
-                    <Col xs="2" className="col-logo"> 
+                    <Col xs="3" className="col-logo"> 
                         <Logo/> 
                     </Col>
-                    <Col xs="7" className="col-search"> 
+                    <Col xs="6" className="col-search"> 
                         <Search searchTrigger = { this.changeBodyComponent }/>
                     </Col>
-                    <Col xs="3" className="col-authenitcation" style={{paddingTop: "3%"}}><Authentication/></Col>
+                    <Col xs="3" className="col-authenitcation"><Authentication/></Col>
                 </Row>
                </div>
            </div>

@@ -8,8 +8,13 @@ export default class Authentication extends Component{
     {
         super(props);
         this.state = {loggedIn: false};
-        const token = JSON.parse(localStorage.getItem('Token')); 
         this.changeState = this.changeState.bind(this);
+    }
+    componentWillMount()
+    {
+        const token = JSON.parse(localStorage.getItem('Token'));
+        if(token === null) this.setState({loggedIn: false});
+        console.log(this.state.loggedIn);
     }
     changeState(value)
     {
