@@ -26,6 +26,7 @@ class App extends Component {
                   </Col>
                   <Col xs="5" >
                   <Route path = "/playing/" component={Playlist}></Route>
+                  <Route path = "/searching/:text" component={Playlist}></Route>
                       {/* <Playlist/> */}
                   </Col>
               </Row>
