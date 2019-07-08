@@ -32,12 +32,12 @@ class Vote extends Component{
         if(this.state.status === false){
             this.setState({
                 upVote: this.state.upVote,
-                downVote: this.state.downVote - 1,
+                downVote: this.state.downVote + 1,
                 status: true
             })
         }else{
             this.setState({
-                downVote: this.state.downVote + 1,
+                downVote: this.state.downVote - 1,
                 status: false
             })
         }

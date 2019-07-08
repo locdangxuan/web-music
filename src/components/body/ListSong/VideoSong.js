@@ -3,34 +3,44 @@ import Video from '../../Image/youtube.png';
 import {MdThumbUp} from 'react-icons/md';
 import {MdThumbDown} from 'react-icons/md';
 import {Row, Col } from 'reactstrap';
+// import 
 import './VideoSong.css'
+import {Button} from 'reactstrap'
 // import InfoSongSearch from '../ListAddSong/InfoSongSearch'
 export default class VideoSong extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+
+        }
+    }
     render(){
         let url = Video;
         return(
-            <div className="videoSong text-center">
-                <img src={url} alt="VideoSong" className="video img-fluid" style = {{width: "700px"}}/>
-                <Row>
-                    <Col xs="6">
-                        <h1>Attention</h1>
-                        <h2>J.Fla</h2>
-                        <p>Category: US-UK, Pop</p>
-                    </Col>
-                    <Col xs="6" className="numOfVote">
-                        <div className="numOfReact">
-                            <div className="react">
-                                <MdThumbUp className="like"></MdThumbUp>
-                                <p>5</p>
-                            </div>
-                            <div className="react">
-                                <MdThumbDown className="disLike"></MdThumbDown>                                
-                                <p>5</p>
-                            </div>
+            <div className="videoSong">
+                <div className="video text-center">
+                    <img src={url} alt="VideoSong" className="video img-fluid" style = {{width: "700px"}}/>
+                </div>
+                <div className="song-video-name">
+                    Payphone
+                    <div className="react">
+                        {/* <div className="react-like">
+                            <MdThumbUp className="like"></MdThumbUp>
+                            <span>0</span>
                         </div>
-                    </Col>
-                </Row>
+                        <div className="react-dislike">
+                            <MdThumbDown className="disLike"></MdThumbDown>
+                            <span>0</span>
+                        </div> */}
+                        <Button outline color="primary" className="btnAdd">Add</Button>
+                    </div>
+                </div>
+
+                <div className="Singer">
+                    Marron 5
+                </div>
             </div>
+            
         )
     }
 }

@@ -20,6 +20,7 @@ class App extends Component {
           <div className = "body">
             <Container>
               <Row style={{backgroundColor: "white", paddingTop: "20px"}}>
+                  <Route path = "/home" component={Playlist}></Route>
                   <Col xs="7">
                       <Route path = "/searching/:text" component={ListSongSearch}></Route>
                       <Route path = "/playing/" component={VideoSong}></Route>

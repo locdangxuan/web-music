@@ -3,6 +3,7 @@ import './Authentication.css';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, FormGroup, Label, Row, Col} from 'reactstrap';
 import axios from 'axios';
+import './UnAuthenticated.css';
 
 export default class UnAuthenticated extends Component
 {
@@ -26,7 +27,7 @@ export default class UnAuthenticated extends Component
         return(
             <div className = "Authentication">
                 <div className = "Login">         
-                    <Button outline color="primary" className = "Toggler"  onClick={this.loginToggle}>Login</Button>               
+                    <Button outline  className = "btnLogin"  onClick={this.loginToggle}>Login</Button>               
                         <Modal isOpen={this.state.loginmodal} toggle={this.loginToggle} className={this.props.className}>
                         <ModalHeader toggle={this.loginToggle}>Login</ModalHeader>
                         <ModalBody>
@@ -48,7 +49,7 @@ export default class UnAuthenticated extends Component
                     </Modal>
                 </div>
                 <div className = "Register">
-                    <Button outline color="primary" className = "Toggler"  onClick={this.Registertoggle}>Register</Button>
+                    <Button outline  className = "btnRegister" onClick={this.Registertoggle}>Register</Button>
                     <Modal isOpen={this.state.registermodal} toggle={this.Registertoggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>Sign Up</ModalHeader>
                         <ModalBody>

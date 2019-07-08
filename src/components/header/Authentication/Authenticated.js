@@ -29,7 +29,7 @@ export default class Authenticated extends Component
                 <div className = "user">
                     <img src = {Icon} width = { 40 } alt="Icon"></img>
                     <p className = "userInfo">{currentUser.firstName + ' ' + currentUser.lastName}</p>
-                    <Button className = "logoutBtn" onClick={this.logoutBtnClicked}>Logout</Button>
+                    <Button className = "logoutBtn" color="secondary" onClick={this.logoutBtnClicked}>Logout</Button>
                 </div>               
             </div> 
         )

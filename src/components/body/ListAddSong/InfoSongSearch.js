@@ -16,10 +16,8 @@ export default class InfoSongSearch extends Component
             singer : this.props.singer,
             id : this.props.id
         }      
-        this.onClickHandle = this.onClickHandle.bind(this);
     }
-    onClickHandle()
-    {
+    onClickHandle = () => {
       const token = localStorage.getItem('Token');
       if(token === null) alert("Please log in to add the song to the company's playlist");
       else
