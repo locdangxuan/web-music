@@ -5,9 +5,11 @@ import Header from './components/header/Header';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 
 import { Container, Row, Col } from 'reactstrap';
-import Playlist from './components/body/ListSong/Playlist';
+// import Playlist from './components/body/ListSong/Playlist';
+import SidebarSongAdded from './components/body/ListAddSong/SidebarSongAdded'
 import VideoSong from './components/body/ListSong/VideoSong'
 import ListSongSearch from './components/body/ListAddSong/ListSongSearch'
+import ListSongAdded from './components/body/ListAddSong/ListSongAdded'
 
 
 class App extends Component {
@@ -19,15 +21,18 @@ class App extends Component {
           <Header />
           <div className = "body">
             <Container>
+              <Route exact path = "/" component={ListSongAdded}></Route>
               <Row style={{backgroundColor: "white", paddingTop: "20px"}}>
-                  <Route path = "/home" component={Playlist}></Route>
-                  <Col xs="7">
+                  {/* <Route exact path = "/" component={Playlist}></Route> */}
+                  
+                  <Col xs="6">
                       <Route path = "/searching/:text" component={ListSongSearch}></Route>
-                      <Route path = "/playing/" component={VideoSong}></Route>
+                      <Route path = "/playing/:id" component={VideoSong}></Route>
                   </Col>
-                  <Col xs="5" >
-                  <Route path = "/playing/" component={Playlist}></Route>
-                  <Route path = "/searching/:text" component={Playlist}></Route>
+                  <Col xs="6" >
+                  <Route path = "/playing/" component={SidebarSongAdded}></Route>
+                  {/* <Route path = "/searching/:text" component={ListSongAdded}></Route> */}
+                  <Route path = "/searching/" component={SidebarSongAdded}></Route>
                       {/* <Playlist/> */}
                   </Col>
               </Row>

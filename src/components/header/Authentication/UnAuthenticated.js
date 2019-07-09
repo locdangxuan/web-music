@@ -15,12 +15,6 @@ export default class UnAuthenticated extends Component
             loginmodal : false,
             registermodal: false,
         }
-        // this.Registertoggle = this.Registertoggle.bind(this);
-        // this.loginToggle = this.loginToggle.bind(this);
-        // this.loginBtn = this.loginBtn.bind(this);
-        // this.enterPressed = this.enterPressed.bind(this);
-        // this.registerBtn = this.registerBtn.bind(this);
-        // this.accountAuthentication = this.accountAuthentication.bind(this);
     }
     render()
     {

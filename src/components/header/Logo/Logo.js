@@ -10,8 +10,7 @@ class Logo extends Component{
         let url = logo;
         return (
             <div className = 'logo-background img-fluid'>
-                <Link to={'/home'}> <img src = {url} alt = "logo" className = "logo-header"/> </Link>
-                {/* <Redirect to={'/'}><img src = {url} alt = "logo" className = "logo-header"/></Redirect> */}
+                <Link to={'/'}> <img src = {url} alt = "logo" className = "logo-header"/> </Link>
             </div>
         )
      }

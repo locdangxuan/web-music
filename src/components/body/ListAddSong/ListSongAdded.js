@@ -1,37 +1,50 @@
-import React, {Component} from 'react';
-import {Row, Col} from 'reactstrap'
-import Image from '/home/locdangxuan/Dev/web-music/src/components/Image/Flower.jpeg'
+import React, { Component } from 'react';
+import axios from 'axios';
+import InfoSongAdded from './InfoSongAdded';
+import './ListSongAdded.css';
+// import playlistHeader from './playlist-header.svg';
 
-
-export default class ListSongAdded extends Component{
-    constructor(props){
-        super(props);
+export default class ListSongAdded extends Component
+{
+    constructor()
+    {
+        super();
         this.state = {
-            songs: ''
+            playlist: []
         }
     }
-
-    onGenerateSong = () => {
-        var songs = [
-            {},
-            {},
-            {},
-        ]
+    componentWillMount()
+    {
+        axios.get('https://gorgeous-grand-teton-66654.herokuapp.com/api/songs/get/list')
+             .then(response => {
+                // response.data.sort(function(b,a) {
+                //     return (parseInt(a.upvote) - parseInt(a.downvote)) - (parseInt(b.upvote) - parseInt(b.downvote));}
+                //     ); 
+                this.setState({
+                    playlist : response.data
+                })
+                localStorage.setItem('Playlist',JSON.stringify(response.data));
+                console.log(this.state.playlist);
+             })
+             .catch(error => {console.log(error)})
     }
-    render(){
-        let url = Image;
+    render()
+    {
+        const {playlist} = this.state;
         return(
-            <Row className="list-song-add">
-                <Col xs="4">
-                    <img src = {url} alt="singer" className="imgSinger"/>
-                </Col>
-                <Col xs="6">
-                    <p className="songName"></p>
-                    <p className="songSinger"></p>
-                </Col>
-                <Col xs="2">
-                </Col>
-            </Row>
+            <div className = "main-playlist">
+                <div className = "playlist-header">
+                    {/* <span>CES's FAVOURITE SONGs TOURNAMENT</span> */}
+                    {/* <img src = {playlistHeader} alt = "header"/> */}
+                </div>
+                <div>
+                {playlist.map((value,index) => {
+                    return <InfoSongAdded id = {value.videoID} song_title = {value.title} singer = {value.channelTitle} adder = {value.user}
+                    thumbnail = {value.thumbnails} upvote = {value.upvote} downvote = {value.downvote} key = {index} voteValue = {value.voteValue}
+                    votingID ={value._id}/>
+                })}
+                </div>
+            </div>
         )
     }
-}
+} 

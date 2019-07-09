@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
-import Video from '../../Image/youtube.png';
-import {MdThumbUp} from 'react-icons/md';
-import {MdThumbDown} from 'react-icons/md';
-import {Row, Col } from 'reactstrap';
-// import 
-import './VideoSong.css'
-import {Button} from 'reactstrap'
+import React, { Component } from 'react'; 
+import './VideoSong.css';
+import {Button} from 'reactstrap';
 // import InfoSongSearch from '../ListAddSong/InfoSongSearch'
+import Iframe from 'react-iframe'
 export default class VideoSong extends Component{
     constructor(props){
         super(props);
-        this.state = {
-
-        }
+        this.state = { 
+            id : this.props.match.params.id,
+            change: false,
+            singer : this.props.location.state.singer,
+            title: this.props.location.state.title
+        };
+        console.table(this.props);
     }
     render(){
-        let url = Video;
+        const {id,singer,title} = this.state;
+        console.log(id);
         return(
             <div className="videoSong">
+              
                 <div className="video text-center">
-                    <img src={url} alt="VideoSong" className="video img-fluid" style = {{width: "700px"}}/>
+                {/* <iframe width="560" height="315" src="https://www.youtube.com/embed/KRaWnd3LJfs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                    {/* <iframe width="600px" height="400px" src={`https://www.youtube.com/embed/${id}`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>                     */}
+                    <Iframe src={`https://www.youtube.com/embed/${id}`}
+                            width="500px"
+                            height="300px"
+                            id="myId"
+                            className="embed-responsive embed-responsive-4by3"
+                            display="initial"
+                            position="relative"/>
                 </div>
                 <div className="song-video-name">
-                    Payphone
                     <div className="react">
-                        {/* <div className="react-like">
-                            <MdThumbUp className="like"></MdThumbUp>
-                            <span>0</span>
-                        </div>
-                        <div className="react-dislike">
-                            <MdThumbDown className="disLike"></MdThumbDown>
-                            <span>0</span>
-                        </div> */}
                         <Button outline color="primary" className="btnAdd">Add</Button>
                     </div>
                 </div>
 
                 <div className="Singer">
-                    Marron 5
+                    <p>{title}</p>
+                    <p>{singer}</p>
                 </div>
             </div>
             

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './InfoSongSearch.css'
-import axios from 'axios';
+// import axios from 'axios';
 import {Button, Row, Col} from 'reactstrap';
 import {Link} from 'react-router-dom';
 
@@ -45,7 +45,7 @@ export default class InfoSongSearch extends Component
                 <   img src={imgsrc} alt="#" className="img-fluid"/>
                 </Col>
                 <Col xs="7" className="info">
-                    <div className="song-title"><Link to={'/playing/' + id}>{song_title}</Link></div>
+                    <div className="song-title"><Link to={{pathname : '/playing/' + id,state: {title:song_title,singer: singer}}}>{song_title}</Link></div>
                     <div className="singer">{singer}</div>
                 </Col>
                 <Col xs="2" className="button-add">

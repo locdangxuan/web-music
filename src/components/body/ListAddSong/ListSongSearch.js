@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import InfoSongSearch from './InfoSongSearch'
+// import VideoSong from '../ListSong/VideoSong';
 
 export default class ListSongSearch extends Component
 {
@@ -42,10 +43,9 @@ export default class ListSongSearch extends Component
                  else{
                     this.setState({
                         text : value,
-                        SongList: response.data,
+                        SongList: response.data.data,
                         videoFound: true
                     })
-                    console.log(response.data);
                  }
                  
                  console.log(response.data);
@@ -86,5 +86,4 @@ export default class ListSongSearch extends Component
             </div> 
         )
     }
-
 }

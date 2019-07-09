@@ -1,0 +1,46 @@
+
+  
+  .playlist-card {
+    display: flex;
+    font-family: "Times New Roman", Times, serif;
+    padding-right: 10px;
+    align-items: center;
+    flex-direction: row;
+  }
+  
+  .playlist-card .thumbnail {
+    background-size: 30px;
+    padding: 8px 8px 8px 8px;
+    margin-right: 10px;
+  }
+  
+  .playlist-card .info {
+    flex-grow: 1;
+  }
+  
+  .playlist-card .song-title {
+    font-size: 20spx;
+    margin-bottom: 8px;
+  }
+  
+  .playlist-card .singer {
+    font-size: 14px;
+    color: #999;
+  }
+
+  .playlist-card .user-relation {
+    display: flex;
+  }
+
+  .playlist-card .user-relation .adder{
+    text-align: center;
+  }
+  
+  .playlist-card .user-relation .upvote,
+  .downvote {
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+  } 
+
+ 
