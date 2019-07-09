@@ -18,7 +18,7 @@ export default class SidebarSongAdded extends Component{
                      sidebarPlaylist: response.data
                  })
                  localStorage.setItem('sidebarPlaylist', JSON.stringify(response.data));
-                 console.log(this.state.sidebarPlaylist);
+                //  console.log(this.state.sidebarPlaylist);
              })
              .catch(error => {console.log(error)})
     }

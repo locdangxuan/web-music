@@ -22,18 +22,14 @@ class App extends Component {
           <div className = "body">
             <Container>
               <Route exact path = "/" component={ListSongAdded}></Route>
-              <Row style={{backgroundColor: "white", paddingTop: "20px"}}>
-                  {/* <Route exact path = "/" component={Playlist}></Route> */}
-                  
-                  <Col xs="6">
+              <Row style={{backgroundColor: "white", paddingTop: "20px"}}>                  
+                  <Col xs="7">
                       <Route path = "/searching/:text" component={ListSongSearch}></Route>
                       <Route path = "/playing/:id" component={VideoSong}></Route>
                   </Col>
-                  <Col xs="6" >
-                  <Route path = "/playing/" component={SidebarSongAdded}></Route>
-                  {/* <Route path = "/searching/:text" component={ListSongAdded}></Route> */}
-                  <Route path = "/searching/" component={SidebarSongAdded}></Route>
-                      {/* <Playlist/> */}
+                  <Col xs="5" >
+                    <Route path = "/playing/:id" component={SidebarSongAdded}></Route>
+                    <Route path = "/searching/" component={SidebarSongAdded}></Route>
                   </Col>
               </Row>
             </Container>

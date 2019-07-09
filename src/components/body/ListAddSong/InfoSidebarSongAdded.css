@@ -1,3 +1,41 @@
+.sidebar-song{
+    align-items: center;
+    margin-top: 2px;
+}
+.sidebar-song:hover{
+    background: #efefef;
+    cursor: pointer;
+}
+.sidebar-song-img{
+    display: flex;
+    align-items: center;
+}
 .sidebar-song-info{
     font-family: 'Times New Roman', Times, serif;
+    align-items: center;
+}
+
+.sidebar-song-title{
+    font-size: 16px;
+}
+
+.sidebar-song-singer{
+    font-size: 14px;
+}
+
+.vote{
+    display: flex;
+    justify-content: center;
+}
+
+
+.likeList:hover{
+    color: blue;
+}
+
+.disLikeList:hover{
+    color: blue;
+}
+.down-vote{
+    margin-left: 10px;
 }

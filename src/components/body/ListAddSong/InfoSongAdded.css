@@ -7,6 +7,10 @@
     align-items: center;
     flex-direction: row;
   }
+  .playlist-card:hover{
+    background: #efefef;
+    cursor: pointer;
+}
   
   .playlist-card .thumbnail {
     background-size: 30px;

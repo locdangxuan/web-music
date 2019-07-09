@@ -42,7 +42,7 @@ export default class InfoSongSearch extends Component
         return(
             <Row className="musicCard">
                 <Col xs="3" className="picture">
-                <   img src={imgsrc} alt="#" className="img-fluid"/>
+                <img src={imgsrc} alt="#" className="img-fluid"/>
                 </Col>
                 <Col xs="7" className="info">
                     <div className="song-title"><Link to={{pathname : '/playing/' + id,state: {title:song_title,singer: singer}}}>{song_title}</Link></div>

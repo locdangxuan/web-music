@@ -75,11 +75,11 @@ export default class InfoSongAdded extends Component{
                     <div className = "user-relation">
                         <div className = "adder">{adder}</div>
                         <div className = "upvote">
-                            <a onClick = {this.upvoteOnClick}><MdThumbUp width="30"></MdThumbUp></a>
+                            <MdThumbUp width="30" onClick = {this.upvoteOnClick} className="likeList"></MdThumbUp>
                             <span className = "amount">{upvote}</span>
                         </div>
                         <div className = "downvote">
-                            <a onClick = {this.downvoteOnClick}><MdThumbDown width="30"></MdThumbDown></a>
+                            <MdThumbDown width="30" onClick = {this.downvoteOnClick} className="dislikeList"></MdThumbDown>
                             <span className = "amount">{downvote}</span>
                         </div>
                     </div>

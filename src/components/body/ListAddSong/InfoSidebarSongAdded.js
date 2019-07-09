@@ -19,6 +19,7 @@ export default class InfoSidebarSongAdded extends Component{
             token: localStorage.token,
             votingId: this.props.votingId
         }
+        console.log(typeof this.state.song_title)
     }
 
     upvoteClick = () => {
@@ -57,24 +58,38 @@ export default class InfoSidebarSongAdded extends Component{
 
     render(){
         const {thumbnail, song_title, singer, upvote, downvote, id} = this.state;
+        const MAX_LENGTH = 40;
         return(
             
-            <Row>
-                <Col xs="3" className="sidebar-song-img">
+            <Row className="sidebar-song">
+                <Col xs="4" className="sidebar-song-img">
                     <img src={thumbnail} alt = "#" className="img-fluid"></img>
                 </Col>
                 <Col xs="6" className="sidebar-song-info">
-                    <div className="sidebar-song-title"><Link to={{pathname : '/playing/' + id,state: {title:song_title,singer: singer}}}>{song_title}</Link></div>
-                    <div className="sidebar-singer">{singer}</div>
-                </Col>
-                <Col xs="2" className="button-add">
-                    <div className = "upvote">
-                        <a onClick = {this.upvoteClick}><MdThumbUp width="30"></MdThumbUp></a>
-                        <span className = "amount">{upvote}</span>
+                    <div className="sidebar-song-title">
+                    {song_title.length > MAX_LENGTH ? (
+                        <Link to={{pathname : '/playing/' + id,state: {title:song_title,singer: singer}}}>
+                        {`${song_title.substring(0,MAX_LENGTH)}...`}
+                        </Link>
+                    ) : 
+                        <Link to={{pathname : '/playing/' + id,state: {title:song_title,singer: singer}}}>
+                            {song_title}
+                        </Link>
+                    }
                     </div>
-                    <div className = "downvote">
-                        <a onClick = {this.downvoteClick}><MdThumbDown width="30"></MdThumbDown></a>
-                        <span className = "amount">{downvote}</span>
+
+                    <div className="sidebar-song-singer">
+                        {singer}
+                    </div>
+                </Col>
+                <Col xs="1" className="vote">
+                    <div className="up-vote">
+                        <MdThumbUp className="likeList" onClick = {this.upvoteClick}></MdThumbUp>   
+                        <div className="text-center"><span className="num-vote">{upvote}</span> </div>
+                    </div>
+                    <div className="down-vote">
+                        <MdThumbDown className="disLikeList" onClick = {this.downvoteClick}></MdThumbDown>
+                        <div className="text-center"><span className="num-vote">{downvote}</span> </div>
                     </div>
                 </Col>
             </Row>
