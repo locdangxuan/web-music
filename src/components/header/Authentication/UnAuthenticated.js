@@ -68,7 +68,7 @@ export default class UnAuthenticated extends Component
                                     <input className="effect-6" type="password" id = "registerPart" placeholder="Input Password" ref= "password" onKeyUp={this.enterPressed}/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Label for="passWordAuth">Password</Label>
+                                    <Label for="passWordAuth">Confirm Password</Label>
                                     <input className="effect-6" type="password" id = "registerPart" placeholder="Input Password Again" ref= "passwordValid" onKeyUp={this.enterPressed}/>
                                 </FormGroup>
                                 <FormGroup>
@@ -117,7 +117,7 @@ export default class UnAuthenticated extends Component
             alert('Please fill all the information below');
         else
         {
-            if(username.length <8)
+            if(username.length < 8)
             {
                 alert('username does not match required length ( 8 letters or more )');
             }
@@ -136,6 +136,7 @@ export default class UnAuthenticated extends Component
                             {
                             this.setState({ registermodal: false});
                             alert(response.data);
+                            console.log(response.data);
                             })
                          .catch(error => console.log(error))
                 }
@@ -147,9 +148,7 @@ export default class UnAuthenticated extends Component
         // axios post automatically transform user to JSON file
         axios.post('https://lovely-hot-springs-99494.herokuapp.com/api/users/authenticate',user)
              .then(response => {
-                 console.log(response);
                  localStorage.setItem('Token',JSON.stringify(response.data));
-                 console.log(JSON.stringify(response.data[0]));
                  this.loginToggle();
                  this.props.getValue(true);
                  return true;

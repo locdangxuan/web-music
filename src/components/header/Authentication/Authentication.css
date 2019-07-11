@@ -54,10 +54,7 @@ input[type="text"]
 .user{
     display: flex;
 }
-.userInfo
-{
-    margin: 5px 50px 0px 10px;
-}
+
 .logoutBtn
 {
     padding-top: 0px;
@@ -65,12 +62,7 @@ input[type="text"]
     font-size: 20px;
     font-weight: bold;
 }
-.logoutBtn:hover
-{
-    font-weight: bold;
-    color: purple;
-    text-decoration: underline;
-}
+
 .Login
 {
     margin-right: 20px;

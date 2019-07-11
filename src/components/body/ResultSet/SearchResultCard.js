@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './InfoSongSearch.css'
-// import axios from 'axios';
+import './SearchResultCard.css'
+import axios from 'axios';
 import {Button, Row, Col} from 'reactstrap';
+import { confirmAlert } from 'react-confirm-alert';
 import {Link} from 'react-router-dom';
 
 export default class InfoSongSearch extends Component
@@ -22,7 +23,7 @@ export default class InfoSongSearch extends Component
       if(token === null) alert("Please log in to add the song to the company's playlist");
       else
       {
-        alert('Song Added');
+        // alert('Song Added');
         //var SongAdded = { id: this.state.id, token: JSON.stringify(localStorage.getItem("Token")).token}
         // axios.post('',SongAdded)
         //      .then(response =>
@@ -34,8 +35,39 @@ export default class InfoSongSearch extends Component
         //             console.log(error);
         //             alert(error);
         //         })
+        confirmAlert({
+            title: 'Confirm to add the song !',
+            message: 'Only 1 song can be added a day per account',
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: this.AddSongToPlayList
+              },
+              {
+                label: 'No',
+                onClick: () => alert('Song was not added')
+              }
+            ]
+          }); 
       }       
     }
+    AddSongToPlayList = () => {
+        axios({
+            method : 'POST',
+            headers : { Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('Token')).token},
+            url : 'https://lovely-hot-springs-99494.herokuapp.com/api/songs/add',
+            data : {
+                id : this.state.id
+            }
+            })
+            .then(response => { 
+            console.log(response)
+            if(response.status === 200)
+            alert('This account has already added a song, try again tomorrow!!');
+            })
+            .catch(error => { console.log(error)})
+    }
+
     render()
     {
         const{song_title,singer,id,isLoggedIn,imgsrc} = this.state;
@@ -53,7 +85,6 @@ export default class InfoSongSearch extends Component
                     <Button outline color = "primary" className="addBtn" onClick={this.onClickHandle}>Add</Button>
                     }
                 </Col>
-                
             </Row>
         )
     }

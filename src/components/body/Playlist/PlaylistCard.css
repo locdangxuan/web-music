@@ -40,7 +40,7 @@
     text-align: center;
   }
   
-  .playlist-card .user-relation .upvote,
+  .playlist-card .user-relation .sidebar-vote .upvote,
   .downvote {
     margin-left: 30px;
     display: flex;
@@ -48,3 +48,6 @@
   } 
 
  
+.playlist-card .user-relation  .sidebar-vote{
+  display: flex;
+}

@@ -1,0 +1,9 @@
+.user{
+    padding: 5px;
+}
+.user > p{
+    padding-top: 10px; 
+}
+.logoutBtn{
+
+}

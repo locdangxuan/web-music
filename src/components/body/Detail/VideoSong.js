@@ -8,21 +8,31 @@ export default class VideoSong extends Component{
         super(props);
         this.state = { 
             id : this.props.match.params.id,
-            change: false,
             singer : this.props.location.state.singer,
             title: this.props.location.state.title
         };
-        console.table(this.props);
+        console.log(this.state.id);
     }
+
+    componentDidUpdate = () => { 
+        if(this.state.id !== this.props.match.params.id)
+        {
+            this.setState({
+                id : this.props.match.params.id,
+                singer : this.props.location.state.singer,
+                title: this.props.location.state.title
+            })
+        }
+        
+    }
+    
     render(){
         const {id,singer,title} = this.state;
-        console.log(id);
         return(
             <div className="videoSong">
                 <div className="video text-center">
                     <Iframe src={`https://www.youtube.com/embed/${id}`}
-                            width="500px"
-                            height="300px"
+                            height="450px"
                             id="myId"
                             className="embed-responsive embed-responsive-4by3"
                             display="initial"
@@ -33,7 +43,6 @@ export default class VideoSong extends Component{
                         <Button outline color="primary" className="btnAdd">Add</Button>
                     </div>
                 </div>
-
                 <div className="Singer">
                     <p>{title}</p>
                     <p>{singer}</p>

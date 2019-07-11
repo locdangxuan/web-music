@@ -14,6 +14,7 @@ class Search extends Component{
         }
     }
 
+
     enterBtnClick = (event) => {
         event.preventDefault();
         if(event.keyCode === 13 && event.target.value !== ''){

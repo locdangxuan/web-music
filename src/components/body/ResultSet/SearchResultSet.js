@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import InfoSongSearch from './InfoSongSearch'
+import SearchResultCard from './SearchResultCard'
 // import VideoSong from '../ListSong/VideoSong';
 
-export default class ListSongSearch extends Component
+export default class SearchResultSet extends Component
 {
     constructor(props)
     {
@@ -35,9 +35,9 @@ export default class ListSongSearch extends Component
     }
     getSongList(value)
     {
-        // axios.get(`http://localhost:3000/SearchedSong?song_title=${value}`)
         axios.get(`https://gorgeous-grand-teton-66654.herokuapp.com/api/songs/search/${value}`)
-             .then(response => {
+             .then(
+                 response => {
                  if(response.data === 'No Video Found')
                     this.setState({ videoFound: false});
                  else{
@@ -51,23 +51,15 @@ export default class ListSongSearch extends Component
                  console.log(response.data);
              })
              .catch(error => console.log(error))
-
-        // axios.post('',value)
-        //      .then(response => {
-        //          this.setState({
-        //              text : value,
-        //              SongList : response.data
-        //          });
-        //      })
-        //      .catch(error => console.log(error))
     }
+
+    
     render()
     {
         const {text,videoFound} = this.state;
         const SongList = this.state.SongList;
-        console.log("SongList: " +  SongList);
         var elementSong = SongList.map((value, key) => { 
-            return <InfoSongSearch id = {value.videoId} song_title = {value.title} singer = {value.channelTitle} views = {'value.views'} imgsrc={value.thumbnails} key = {key}/> 
+            return <SearchResultCard id = {value.videoId} song_title = {value.title} singer = {value.channelTitle} views = {'value.views'} imgsrc={value.thumbnails} key = {key}/> 
         })
         
         return(

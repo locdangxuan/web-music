@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import {Link} from 'react-router-dom'
 import {MdThumbUp} from 'react-icons/md';
 import {MdThumbDown} from 'react-icons/md';
 import {Row, Col} from 'reactstrap';
-import './InfoSidebarSongAdded.css'
+import './SidebarPlaylistCard.css';
+import { PlaylistContext } from '../../../contexts/PlaylistContext';
 
-export default class InfoSidebarSongAdded extends Component{
+
+export default class SidebarPlaylistCard extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -17,47 +18,13 @@ export default class InfoSidebarSongAdded extends Component{
             downvote: this.props.downvote,
             id: this.props.id,
             token: localStorage.token,
-            votingId: this.props.votingId
-        }
-        console.log(typeof this.state.song_title)
-    }
-
-    upvoteClick = () => {
-        const ls = localStorage.getItem('Token');
-        if(ls === null) alert('Please log in to vote ');
-        else{
-            axios({
-                method: 'POST',
-                headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('Token')).token}`},
-                url: 'https://lovely-hot-springs-99494.herokuapp.com/api/songs/vote',
-                data: 
-                {
-                    video_id: this.state.votingID,
-                    isUpvote: true
-                }
-            })
+            votingID: this.props.votingID
         }
     }
 
-    downvoteClick = () => {
-        const ls = localStorage.getItem('Token');
-        if(ls === null ) alert('Please log in to vote ')
-        else{
-            axios({
-                method: 'POST',
-                headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('Token')).token}`},
-                url: 'https://lovely-hot-springs-99494.herokuapp.com/api/songs/vote',
-                data: 
-                {
-                    video_id: this.state.votingID,
-                    isUpvote: false
-                }
-            })
-        }
-    }
 
     render(){
-        const {thumbnail, song_title, singer, upvote, downvote, id} = this.state;
+        const {thumbnail, song_title, singer, upvote, downvote, votingID, id} = this.state;
         const MAX_LENGTH = 40;
         return(
             
@@ -82,16 +49,20 @@ export default class InfoSidebarSongAdded extends Component{
                         {singer}
                     </div>
                 </Col>
+                <PlaylistContext.Consumer>
+                    {({clickToVote}) => (
                 <Col xs="1" className="vote">
                     <div className="up-vote">
-                        <MdThumbUp className="likeList" onClick = {this.upvoteClick}></MdThumbUp>   
+                        <MdThumbUp className="likeList" onClick = {() => clickToVote(votingID,true)}></MdThumbUp>   
                         <div className="text-center"><span className="num-vote">{upvote}</span> </div>
                     </div>
                     <div className="down-vote">
-                        <MdThumbDown className="disLikeList" onClick = {this.downvoteClick}></MdThumbDown>
+                        <MdThumbDown className="disLikeList" onClick = {() => clickToVote(votingID,false)}></MdThumbDown>
                         <div className="text-center"><span className="num-vote">{downvote}</span> </div>
                     </div>
                 </Col>
+                    )}
+                </PlaylistContext.Consumer>
             </Row>
         )
     }
