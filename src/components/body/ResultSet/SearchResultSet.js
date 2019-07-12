@@ -66,7 +66,7 @@ export default class SearchResultSet extends Component {
 
     return (
       <div>
-        <div className="SearchAreaHeader">
+        <div className="SearchAreaHeader text-center">
           <span>
             Show results for <span className="SearchInput">{text}</span>
           </span>

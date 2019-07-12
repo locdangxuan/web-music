@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PlaylistCard from "./PlaylistCard";
 import "./Playlist.css";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
+import playlistHeader from '../../Image/playlist-header.svg';
 
 export default class Playlist extends Component {
   constructor() {
@@ -15,7 +16,7 @@ export default class Playlist extends Component {
     return (
       <div className="main-playlist">
         <div className="playlist-header">
-          <span>CES's FAVOURITE SONGs TOURNAMENT</span>
+          <img src = {playlistHeader} alt = "header" />
         </div>
         <PlaylistContext.Consumer>
           {({ playlist }) =>
