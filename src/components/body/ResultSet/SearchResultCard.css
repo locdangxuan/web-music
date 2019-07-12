@@ -1,35 +1,35 @@
 .musicCard {
-    /* display: flex; */
-    font-family: "Times New Roman", Times, serif;
-    margin-top: 2px;
-    padding-right: 10px;
-    align-items: center;
-  }
+  font-family: "Times New Roman", Times, serif;
+  margin-top: 2px;
+  padding-right: 10px;
+  align-items: center;
+}
 
-  .musicCard:hover{
-    background: #efefef;
-    cursor: pointer;
-  }
+.musicCard:hover {
+  background: #efefef;
+  cursor: pointer;
+}
 
-  .img-song-search{
-      width: 100%;
-  }
-  .picture{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .button-add{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .musicCard .song-title {
-    font-size: 18px;
-  }
+.button-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .musicCard .singer {
-    font-size: 14px;
-  }
+.musicCard .song-title {
+  font-size: 18px;
+}
+
+.musicCard .singer {
+  font-size: 14px;
+}
+
+.info {
+  padding: 0;
+}

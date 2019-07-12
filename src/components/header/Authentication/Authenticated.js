@@ -35,7 +35,6 @@ export default class Authenticated extends Component {
           <div className="logout-btn">
             <Button onClick={this.logoutBtnClicked}>Logout</Button>
           </div>
-       
       </div>
     );
   }

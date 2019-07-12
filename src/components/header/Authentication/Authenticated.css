@@ -1,6 +1,7 @@
 .authenticated{
     display: flex;
     flex-direction: row;
+    margin-top: 7px;
 }
 
 .authenticated .user-info{

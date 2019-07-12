@@ -1,23 +1,15 @@
-
-.song-video-name{
-    padding-top: 20px;
-    font-size: 24px;
-    font-weight: 500;
-}
-.react{
-    display: flex;
-    float: right;
-}
-.react-like{
-    margin-right: 50px;
-}
-.like{
-    width: 30px;
-    height: 30px;
+.song-video-name {
+  padding-top: 20px;
+  font-weight: 500;
+  font-family: "Times New Roman", Times, serif;
 }
 
-.disLike{
-    width: 30px;
-    height: 30px;
+.add-song {
+  display: flex;
+  float: right;
 }
 
+.detail {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}

@@ -13,6 +13,7 @@
 .sidebar-song-info{
     font-family: 'Times New Roman', Times, serif;
     align-items: center;
+    padding-left: 0;
 }
 
 .sidebar-song-title{

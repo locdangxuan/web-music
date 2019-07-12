@@ -11,6 +11,14 @@ class Search extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.state.searchingStart === true) {
+      this.setState({
+        searchingStart: false
+      });
+    }
+  }
+
   enterBtnClick = event => {
     event.preventDefault();
     if (event.keyCode === 13 && event.target.value !== "") {
