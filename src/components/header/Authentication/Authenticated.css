@@ -1,9 +1,13 @@
-.user{
-    padding: 5px;
+.authenticated{
+    display: flex;
+    flex-direction: row;
 }
-.user > p{
-    padding-top: 10px; 
-}
-.logoutBtn{
 
+.authenticated .user-info{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding-top: 6px; 
 }

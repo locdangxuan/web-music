@@ -1,25 +1,23 @@
-.header .col-logo{
-   /* background-color: #FAF3FF; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: orange;
-}
-
-.header .col-search{
-    display: flex;
-    align-items: center;
-}
-
-.header .col-info{
-    display: flex;
-    align-items: center;
-}
-.header{
-  /* background-color: #F7F7F7; */
-  background-color: orange;
+.header {
+  background-color: #f15927;
   box-shadow: 0 1px 1px #e3e3e3;
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+.header .col-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f15927;
+}
+
+.header .col-search {
+  display: flex;
+  align-items: center;
+}
+
+.header .col-authenitcation {
+  margin-top: 7px;
 }
