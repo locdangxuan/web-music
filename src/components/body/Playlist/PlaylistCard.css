@@ -13,7 +13,7 @@
 
 .playlist-card .thumbnail {
   background-size: 30px;
-  padding: 8px 8px 8px 8px;
+  padding: 5px;
   margin-right: 10px;
 }
 
@@ -48,4 +48,8 @@
 
 .playlist-card .user-relation .sidebar-vote {
   display: flex;
+}
+
+.info:hover{
+  text-decoration: none;
 }

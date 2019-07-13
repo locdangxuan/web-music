@@ -34,22 +34,30 @@ export default class InfoSongAdded extends Component {
     } = this.state;
     return (
       <div className="playlist-card">
-        <div className="thumbnail">
-          <img src={thumbnail} alt="#" width={100} />
-        </div>
-        <div className="info">
-          <div className="song-title">
-            <Link
-              to={{
-                pathname: "/playing/" + id,
-                state: { title: song_title, singer: singer }
-              }}
-            >
-              {song_title}
-            </Link>
+        <Link
+          to={{
+            pathname: "/playing/" + id,
+            state: { title: song_title, singer: singer }
+          }}
+        >
+          <div className="thumbnail">
+            <img src={thumbnail} alt="#" width={100} />
           </div>
-          <div className="singer">{singer}</div>
-        </div>
+        </Link>
+
+        <Link
+          to={{
+            pathname: "/playing/" + id,
+            state: { title: song_title, singer: singer }
+          }}
+          className="info"
+        >
+          <div>
+            <div className="song-title">{song_title}</div>
+            <div className="singer">{singer}</div>
+          </div>
+        </Link>
+
         <div className="user-relation">
           <div className="adder">{adder}</div>
           <PlaylistContext.Consumer>

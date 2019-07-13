@@ -35,32 +35,32 @@ export default class SidebarPlaylistCard extends Component {
     return (
       <Row className="sidebar-song">
         <Col xs="4" className="sidebar-song-img">
-          <img src={thumbnail} alt="#" className="img-fluid" />
+          <Link
+            to={{
+              pathname: "/playing/" + id,
+              state: { title: song_title, singer: singer }
+            }}
+          >
+            <img src={thumbnail} alt="#" className="img-fluid" />
+          </Link>
         </Col>
         <Col xs="6" className="sidebar-song-info">
-          <div className="sidebar-song-title">
-            {song_title.length > MAX_LENGTH ? (
-              <Link
-                to={{
-                  pathname: "/playing/" + id,
-                  state: { title: song_title, singer: singer }
-                }}
-              >
-                {`${song_title.substring(0, MAX_LENGTH)}...`}
-              </Link>
-            ) : (
-              <Link
-                to={{
-                  pathname: "/playing/" + id,
-                  state: { title: song_title, singer: singer }
-                }}
-              >
-                {song_title}
-              </Link>
-            )}
-          </div>
+          <Link
+            to={{
+              pathname: "/playing/" + id,
+              state: { title: song_title, singer: singer }
+            }} style={{textDecoration: "none"}}
+          >
+            <div className="sidebar-song-title">
+              {song_title.length > MAX_LENGTH ? (
+                <div> {`${song_title.substring(0, MAX_LENGTH)}...`}</div>
+              ) : (
+                <div>{song_title}</div>
+              )}
+            </div><div className="sidebar-song-singer">{singer}</div>
+          </Link>
 
-          <div className="sidebar-song-singer">{singer}</div>
+          
         </Col>
         <PlaylistContext.Consumer>
           {({ clickToVote }) => (
