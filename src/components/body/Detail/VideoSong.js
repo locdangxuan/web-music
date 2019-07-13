@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./VideoSong.css";
 import { Button } from "reactstrap";
 import Iframe from "react-iframe";
+import { PlaylistContext } from "../../../contexts/PlaylistContext";
 
 export default class VideoSong extends Component {
   constructor(props) {
@@ -38,11 +39,20 @@ export default class VideoSong extends Component {
           />
         </div>
         <div className="song-video-name">
-          <div className="add-song">
-            <Button outline color="primary" className="btnAdd">
-              Add
-            </Button>
-          </div>
+          <PlaylistContext.Consumer>
+            {({ clickToAdd }) => (
+              <div className="add-song">
+                <Button
+                  outline
+                  color="primary"
+                  className="btnAdd"
+                  onClick={() => clickToAdd(id)}
+                >
+                  Add
+                </Button>
+              </div>
+            )}
+          </PlaylistContext.Consumer>
         </div>
         <div className="detail">
           <p style={{ fontSize: "22px" }}>{title}</p>
