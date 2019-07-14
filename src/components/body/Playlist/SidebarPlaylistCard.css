@@ -1,47 +1,46 @@
-.sidebar-song{
-    align-items: center;
-    margin-top: 2px;
+.sidebar-song {
+  align-items: center;
+  margin-top: 2px;
 }
-.sidebar-song:hover{
-    background: #efefef;
-    cursor: pointer;
+.sidebar-song:hover {
+  background: #efefef;
+  cursor: pointer;
 }
-.sidebar-song-img{
-    display: flex;
-    align-items: center;
+.sidebar-song-img {
+  display: flex;
+  align-items: center;
 }
-.sidebar-song-info{
-    font-family: 'Times New Roman', Times, serif;
-    align-items: center;
-    padding-left: 0;
-}
-
-.sidebar-song-title{
-    font-size: 14px;
+.sidebar-song-info {
+  font-family: "Times New Roman", Times, serif;
+  align-items: center;
+  padding-left: 0;
 }
 
-.sidebar-song-singer{
-    font-size: 12px;
-    color: black;
+.sidebar-song-title {
+  font-size: 14px;
 }
 
-.sidebar-song-singer:hover{
-    color: black;
+.sidebar-song-singer {
+  font-size: 12px;
+  color: black;
 }
 
-.vote{
-    display: flex;
-    justify-content: center;
+.sidebar-song-singer:hover {
+  color: black;
 }
 
-
-.likeList:hover{
-    color: blue;
+.vote {
+  display: flex;
+  justify-content: center;
 }
 
-.disLikeList:hover{
-    color: blue;
+.likeList:hover {
+  color: blue;
 }
-.down-vote{
-    margin-left: 10px;
+
+.disLikeList:hover {
+  color: blue;
+}
+.down-vote {
+  margin-left: 10px;
 }
