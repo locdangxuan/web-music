@@ -9,6 +9,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
     padding-top: 6px; 
+}
+.authenticated .user-info .user{
+    font-weight: bolder;
+    color: white;
+}
+.authenticated .user-info .user:hover{
+    color: purple;
+    text-decoration: transparent;
+}
+.logout-btn .button
+{
+    color: white;
+  background: #f15927;
+  border: none;
+}
+.logout-btn .button:hover
+{
+    color: #f15927;
+    background: white;
+    border: none;
 }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import { confirmAlert } from "react-confirm-alert";
-
 import { server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
 export const PlaylistContext = React.createContext();
@@ -30,7 +29,7 @@ export class PlaylistProvider extends Component {
         headers: {
           Authorization: `Bearer ${
             JSON.parse(localStorage.getItem("Token")).token
-          }`
+            }`
         },
         url: server + "/songs/vote",
         data: {
@@ -62,7 +61,7 @@ export class PlaylistProvider extends Component {
       buttons: [
         {
           label: "Add",
-          onClick: function() {
+          onClick: function () {
             const token = localStorage.getItem("Token");
             if (token === null) {
               alert("Please login to add this song to the playlist");
@@ -73,7 +72,7 @@ export class PlaylistProvider extends Component {
         },
         {
           label: "Cancel",
-          onClick: function() {
+          onClick: function () {
             alert("Song was not added");
           }
         }

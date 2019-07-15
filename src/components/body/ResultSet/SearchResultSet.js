@@ -1,49 +1,98 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
+import { server } from '../../../server';
 
 export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: this.props.match.params.text,
+      text: "",
       SongList: [],
-      videoFound: true
+      videoFound: false
     };
+    this._isMounted = false;
     this.getSongList = this.getSongList.bind(this);
+    this.loadResult = this.loadResult.bind(this);
+    this.check = this.check.bind(this);
+    this.storageUpdate = this.storageUpdate.bind(this);
   }
   componentDidMount() {
-    var value = this.props.match.params.text;
-    this.getSongList(value);
+    this.loadResult(this.props.match.params.text);
   }
+
   componentDidUpdate() {
+    //Khi keyword tren url thay doi thi ham loadResult se duoc goi
     if (this.state.text !== this.props.match.params.text) {
-      this.setState({
-        text: this.props.match.params.text,
-        SongList: [],
-        videoFound: true
-      });
-      this.getSongList(this.props.match.params.text);
+      this.loadResult(this.props.match.params.text);
     }
   }
 
+  async loadResult(keyword) {
+    //Xoa cac ket qua hien co
+    await this.setState({
+      text: this.props.match.params.text,
+      SongList: [],
+      videoFound: true
+    })
+    const storage = localStorage.getItem('SearchingHistory');
+    if (storage === null) {
+      this.getSongList(keyword);
+      console.log('Case1');
+    }
+    else {
+      let result = this.check(keyword, JSON.parse(storage));
+      if (result === null) {
+        this.getSongList(keyword);
+      }
+      else {
+        await this.setState({
+          text: keyword,
+          SongList: result.songList,
+          videoFound: true
+        });
+        console.log(this.state);
+        console.log('Case3');
+      }
+    }
+  }
+
+  storageUpdate(object) {
+    const storage = localStorage.getItem('SearchingHistory');
+    let newArr = [];
+    if (storage !== null) {
+      newArr = JSON.parse(storage);
+      if (newArr.length >= 6)
+        newArr.shift();
+    }
+    newArr.push(object);
+    localStorage.setItem('SearchingHistory', JSON.stringify(newArr));
+  }
+
+  check(keyword, array) {
+    for (let result of array) {
+      if (result.keyword === keyword) {
+        return result;
+      }
+    }
+    return null;
+  }
+
   getSongList(value) {
-    axios
-      .get(
-        `https://gorgeous-grand-teton-66654.herokuapp.com/api/songs/search/${value}`
-      )
+    axios.get(server + `/songs/search/${value}`)
       .then(response => {
-        if (response.data === "No Video Found")
+        if (response.data === "No Video Found") {
           this.setState({ videoFound: false });
+        }
         else {
           this.setState({
             text: value,
             SongList: response.data.data,
             videoFound: true
           });
+          this.storageUpdate({ keyword: value, songList: response.data.data });
+          console.log('Case2');
         }
-
-        console.log(response.data);
       })
       .catch(error => console.log(error));
   }
@@ -63,7 +112,6 @@ export default class SearchResultSet extends Component {
         />
       );
     });
-
     return (
       <div>
         <div className="SearchAreaHeader text-center">
