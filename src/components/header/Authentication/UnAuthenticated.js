@@ -11,6 +11,12 @@ export default class UnAuthenticated extends Component {
       loginModal: false,
       registerModal: false
     };
+    this.loginToggle = this.loginToggle.bind(this);
+    this.registerToggle = this.registerToggle.bind(this);
+    this.loginBtn = this.loginBtn.bind(this);
+    this.registerBtn = this.registerBtn.bind(this);
+    this.enterPressed = this.enterPressed.bind(this);
+    this.accountAuthentication = this.accountAuthentication.bind(this);
   }
   render() {
     return (
@@ -53,28 +59,29 @@ export default class UnAuthenticated extends Component {
             </ModalBody>
             <ModalFooter>
               <Button
+                outline
                 color="primary"
                 className="LoginBtn"
                 onClick={this.loginBtn}
               >
                 Login
               </Button>{" "}
-              <Button color="primary" onClick={this.loginToggle}>
+              <Button outline color="primary" onClick={this.loginToggle}>
                 Cancel
               </Button>
             </ModalFooter>
           </Modal>
         </div>
         <div className="register">
-          <Button className="btn-register" onClick={this.Registertoggle}>
+          <Button className="btn-register" onClick={this.registerToggle}>
             Register
           </Button>
           <Modal
             isOpen={this.state.registermodal}
-            toggle={this.Registertoggle}
+            toggle={this.registerToggle}
             className={this.props.className}
           >
-            <ModalHeader toggle={this.toggle}>Sign Up</ModalHeader>
+            <ModalHeader toggle={this.registerToggle}>Sign Up</ModalHeader>
             <ModalBody>
               <Form>
                 <FormGroup>
@@ -157,7 +164,7 @@ export default class UnAuthenticated extends Component {
               >
                 Sign Up
               </Button>{" "}
-              <Button outline color="primary" onClick={this.Registertoggle}>
+              <Button outline color="primary" onClick={this.registerToggle}>
                 Cancel
               </Button>
             </ModalFooter>
@@ -167,27 +174,26 @@ export default class UnAuthenticated extends Component {
     );
   }
 
-  Registertoggle = () => {
+  registerToggle = () => {
     this.setState(prevState => ({
       registermodal: !prevState.registermodal,
       loginModal: prevState.loginModal
     }));
-  }
+  };
 
   loginToggle = () => {
     this.setState(prevState => ({
       loginModal: !prevState.loginModal,
-      registermodal: prevState.registermodal,
-      isSignedIn: prevState.isSignedIn
+      registermodal: prevState.registermodal
     }));
-  }
+  };
 
   enterPressed = event => {
     if (event.keyCode === 13 && event.target.id === "loginPart")
       this.loginBtn();
     else if (event.keyCode === 13 && event.target.id === "registerPart")
       this.registerBtn();
-  }
+  };
 
   registerBtn = () => {
     var username = this.refs.userNameRegister.value;
@@ -212,6 +218,7 @@ export default class UnAuthenticated extends Component {
         if (password !== passwordValid) {
           alert("passwords does not match each others");
         } else {
+          this.Registertoggle();
           var newUser = {
             username: username,
             password: password,
@@ -246,7 +253,6 @@ export default class UnAuthenticated extends Component {
       )
       .then(response => {
         localStorage.setItem("Token", JSON.stringify(response.data));
-        this.loginToggle();
         this.props.getValue(true);
         return true;
       })
@@ -262,6 +268,8 @@ export default class UnAuthenticated extends Component {
     var valid = this.accountAuthentication(username, password);
     if (valid === false) {
       alert("Invalid Username or Password");
+    } else {
+      this.loginToggle();
     }
   };
 }

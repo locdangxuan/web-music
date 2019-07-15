@@ -1,14 +1,25 @@
-.authenticated{
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
+.authenticated {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
 }
 
-.authenticated .user-info{
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    padding-top: 6px; 
+.authenticated .user-info {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding-top: 6px;
+}
+.logout-btn {
+  color: white;
+  background: #f15927;
+  border: none;
+}
+
+.logout-btn:hover {
+  color: #f15927;
+  background: white;
+  border: none;
 }

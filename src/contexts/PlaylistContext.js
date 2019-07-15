@@ -14,7 +14,6 @@ export class PlaylistProvider extends Component {
       playlist: []
     };
     this.getPlaylist = this.getPlaylist.bind(this);
-    this.addToPlaylist = this.addToPlaylist.bind(this);
     this.clickToVote = this.clickToVote.bind(this);
     this.clickToAdd = this.clickToAdd.bind(this);
   }
@@ -26,24 +25,23 @@ export class PlaylistProvider extends Component {
     if (token === null) alert("Please log in to vote ");
     else {
       axios({
-        method: "POST",
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("Token")).token
-          }`
+          Authorization: 'Bearer ' + JSON.parse(localStorage.getItem("Token")).token
         },
-        url: server + "/songs/vote",
+        url: server + '/songs/vote',
         data: {
           video_id: Id,
           isUpvote: isUpvote
         }
       })
         .then(response => {
-          if (response.status === 202)
+          console.log(response.status);
+          if (response.status === 400)
             alert(
               "You have used all your votes today, please comeback tomorrow"
             );
-          else if (response.status === 201) {
+          else if (response.status === 200) {
             alert("Successfully Voted !!!");
             this.getPlaylist();
           }
@@ -62,12 +60,36 @@ export class PlaylistProvider extends Component {
       buttons: [
         {
           label: "Add",
-          onClick: function() {
+          onClick: () => {
             const token = localStorage.getItem("Token");
             if (token === null) {
               alert("Please login to add this song to the playlist");
             } else {
-              this.addToPlaylist(videoId);
+              console.log(JSON.parse(localStorage.getItem("Token")).token);
+              console.log(videoId);
+              axios({
+                method: "POST",
+                headers: {
+                  Authorization:
+                    "Bearer " + JSON.parse(localStorage.getItem("Token")).token
+                },
+                url: server + "/songs/add",
+                data: {
+                  id: videoId
+                }
+              })
+                .then(response => {
+                  console.log(response);
+                  if (response.status === 200)
+                    alert("Successfully added");
+                    this.getPlaylist();  
+                })
+                .catch(error => {
+                  alert(
+                    "This account has already added a song, try again tomorrow!!"
+                  );
+                  console.log(error);
+                });
             }
           }
         },
@@ -81,31 +103,6 @@ export class PlaylistProvider extends Component {
     });
   }
 
-  addToPlaylist(videoId) {
-    axios({
-      method: "POST",
-      headers: {
-        Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
-      },
-      url: server + "/songs/add",
-      data: {
-        id: videoId
-      }
-    })
-      .then(response => {
-        console.log(response);
-        if (response.status === 200)
-          alert("This account has already added a song, try again tomorrow!!");
-        else {
-          alert("Successfully added");
-          this.getPlaylist();
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
   getPlaylist() {
     this.setState({
       playlist: []

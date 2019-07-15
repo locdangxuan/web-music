@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Authenticated.css";
 import Icon from "../../Image/gastly.svg";
 import { Button } from "reactstrap";
+import { Link } from "react-router-dom";
 
 export default class Authenticated extends Component {
   constructor(props) {
@@ -24,17 +25,19 @@ export default class Authenticated extends Component {
     const { currentUser } = this.state;
     return (
       <div className="authenticated">
-          <div className="avatar">
-            <img src={Icon} width={40} alt="Icon" />
-          </div>
-          <div className="user-info">
-            <p>
+        <div className="avatar">
+          <img src={Icon} width={40} alt="Icon" />
+        </div>
+        <div className="user-info">
+            <Link className = "user" to={`/info/${currentUser.firstName}_${currentUser.lastName}`}><p>
               {currentUser.firstName + " " + currentUser.lastName}
-            </p>
+            </p></Link>
           </div>
-          <div className="logout-btn">
-            <Button onClick={this.logoutBtnClicked}>Logout</Button>
-          </div>
+        <div>
+          <Button onClick={this.logoutBtnClicked} className="logout-btn">
+            Logout
+          </Button>
+        </div>
       </div>
     );
   }
