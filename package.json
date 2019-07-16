@@ -15,6 +15,8 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "reactstrap": "^8.0.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "sticky-sidebar": "^3.3.1"
   },
   "scripts": {

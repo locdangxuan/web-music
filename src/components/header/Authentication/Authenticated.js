@@ -3,6 +3,10 @@ import "./Authenticated.css";
 import Icon from "../../Image/gastly.svg";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+import {server} from '../../../server';
+
 
 export default class Authenticated extends Component {
   constructor(props) {
@@ -19,6 +23,13 @@ export default class Authenticated extends Component {
   logoutBtnClicked() {
     localStorage.removeItem("Token");
     this.props.getValue(false);
+    axios({
+      method: "POST",
+      url: server + "/songs/vote",
+      data: {
+        username: this.state.currentUser.username
+      }
+    })
   }
 
   render() {

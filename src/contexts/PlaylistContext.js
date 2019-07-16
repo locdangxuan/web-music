@@ -2,23 +2,45 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import { confirmAlert } from "react-confirm-alert";
-import { server } from "../server";
+import { server,lovely_server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import io from 'socket.io-client';
+import { Redirect } from 'react-router-dom';
+
 export const PlaylistContext = React.createContext();
+
+
 
 export class PlaylistProvider extends Component {
   constructor() {
     super();
     this.state = {
-      playlist: []
+      playlist: [],
+      currentSong: { id: '', duration: '' },
+      connection: null,
+      playlistStart: false
     };
+    this.socket = null;
     this.getPlaylist = this.getPlaylist.bind(this);
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.clickToVote = this.clickToVote.bind(this);
     this.clickToAdd = this.clickToAdd.bind(this);
+    this.playlistStart = this.playlistStart.bind(this);
   }
   componentWillMount() {
     this.getPlaylist();
+  }
+  componentDidMount()
+  {
+    this.socket = io(lovely_server);
+    this.socket.on('connect', (response) => { 
+        this.setState({ connection: response });
+        console.log(response);
+    });
+    this.socket.on('play', (response) => { 
+        this.playlistStart(response);
+        
+    });
   }
   clickToVote(Id, isUpvote) {
     const token = localStorage.getItem("Token");
@@ -105,6 +127,7 @@ export class PlaylistProvider extends Component {
         console.log(error);
       });
   }
+
   getPlaylist() {
     this.setState({
       playlist: []
@@ -119,17 +142,48 @@ export class PlaylistProvider extends Component {
       })
       .catch(error => console.log(error));
   }
+
+  getNewSong()
+  {
+    
+  }
+
+  async playlistStart(response) {
+    console.log(response);
+    let now = new Date();
+    let result = {};
+    for(let song of this.state.playlist)
+    {
+      if(song.id === response.videoId)
+        result = song;
+    }
+    let passingTime = (now.getHours() - response.startAt.hour) * 3600 + (now.getMinutes() - response.startAt.minute) * 60 + (now.getSeconds() - response.startAt.second);
+    console.log(passingTime);
+    await this.setState({
+      currentSong: { id: response.videoId, passingTime: passingTime,title: result.title,singer: result.singer },
+      playlistStart: true
+    });
+  }
+
   render() {
+    const { currentSong, playlistStart } = this.state;
     return (
-      <PlaylistContext.Provider
-        value={{
-          playlist: this.state.playlist,
-          clickToAdd: this.clickToAdd,
-          clickToVote: this.clickToVote
-        }}
-      >
-        {this.props.children}
-      </PlaylistContext.Provider>
+      <div>
+        <PlaylistContext.Provider
+          value={{
+            playlist: this.state.playlist,
+            clickToAdd: this.clickToAdd,
+            clickToVote: this.clickToVote
+          }}
+        >
+          {this.props.children}
+        </PlaylistContext.Provider>
+        {playlistStart && 
+        <Redirect to={{ 
+          pathname: `/playing/${currentSong.id}`, 
+          state: { title: currentSong.title, singer: currentSong.singer, passingTime: currentSong.passingTime } }}>
+        </Redirect>}
+      </div>
     );
   }
 }

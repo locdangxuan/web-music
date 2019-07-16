@@ -4,12 +4,16 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
 
+import { confirmAlert } from 'react-confirm-alert';
+
 export default class UnAuthenticated extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loginModal: false,
-      registerModal: false
+      registerModal: false,
+      registerAlert: '',
+      loginAlert: ''
     };
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
@@ -31,6 +35,7 @@ export default class UnAuthenticated extends Component {
             className={this.props.className}
           >
             <ModalHeader toggle={this.loginToggle}>Login</ModalHeader>
+            <span>{this.state.registerAlert}</span>
             <ModalBody>
               <Form>
                 <FormGroup>
@@ -56,6 +61,7 @@ export default class UnAuthenticated extends Component {
                   />
                 </FormGroup>
               </Form>
+              <span>{this.state.loginAlert}</span>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -120,6 +126,17 @@ export default class UnAuthenticated extends Component {
                   </Row>
                 </FormGroup>
                 <FormGroup>
+                  <Label for="Email">Email</Label>
+                  <input
+                    className="effect-6"
+                    type="text"
+                    id="registerPart"
+                    placeholder="example@gmail.com"
+                    ref="emailRegister"
+                    onKeyUp={this.enterPressed}
+                  />
+                </FormGroup>
+                <FormGroup>
                   <Label for="passWord">Password</Label>
                   <input
                     className="effect-6"
@@ -141,17 +158,7 @@ export default class UnAuthenticated extends Component {
                     onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
-                <FormGroup>
-                  <Label for="Email">Email</Label>
-                  <input
-                    className="effect-6"
-                    type="text"
-                    id="registerPart"
-                    placeholder="example@gmail.com"
-                    ref="emailRegister"
-                    onKeyUp={this.enterPressed}
-                  />
-                </FormGroup>
+
               </Form>
             </ModalBody>
             <ModalFooter>
@@ -232,9 +239,7 @@ export default class UnAuthenticated extends Component {
               newUser
             )
             .then(response => {
-              this.setState({ registermodal: false });
-              alert(response.data);
-              console.log(response.data);
+              this.setState({ registermodal: false, loginModal: true, registerAlert: response.data });
             })
             .catch(error => console.log(error));
         }
@@ -242,34 +247,32 @@ export default class UnAuthenticated extends Component {
     }
   };
 
-  accountAuthentication = (username, password) => {
+  async accountAuthentication(username, password) {
     var user = { username: username, password: password };
     // axios post automatically transform user to JSON file
-    axios
-      .post(
-        "https://lovely-hot-springs-99494.herokuapp.com/api/users/authenticate",
-        user
-      )
+    await axios.post("https://lovely-hot-springs-99494.herokuapp.com/api/users/authenticate", user)
       .then(response => {
         localStorage.setItem("Token", JSON.stringify(response.data));
         this.props.getValue(true);
+        console.log(1);
         return true;
       })
       .catch(error => {
-        alert("Loi~ " + error);
         return false;
       });
   };
 
-  loginBtn = () => {
-    var username = this.refs.usernameLogin.value;
-    var password = this.refs.passwordLogin.value;
-    var valid = this.accountAuthentication(username, password);
+  loginBtn() {
+    let username = this.refs.usernameLogin.value;
+    let password = this.refs.passwordLogin.value;
+    let valid = this.accountAuthentication(username, password);
+    console.log(valid);
     if (valid === false) {
-      alert("Invalid Username or Password");
+      this.setState({ loginAlert: "Invalid Username or Password" });
+      console.log('Fail')
     }
     else {
-      this.loginToggle();
+      // this.loginToggle();
     }
   };
 }

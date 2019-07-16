@@ -10,7 +10,15 @@ import Playlist from './components/body/Playlist/Playlist'
 import { PlaylistProvider } from './contexts/PlaylistContext';
 
 
+
+
 class App extends Component {
+
+  constructor()
+  {
+    super();
+  }
+
   render(){
     return (
       <Router>
