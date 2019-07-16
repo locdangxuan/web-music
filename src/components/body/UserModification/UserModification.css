@@ -1,0 +1,10 @@
+.user-update{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.user-modification{
+    padding-top: 30px;
+    width: 500px;
+    height: 100%;
+}

@@ -30,7 +30,7 @@ export default class UnAuthenticated extends Component {
             toggle={this.loginToggle}
             className={this.props.className}
           >
-            <ModalHeader toggle={this.loginToggle}>Login</ModalHeader>
+            <ModalHeader>Login</ModalHeader>
             <ModalBody>
               <Form>
                 <FormGroup>
@@ -84,6 +84,17 @@ export default class UnAuthenticated extends Component {
             <ModalHeader toggle={this.registerToggle}>Sign Up</ModalHeader>
             <ModalBody>
               <Form>
+              <FormGroup>
+                  <Label for="Email">Email</Label>
+                  <input
+                    className="effect-6"
+                    type="text"
+                    id="registerPart"
+                    placeholder="example@gmail.com"
+                    ref="emailRegister"
+                    onKeyUp={this.enterPressed}
+                  />
+                </FormGroup>
                 <FormGroup>
                   <Label for="userName">Username</Label>
                   <input
@@ -142,17 +153,6 @@ export default class UnAuthenticated extends Component {
                     onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
-                <FormGroup>
-                  <Label for="Email">Email</Label>
-                  <input
-                    className="effect-6"
-                    type="text"
-                    id="registerPart"
-                    placeholder="example@gmail.com"
-                    ref="emailRegister"
-                    onKeyUp={this.enterPressed}
-                  />
-                </FormGroup>
               </Form>
             </ModalBody>
             <ModalFooter>
@@ -196,12 +196,12 @@ export default class UnAuthenticated extends Component {
   };
 
   registerBtn = () => {
-    var username = this.refs.userNameRegister.value;
-    var firstName = this.refs.firstname.value;
-    var lastName = this.refs.lastname.value;
-    var password = this.refs.password.value;
-    var passwordValid = this.refs.passwordValid.value;
-    var email = this.refs.emailRegister.value;
+    let username = this.refs.userNameRegister.value;
+    let firstName = this.refs.firstname.value;
+    let lastName = this.refs.lastname.value;
+    let password = this.refs.password.value;
+    let passwordValid = this.refs.passwordValid.value;
+    let email = this.refs.emailRegister.value;
     if (
       username === "" ||
       firstName === "" ||
@@ -218,14 +218,15 @@ export default class UnAuthenticated extends Component {
         if (password !== passwordValid) {
           alert("passwords does not match each others");
         } else {
-          this.Registertoggle();
-          var newUser = {
+          this.registerToggle();
+          let newUser = {
             username: username,
             password: password,
             email: email,
             firstName: firstName,
             lastName: lastName
           };
+
           // axios post automatically transform user to JSON file
           axios
             .post(
@@ -244,7 +245,7 @@ export default class UnAuthenticated extends Component {
   };
 
   accountAuthentication = (username, password) => {
-    var user = { username: username, password: password };
+    let user = { username: username, password: password };
     // axios post automatically transform user to JSON file
     axios
       .post(
@@ -263,9 +264,9 @@ export default class UnAuthenticated extends Component {
   };
 
   loginBtn = () => {
-    var username = this.refs.usernameLogin.value;
-    var password = this.refs.passwordLogin.value;
-    var valid = this.accountAuthentication(username, password);
+    let username = this.refs.usernameLogin.value;
+    let password = this.refs.passwordLogin.value;
+    let valid = this.accountAuthentication(username, password);
     if (valid === false) {
       alert("Invalid Username or Password");
     } else {

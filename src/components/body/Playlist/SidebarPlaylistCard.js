@@ -67,7 +67,7 @@ export default class SidebarPlaylistCard extends Component {
             <Col xs="1" className="vote">
               <div className="up-vote">
                 <MdThumbUp
-                  className="likeList"
+                  className="like"
                   onClick={() => clickToVote(votingID, true)}
                 />
                 <div className="text-center">
@@ -76,7 +76,7 @@ export default class SidebarPlaylistCard extends Component {
               </div>
               <div className="down-vote">
                 <MdThumbDown
-                  className="disLikeList"
+                  className="dislike"
                   onClick={() => clickToVote(votingID, false)}
                 />
                 <div className="text-center">

@@ -7,8 +7,7 @@ class Logo extends Component {
     return (
       <div className="logo-background img-fluid">
         <Link to={"/"}>
-          {" "}
-          <img src={logo} alt="logo" className="logo-header" />{" "}
+          <img src={logo} alt="logo" className="logo-header" />
         </Link>
       </div>
     );

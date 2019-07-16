@@ -65,17 +65,15 @@ export default class InfoSongAdded extends Component {
               <div className="sidebar-vote">
                 <div className="upvote">
                   <MdThumbUp
-                    width="30"
                     onClick={() => clickToVote(votingID, true)}
-                    className="likeList"
+                    className="like"
                   />
                   <span className="amount">{upvote}</span>
                 </div>
                 <div className="downvote">
                   <MdThumbDown
-                    width="30"
                     onClick={() => clickToVote(votingID, false)}
-                    className="disLikeList"
+                    className="dislike"
                   />
                   <span className="amount">{downvote}</span>
                 </div>

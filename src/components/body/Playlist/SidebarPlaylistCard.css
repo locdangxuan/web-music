@@ -34,13 +34,12 @@
   justify-content: center;
 }
 
-.likeList:hover {
+.like:hover, .dislike:hover {
   color: blue;
 }
 
-.disLikeList:hover {
-  color: blue;
-}
 .down-vote {
   margin-left: 10px;
 }
+
+

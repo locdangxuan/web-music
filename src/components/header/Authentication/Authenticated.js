@@ -29,14 +29,20 @@ export default class Authenticated extends Component {
           <img src={Icon} width={40} alt="Icon" />
         </div>
         <div className="user-info">
-            <Link className = "user" to={`/info/${currentUser.firstName}_${currentUser.lastName}`}><p>
-              {currentUser.firstName + " " + currentUser.lastName}
-            </p></Link>
-          </div>
+          <Link
+            className="user"
+            // to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
+            to={"/info"}
+          >
+            <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+          </Link>
+        </div>
         <div>
-          <Button onClick={this.logoutBtnClicked} className="logout-btn">
-            Logout
-          </Button>
+          <Link to={"/"}>
+            <Button onClick={this.logoutBtnClicked} className="logout-btn">
+              Logout
+            </Button>
+          </Link>
         </div>
       </div>
     );

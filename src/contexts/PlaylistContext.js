@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-
 import { confirmAlert } from "react-confirm-alert";
-
 import { server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
 export const PlaylistContext = React.createContext();
@@ -17,19 +15,23 @@ export class PlaylistProvider extends Component {
     this.clickToVote = this.clickToVote.bind(this);
     this.clickToAdd = this.clickToAdd.bind(this);
   }
+
   componentWillMount() {
     this.getPlaylist();
   }
+
   clickToVote(Id, isUpvote) {
     const token = localStorage.getItem("Token");
-    if (token === null) alert("Please log in to vote ");
-    else {
+    if (token === null) {
+      alert("Please log in to vote ");
+    } else {
       axios({
-        method: 'POST',
+        method: "POST",
         headers: {
-          Authorization: 'Bearer ' + JSON.parse(localStorage.getItem("Token")).token
+          Authorization:
+            "Bearer " + JSON.parse(localStorage.getItem("Token")).token
         },
-        url: server + '/songs/vote',
+        url: server + "/songs/vote",
         data: {
           video_id: Id,
           isUpvote: isUpvote
@@ -80,9 +82,8 @@ export class PlaylistProvider extends Component {
               })
                 .then(response => {
                   console.log(response);
-                  if (response.status === 200)
-                    alert("Successfully added");
-                    this.getPlaylist();  
+                  if (response.status === 200) alert("Successfully added");
+                  this.getPlaylist();
                 })
                 .catch(error => {
                   alert(
@@ -94,10 +95,7 @@ export class PlaylistProvider extends Component {
           }
         },
         {
-          label: "Cancel",
-          onClick: function() {
-            alert("Song was not added");
-          }
+          label: "Cancel"
         }
       ]
     });
@@ -117,6 +115,7 @@ export class PlaylistProvider extends Component {
       })
       .catch(error => console.log(error));
   }
+
   render() {
     return (
       <PlaylistContext.Provider
