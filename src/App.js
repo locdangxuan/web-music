@@ -8,13 +8,10 @@ import VideoSong from "./components/body/Detail/VideoSong";
 import SearchResultSet from "./components/body/ResultSet/SearchResultSet";
 import Playlist from "./components/body/Playlist/Playlist";
 import { PlaylistProvider } from "./contexts/PlaylistContext";
-import UserModification from "./components/body/UserModification/UserModification"
-
-
+import UserModification from "./components/body/UserModification/UserModification";
 
 class App extends Component {
-
-  render(){
+  render() {
     return (
       <Router>
         <div className="App">

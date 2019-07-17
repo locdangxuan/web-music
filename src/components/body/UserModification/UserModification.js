@@ -3,7 +3,7 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
 import axios from "axios";
 import { Button } from "reactstrap";
-import { gorgeous_server } from "../../../server";
+import { server } from "../../../server";
 // import { lovely_server } from "../../../server";
 
 export default class UserModification extends Component {
@@ -70,7 +70,7 @@ export default class UserModification extends Component {
               Authorization:
                 "Bearer " + JSON.parse(localStorage.getItem("Token")).token
             },
-            url: gorgeous_server + "/api/users/:id",
+            url: server + "/api/users/:id",
             data: {
               updateUser
             }

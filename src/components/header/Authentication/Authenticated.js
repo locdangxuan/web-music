@@ -4,8 +4,8 @@ import Icon from "../../Image/gastly.svg";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { lovely_server }   from '../../../server.js';
-// import { gorgeous_server }   from '../../../server.js';
+// import { lovely_server }   from '../../../server.js';
+import { server }   from '../../../server.js';
 
 
 export default class Authenticated extends Component {
@@ -16,20 +16,30 @@ export default class Authenticated extends Component {
     if (token !== null) {
       isLoggedIn = true;
     }
-    this.state = { isLoggedIn, currentUser: token };
+    this.state = { isLoggedIn, currentUser: token,  username: token.username };
     this.logoutBtnClicked = this.logoutBtnClicked.bind(this);
   }
 
   logoutBtnClicked() {
-    localStorage.removeItem("Token");
     this.props.getValue(false);
     axios({
-      method: "POST",
-      url: lovely_server + "/songs/register",
-      data: {
-        username: this.state.currentUser.username
+      method: 'POST',
+      url: server + "/api/users/logout",
+      data: { username: this.state.username}
+    })
+    .then(response => {
+      console.log(response.status);
+      if (response.status === 200) {
+        alert("Logged out Succesfully!!!");
       }
     })
+    .catch(error => {
+      alert(
+        "Failed to log out"
+      );
+      console.log(error);
+    });
+    localStorage.removeItem("Token");
   }
 
   render() {

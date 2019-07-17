@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
-import { lovely_server } from "../../../server";
+import { server } from "../../../server";
 
 export default class UnAuthenticated extends Component {
   constructor(props) {
@@ -234,7 +234,7 @@ export default class UnAuthenticated extends Component {
 
           // axios post automatically transform user to JSON file
           axios
-            .post(lovely_server + "api/users/register", newUser)
+            .post(server + "/api/users/register", newUser)
             .then(response => {
               this.setState({
                 registermodal: false,
@@ -252,7 +252,7 @@ export default class UnAuthenticated extends Component {
     var user = { username: username, password: password };
     // axios post automatically transform user to JSON file
     await axios
-      .post(lovely_server + "/api/users/authenticate", user)
+      .post(server + "/api/users/authenticate", user)
       .then(response => {
         localStorage.setItem("Token", JSON.stringify(response.data));
         this.props.getValue(true);
