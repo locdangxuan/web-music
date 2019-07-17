@@ -51,8 +51,6 @@ export default class SearchResultSet extends Component {
           SongList: result.songList,
           videoFound: true
         });
-        console.log(this.state);
-        console.log("Case3");
       }
     }
   }
@@ -90,7 +88,6 @@ export default class SearchResultSet extends Component {
             videoFound: true
           });
           this.storageUpdate({ keyword: value, songList: response.data.data });
-          console.log("Case2");
         }
       })
       .catch(error => console.log(error));
