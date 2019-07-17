@@ -5,7 +5,7 @@ import { MdThumbDown } from "react-icons/md";
 import "./PlaylistCard.css";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
 
-export default class InfoSongAdded extends Component {
+export default class PlaylistCard extends Component {
   constructor(props) {
     super(props);
     this.state = {

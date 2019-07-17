@@ -26,7 +26,7 @@ export default class Playlist extends Component {
                   id={value.videoId}
                   song_title={value.title}
                   singer={value.channelTitle}
-                  adder={value.user}
+                  adder={value.addedUser}
                   thumbnail={value.thumbnails}
                   upvote={value.upvote}
                   downvote={value.downvote}

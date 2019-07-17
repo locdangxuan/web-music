@@ -4,7 +4,6 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
 
-import { confirmAlert } from 'react-confirm-alert';
 
 export default class UnAuthenticated extends Component {
   constructor(props) {

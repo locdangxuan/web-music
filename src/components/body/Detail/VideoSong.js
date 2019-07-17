@@ -50,7 +50,7 @@ export default class VideoSong extends Component {
     return (
       <div className="video-song">
         <div className="video text-center">
-          <iframe
+          <Iframe
             src={`https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`}
             height="450px"
             id={iframeId}
