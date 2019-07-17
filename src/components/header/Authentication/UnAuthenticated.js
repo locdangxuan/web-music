@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
-import { lovely_server } from "../../../server";
+import { server } from "../../../server";
 
 export default class UnAuthenticated extends Component {
   constructor(props) {
@@ -234,7 +234,7 @@ export default class UnAuthenticated extends Component {
 
           // axios post automatically transform user to JSON file
           axios
-            .post(lovely_server + "api/users/register", newUser)
+            .post(server + "/api/users/register", newUser)
             .then(response => {
               this.setState({
                 registermodal: false,
@@ -249,31 +249,40 @@ export default class UnAuthenticated extends Component {
   };
 
   async accountAuthentication(username, password) {
+    console.log(1);
     var user = { username: username, password: password };
     // axios post automatically transform user to JSON file
+    let result ;
+    
     await axios
-      .post(lovely_server + "/api/users/authenticate", user)
+      .post(server + "/api/users/authenticate", user)
       .then(response => {
         localStorage.setItem("Token", JSON.stringify(response.data));
         this.props.getValue(true);
-        console.log(1);
-        return true;
+        result = true;
       })
       .catch(error => {
-        return false;
+        result = false;
       });
+      return result;
   }
 
-  loginBtn() {
+  async loginBtn() {
+    try
+    {
     let username = this.refs.usernameLogin.value;
     let password = this.refs.passwordLogin.value;
-    let valid = this.accountAuthentication(username, password);
+    let valid = await this.accountAuthentication(username, password);
     console.log(valid);
     if (valid === false) {
-      this.setState({ loginAlert: "Invalid Username or Password" });
-      console.log("Fail");
+      alert("Fail");
     } else {
-      // this.loginToggle();
+      this.loginToggle();
+    }
+    }
+    catch(error)
+    {
+      console.log(error);
     }
   }
 }
