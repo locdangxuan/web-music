@@ -4,8 +4,6 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
 
-import { confirmAlert } from 'react-confirm-alert';
-
 export default class UnAuthenticated extends Component {
   constructor(props) {
     super(props);
@@ -135,17 +133,6 @@ export default class UnAuthenticated extends Component {
                       />
                     </Col>
                   </Row>
-                </FormGroup>
-                <FormGroup>
-                  <Label for="Email">Email</Label>
-                  <input
-                    className="effect-6"
-                    type="text"
-                    id="registerPart"
-                    placeholder="example@gmail.com"
-                    ref="emailRegister"
-                    onKeyUp={this.enterPressed}
-                  />
                 </FormGroup>
                 <FormGroup>
                   <Label for="passWord">Password</Label>

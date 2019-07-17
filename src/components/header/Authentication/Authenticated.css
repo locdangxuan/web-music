@@ -20,7 +20,6 @@
 
 .logout-btn:hover {
   color: #f15927;
-  background: white;
   border: none;
 }
 .authenticated .user-info .user{
@@ -33,7 +32,6 @@
 }
 .logout-btn .button
 {
-    color: white;
   background: #f15927;
   border: none;
 }

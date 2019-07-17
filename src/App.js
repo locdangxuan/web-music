@@ -14,11 +14,6 @@ import UserModification from "./components/body/UserModification/UserModificatio
 
 class App extends Component {
 
-  constructor()
-  {
-    super();
-  }
-
   render(){
     return (
       <Router>
