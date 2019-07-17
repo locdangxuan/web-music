@@ -1,11 +1,11 @@
-.musicCard {
+.music-card {
   font-family: "Times New Roman", Times, serif;
   margin-top: 2px;
   padding-right: 10px;
   align-items: center;
 }
 
-.musicCard:hover {
+.music-card:hover {
   background: #efefef;
   cursor: pointer;
 }
@@ -22,11 +22,11 @@
   justify-content: center;
 }
 
-.musicCard .song-title {
+.music-card .song-title {
   font-size: 18px;
 }
 
-.musicCard .singer {
+.music-card .singer {
   font-size: 14px;
 }
 

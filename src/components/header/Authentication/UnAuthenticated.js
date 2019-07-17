@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
+import { lovely_server } from "../../../server";
 
 export default class UnAuthenticated extends Component {
   constructor(props) {
@@ -10,8 +11,8 @@ export default class UnAuthenticated extends Component {
     this.state = {
       loginModal: false,
       registerModal: false,
-      registerAlert: '',
-      loginAlert: ''
+      registerAlert: "",
+      loginAlert: ""
     };
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
@@ -63,7 +64,8 @@ export default class UnAuthenticated extends Component {
             </ModalBody>
             <ModalFooter>
               <Button
-                outline color="primary"
+                outline
+                color="primary"
                 className="LoginBtn"
                 onClick={this.loginBtn}
               >
@@ -87,7 +89,7 @@ export default class UnAuthenticated extends Component {
             <ModalHeader toggle={this.registerToggle}>Sign Up</ModalHeader>
             <ModalBody>
               <Form>
-              <FormGroup>
+                <FormGroup>
                   <Label for="Email">Email</Label>
                   <input
                     className="effect-6"
@@ -156,7 +158,6 @@ export default class UnAuthenticated extends Component {
                     onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
-
               </Form>
             </ModalBody>
             <ModalFooter>
@@ -188,7 +189,7 @@ export default class UnAuthenticated extends Component {
   loginToggle = () => {
     this.setState(prevState => ({
       loginModal: !prevState.loginModal,
-      registermodal: prevState.registermodal,
+      registermodal: prevState.registermodal
     }));
   };
 
@@ -233,12 +234,13 @@ export default class UnAuthenticated extends Component {
 
           // axios post automatically transform user to JSON file
           axios
-            .post(
-              "https://gorgeous-grand-teton-66654.herokuapp.com/api/users/register",
-              newUser
-            )
+            .post(lovely_server + "api/users/register", newUser)
             .then(response => {
-              this.setState({ registermodal: false, loginModal: true, registerAlert: response.data });
+              this.setState({
+                registermodal: false,
+                loginModal: true,
+                registerAlert: response.data
+              });
             })
             .catch(error => console.log(error));
         }
@@ -249,7 +251,8 @@ export default class UnAuthenticated extends Component {
   async accountAuthentication(username, password) {
     var user = { username: username, password: password };
     // axios post automatically transform user to JSON file
-    await axios.post("https://lovely-hot-springs-99494.herokuapp.com/api/users/authenticate", user)
+    await axios
+      .post(lovely_server + "/api/users/authenticate", user)
       .then(response => {
         localStorage.setItem("Token", JSON.stringify(response.data));
         this.props.getValue(true);
@@ -259,7 +262,7 @@ export default class UnAuthenticated extends Component {
       .catch(error => {
         return false;
       });
-  };
+  }
 
   loginBtn() {
     let username = this.refs.usernameLogin.value;
@@ -268,10 +271,9 @@ export default class UnAuthenticated extends Component {
     console.log(valid);
     if (valid === false) {
       this.setState({ loginAlert: "Invalid Username or Password" });
-      console.log('Fail')
-    }
-    else {
+      console.log("Fail");
+    } else {
       // this.loginToggle();
     }
-  };
+  }
 }

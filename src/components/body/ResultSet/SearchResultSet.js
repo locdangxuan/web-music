@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
-import { gorgeous_server }   from '../../../server.js';
+// import { gorgeous_server } from "../../../server.js";
+import { lovely_server } from "../../../server.js";
 
 export default class SearchResultSet extends Component {
   constructor(props) {
@@ -30,45 +31,42 @@ export default class SearchResultSet extends Component {
 
   async loadResult(keyword) {
     //Xoa cac ket qua hien co
-    console.log('1');
+    console.log("1");
     await this.setState({
       text: this.props.match.params.text,
       SongList: [],
       videoFound: true
-    })
-    console.log('2');
-    const storage = localStorage.getItem('SearchingHistory');
+    });
+    console.log("2");
+    const storage = localStorage.getItem("SearchingHistory");
     if (storage === null) {
       this.getSongList(keyword);
-      console.log('Case1');
-    }
-    else {
+      console.log("Case1");
+    } else {
       let result = this.check(keyword, JSON.parse(storage));
       if (result === null) {
         this.getSongList(keyword);
-      }
-      else {
+      } else {
         await this.setState({
           text: keyword,
           SongList: result.songList,
           videoFound: true
         });
         console.log(this.state);
-        console.log('Case3');
+        console.log("Case3");
       }
     }
   }
 
   storageUpdate(object) {
-    const storage = localStorage.getItem('SearchingHistory');
+    const storage = localStorage.getItem("SearchingHistory");
     let newArr = [];
     if (storage !== null) {
       newArr = JSON.parse(storage);
-      if (newArr.length >= 6)
-        newArr.shift();
+      if (newArr.length >= 6) newArr.shift();
     }
     newArr.push(object);
-    localStorage.setItem('SearchingHistory', JSON.stringify(newArr));
+    localStorage.setItem("SearchingHistory", JSON.stringify(newArr));
   }
 
   check(keyword, array) {
@@ -81,19 +79,19 @@ export default class SearchResultSet extends Component {
   }
 
   getSongList(value) {
-    axios.get(gorgeous_server + `/songs/search/${value}`)
+    axios
+      .get(lovely_server + `/songs/search/${value}`)
       .then(response => {
         if (response.data === "No Video Found") {
           this.setState({ videoFound: false });
-        }
-        else {
+        } else {
           this.setState({
             text: value,
             SongList: response.data.data,
             videoFound: true
           });
           this.storageUpdate({ keyword: value, songList: response.data.data });
-          console.log('Case2');
+          console.log("Case2");
         }
       })
       .catch(error => console.log(error));

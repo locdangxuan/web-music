@@ -19,7 +19,7 @@ export default class InfoSongSearch extends Component {
   render() {
     const { song_title, singer, id, imgsrc } = this.state;
     return (
-      <Row className="musicCard">
+      <Row className="music-card">
         <Col xs="3" className="picture">
           <img src={imgsrc} alt="#" className="img-fluid" />
         </Col>

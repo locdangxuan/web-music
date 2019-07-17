@@ -3,29 +3,44 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
 import axios from "axios";
 import { Button } from "reactstrap";
-
+import { gorgeous_server } from "../../../server";
+// import { lovely_server } from "../../../server";
 
 export default class UserModification extends Component {
   constructor(props) {
     super(props);
     const token = JSON.parse(localStorage.getItem("Token"));
     this.state = {
-      email: token.email,
-      firstName: token.firstName,
-      lastName: token.lastName,
-      username: token.username,
+      email: "",
+      firstName: "",
+      lastName: "",
+      username: "",
       password: "",
-      passwordValid: ""
+      passwordValid: "",
+      token: token
     };
   }
 
+  componentDidMount()
+  {
+    const token = localStorage.getItem('Token');
+    if(token !== null)
+    {
+      const currentUser = JSON.parse(token);
+      this.refs.userName.value = currentUser.username;
+      this.refs.firstname.value = currentUser.firstName;
+      this.refs.lastname.value = currentUser.lastName;
+      this.refs.email.value = currentUser.email;
+    }
+  }
+
   updateInfo = () => {
-    let username = this.refs.userNameRegister.value;
+    let username = this.refs.userName.value;
     let firstName = this.refs.firstname.value;
     let lastName = this.refs.lastname.value;
     let password = this.refs.password.value;
     let passwordValid = this.refs.passwordValid.value;
-    let email = this.refs.emailRegister.value;
+    let email = this.refs.email.value;
     if (
       username === "" ||
       firstName === "" ||
@@ -42,29 +57,34 @@ export default class UserModification extends Component {
         if (password !== passwordValid) {
           alert("passwords does not match each others");
         } else {
+          let updateUser = {
+            username: username,
+            password: password,
+            email: email,
+            firstName: firstName,
+            lastName: lastName
+          };
           axios({
             method: "PUT",
             headers: {
               Authorization:
                 "Bearer " + JSON.parse(localStorage.getItem("Token")).token
             },
-            url: "https://gorgeous-grand-teton-66654.herokuapp.com/api/users/:id",
+            url: gorgeous_server + "/api/users/:id",
             data: {
+              updateUser
             }
           })
             .then(response => {
               console.log(response.status);
-              if (response.status === 400)
-                alert(
-                  "Failed to update"
-                );
-              else if (response.status === 200) {
+              if (response.status === 200) {
                 alert("Successfully updated !!!");
-                this.getPlaylist();
               }
             })
             .catch(error => {
-              alert("Failed to update");
+              alert(
+                "Failed to update"
+              );
               console.log(error);
             });
         }
@@ -73,7 +93,6 @@ export default class UserModification extends Component {
   };
 
   render() {
-    const { email, username, password, firstName, lastName } = this.state;
     return (
       <div className="user-update">
         <Form className="user-modification">
@@ -83,8 +102,8 @@ export default class UserModification extends Component {
               className="effect-6"
               type="text"
               id="registerPart"
-              placeholder={email}
-              ref="emailRegister"
+              placeholder=""
+              ref="email"
             />
           </FormGroup>
           <FormGroup>
@@ -93,8 +112,8 @@ export default class UserModification extends Component {
               className="effect-6"
               type="text"
               id="registerPart"
-              placeholder={username}
-              ref="userNameRegister"
+              placeholder=""
+              ref="userName"
             />
           </FormGroup>
           <FormGroup>
@@ -105,7 +124,7 @@ export default class UserModification extends Component {
                   className="effect-6"
                   type="text"
                   id="registerPart"
-                  placeholder={firstName}
+                  placeholder=""
                   ref="firstname"
                 />
               </Col>
@@ -114,7 +133,7 @@ export default class UserModification extends Component {
                   className="effect-6"
                   type="text"
                   id="registerPart"
-                  placeholder={lastName}
+                  placeholder=""
                   ref="lastname"
                 />
               </Col>
@@ -126,7 +145,7 @@ export default class UserModification extends Component {
               className="effect-6"
               type="password"
               id="registerPart"
-              placeholder={password}
+              placeholder=""
               ref="password"
               onKeyUp={this.enterPressed}
             />
@@ -137,13 +156,12 @@ export default class UserModification extends Component {
               className="effect-6"
               type="password"
               id="registerPart"
-              placeholder={password}
+              placeholder=""
               ref="passwordValid"
               onKeyUp={this.enterPressed}
             />
           </FormGroup>
-          <Button style={{ float: "right" }} 
-            onClick={this.updateInfo}>
+          <Button style={{ float: "right" }} onClick={this.updateInfo}>
             update
           </Button>
         </Form>

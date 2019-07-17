@@ -4,8 +4,8 @@ import Icon from "../../Image/gastly.svg";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-import { gorgeous_server }   from '../../../server.js';
+import { lovely_server }   from '../../../server.js';
+// import { gorgeous_server }   from '../../../server.js';
 
 
 export default class Authenticated extends Component {
@@ -25,7 +25,7 @@ export default class Authenticated extends Component {
     this.props.getValue(false);
     axios({
       method: "POST",
-      url: gorgeous_server + "/songs/vote",
+      url: lovely_server + "/songs/register",
       data: {
         username: this.state.currentUser.username
       }
