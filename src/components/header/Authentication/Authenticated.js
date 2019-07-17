@@ -4,8 +4,8 @@ import Icon from "../../Image/gastly.svg";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
-// import { lovely_server }   from '../../../server.js';
 import { server }   from '../../../server.js';
+// import { gorgeous_server }   from '../../../server.js';
 
 
 export default class Authenticated extends Component {
@@ -25,7 +25,7 @@ export default class Authenticated extends Component {
     axios({
       method: 'POST',
       url: server + "/api/users/logout",
-      data: { username: this.state.username}
+      data: { username: this.state.currentUser.username}
     })
     .then(response => {
       console.log(response.status);

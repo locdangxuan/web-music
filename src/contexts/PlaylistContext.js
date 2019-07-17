@@ -14,7 +14,6 @@ export class PlaylistProvider extends Component {
     this.state = {
       playlist: [],
       currentSong: { id: "", duration: "" },
-      connection: null,
       playlistStart: false,
       returnToIndex: false
     };
@@ -32,14 +31,12 @@ export class PlaylistProvider extends Component {
   componentDidMount() {
     this.socket = io(server);
     this.socket.on('connect', (response) => {
-      this.setState({ connection: response });
-      console.log(response);
+
     });
     this.socket.on('play', (response) => {
       if (response !== null) {
         this.playlistStart(response);
       }
-      console.log(response);
     });
     this.socket.on('end', (response) => {
       if (response !== null) {
@@ -75,7 +72,7 @@ export class PlaylistProvider extends Component {
             JSON.parse(localStorage.getItem("Token")).token
           }`
         },
-        url: server + "/songs/vote",
+        url: server + "/api/songs/vote",
         data: {
           video_id: Id,
           isUpvote: isUpvote
@@ -223,15 +220,17 @@ export class PlaylistProvider extends Component {
       message: 'Please Come Back Tomorrow',
       buttons: [
         {
-          label: 'OK' 
+          label: 'OK',
         }
-      ]
+      ],
+      closeOnClickOutside: true,
+      closeOnEscape: true
+
     })
     this.setState({
       currentSong: {},
       playlistStart: false,
-      returnToIndex: true,
-      playlist: []
+      returnToIndex: true
     })
   }
 

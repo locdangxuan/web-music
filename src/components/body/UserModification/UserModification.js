@@ -9,24 +9,20 @@ import { server } from "../../../server";
 export default class UserModification extends Component {
   constructor(props) {
     super(props);
-    const token = JSON.parse(localStorage.getItem("Token"));
     this.state = {
       email: "",
       firstName: "",
       lastName: "",
       username: "",
       password: "",
-      passwordValid: "",
-      token: token
+      passwordValid: ""
     };
   }
 
-  componentDidMount()
-  {
-    const token = localStorage.getItem('Token');
-    if(token !== null)
-    {
-      const currentUser = JSON.parse(token);
+  componentDidMount() {
+    const storage = localStorage.getItem('Token');
+    if (storage !== null) {
+      const currentUser = JSON.parse(storage);
       this.refs.userName.value = currentUser.username;
       this.refs.firstname.value = currentUser.firstName;
       this.refs.lastname.value = currentUser.lastName;
@@ -35,63 +31,65 @@ export default class UserModification extends Component {
   }
 
   updateInfo = () => {
-    let username = this.refs.userName.value;
-    let firstName = this.refs.firstname.value;
-    let lastName = this.refs.lastname.value;
-    let password = this.refs.password.value;
-    let passwordValid = this.refs.passwordValid.value;
-    let email = this.refs.email.value;
-    if (
-      username === "" ||
-      firstName === "" ||
-      password === "" ||
-      passwordValid === "" ||
-      email === "" ||
-      lastName === ""
-    )
-      alert("Please fill all the information below");
-    else {
-      if (username.length < 8) {
-        alert("username does not match required length ( 8 letters or more )");
-      } else {
-        if (password !== passwordValid) {
-          alert("passwords does not match each others");
+    const storage = localStorage.getItem("Token");
+    if (storage !== null) {
+      let username = this.refs.userName.value;
+      let firstName = this.refs.firstname.value;
+      let lastName = this.refs.lastname.value;
+      let password = this.refs.password.value;
+      let passwordValid = this.refs.passwordValid.value;
+      let email = this.refs.email.value;
+      if (
+        username === "" ||
+        firstName === "" ||
+        password === "" ||
+        passwordValid === "" ||
+        email === "" ||
+        lastName === ""
+      )
+        alert("Please fill all the information below");
+      else {
+        if (username.length < 8) {
+          alert("username does not match required length ( 8 letters or more )");
         } else {
-          let updateUser = {
-            username: username,
-            password: password,
-            email: email,
-            firstName: firstName,
-            lastName: lastName
-          };
-          axios({
-            method: "PUT",
-            headers: {
-              Authorization:
-                "Bearer " + JSON.parse(localStorage.getItem("Token")).token
-            },
-            url: server + "/api/users/:id",
-            data: {
-              updateUser
-            }
-          })
-            .then(response => {
-              console.log(response.status);
-              if (response.status === 200) {
-                alert("Successfully updated !!!");
+          if (password !== passwordValid) {
+            alert("passwords does not match each others");
+          } else {
+            let updateUser = {
+              username: username,
+              password: password,
+              email: email,
+              firstName: firstName,
+              lastName: lastName
+            };
+            axios({
+              method: "PUT",
+              headers: {
+                Authorization:
+                  "Bearer " + JSON.parse(storage).token
+              },
+              url: server + "/api/users/:id",
+              data: {
+                updateUser
               }
             })
-            .catch(error => {
-              alert(
-                "Failed to update"
-              );
-              console.log(error);
-            });
+              .then(response => {
+                console.log(response.status);
+                if (response.status === 200) {
+                  alert("Successfully updated !!!");
+                }
+              })
+              .catch(error => {
+                alert(
+                  "Failed to update"
+                );
+                console.log(error);
+              });
+          }
         }
       }
     }
-  };
-
+  }
   render() {
     return (
       <div className="user-update">
