@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { confirmAlert } from "react-confirm-alert";
-import { server, lovely_server } from "../server";
+import { lovely_server, gorgeous_server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
@@ -30,15 +30,39 @@ export class PlaylistProvider extends Component {
     this.getPlaylist();
   }
   componentDidMount() {
-    this.socket = io(lovely_server);
-    this.socket.on("connect", response => {
+    this.socket = io(gorgeous_server);
+    this.socket.on('connect', (response) => {
       this.setState({ connection: response });
       console.log(response);
     });
-    this.socket.on("play", response => {
-      this.playlistStart(response);
+    this.socket.on('play', (response) => {
+      if (response !== null) {
+        this.playlistStart(response);
+      }
+      console.log(response);
     });
+    this.socket.on('end', (response) => {
+      if (response !== null) {
+        this.playlistEnd(response);
+      }
+    })
   }
+
+  componentDidUpdate() {
+    // this.socket = io(gorgeous_server);
+    // this.socket.on('connect', (response) => { 
+    //     this.setState({ connection: response });
+    //     console.log(response);
+    // });
+    // this.socket.on('play', (response) => { 
+    //     this.playlistStart(response);
+
+    // });
+    // this.socket.on('end', (response) => {
+    //     this.playlistEnd(response);
+    // })
+  }
+
   clickToVote(Id, isUpvote) {
     const token = localStorage.getItem("Token");
     if (token === null) {
@@ -51,7 +75,7 @@ export class PlaylistProvider extends Component {
             JSON.parse(localStorage.getItem("Token")).token
           }`
         },
-        url: server + "/songs/vote",
+        url: lovely_server + "/songs/vote",
         data: {
           video_id: Id,
           isUpvote: isUpvote
@@ -95,7 +119,7 @@ export class PlaylistProvider extends Component {
                   Authorization:
                     "Bearer " + JSON.parse(localStorage.getItem("Token")).token
                 },
-                url: server + "/songs/add",
+                url: lovely_server + "/songs/add",
                 data: {
                   id: videoId
                 }
@@ -131,7 +155,7 @@ export class PlaylistProvider extends Component {
         Authorization:
           "Bearer " + JSON.parse(localStorage.getItem("Token")).token
       },
-      url: server + "/songs/add",
+      url: lovely_server + "/songs/add",
       data: {
         id: videoId
       }
@@ -155,7 +179,7 @@ export class PlaylistProvider extends Component {
       playlist: []
     });
     axios
-      .get(server + `/songs/playlist`)
+      .get(lovely_server + `/songs/playlist`)
       .then(response => {
         this.setState({
           playlist: response.data
@@ -165,14 +189,17 @@ export class PlaylistProvider extends Component {
       .catch(error => console.log(error));
   }
 
-  getNewSong() {}
+  getNewSong() {
+
+  }
 
   async playlistStart(response) {
     console.log(response);
     let now = new Date();
     let result = {};
     for (let song of this.state.playlist) {
-      if (song.id === response.videoId) result = song;
+      if (song.id === response.videoId)
+        result = song;
     }
     let passingTime =
       (now.getHours() - response.startAt.hour) * 3600 +
@@ -192,16 +219,20 @@ export class PlaylistProvider extends Component {
 
   async playlistEnd(response) {
     confirmAlert({
-      title: "Playlist Ended !!!",
-      message: "Please come back tomorrow"
-    });
-
+      title: 'Playlist Ended !!!',
+      message: 'Please Come Back Tomorrow',
+      buttons: [
+        {
+          label: 'OK' 
+        }
+      ]
+    })
     this.setState({
       currentSong: {},
       playlistStart: false,
       returnToIndex: true,
       playlist: []
-    });
+    })
   }
 
   render() {
@@ -218,19 +249,15 @@ export class PlaylistProvider extends Component {
         >
           {this.props.children}
         </PlaylistContext.Provider>
-        {playlistStart && (
-          <Redirect
-            to={{
-              pathname: `/playing/${currentSong.id}`,
-              state: {
-                title: currentSong.title,
-                singer: currentSong.singer,
-                passingTime: currentSong.passingTime
-              }
-            }}
-          />
-        )}
-        {returnToIndex && <Redirect to={"/"} />}
+        {playlistStart &&
+          <Redirect to={{
+            pathname: `/playing/${currentSong.id}`,
+            state: { title: currentSong.title, singer: currentSong.singer, passingTime: currentSong.passingTime }
+          }}>
+          </Redirect>}
+        {returnToIndex &&
+          <Redirect to = {'/'}/>
+        }
       </div>
     );
   }
