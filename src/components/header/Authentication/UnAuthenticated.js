@@ -252,8 +252,8 @@ export default class UnAuthenticated extends Component {
     console.log(1);
     var user = { username: username, password: password };
     // axios post automatically transform user to JSON file
-    let result ;
-    
+    let result;
+
     await axios
       .post(server + "/api/users/authenticate", user)
       .then(response => {
@@ -264,24 +264,22 @@ export default class UnAuthenticated extends Component {
       .catch(error => {
         result = false;
       });
-      return result;
+    return result;
   }
 
   async loginBtn() {
-    try
-    {
-    let username = this.refs.usernameLogin.value;
-    let password = this.refs.passwordLogin.value;
-    let valid = await this.accountAuthentication(username, password);
-    console.log(valid);
-    if (valid === false) {
-      alert("Fail");
-    } else {
-      this.loginToggle();
+    try {
+      let username = this.refs.usernameLogin.value;
+      let password = this.refs.passwordLogin.value;
+      let valid = await this.accountAuthentication(username, password);
+      console.log(valid);
+      if (valid === false) {
+        alert("Fail");
+      } else {
+        this.loginToggle();
+      }
     }
-    }
-    catch(error)
-    {
+    catch (error) {
       console.log(error);
     }
   }

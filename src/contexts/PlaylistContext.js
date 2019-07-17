@@ -31,6 +31,7 @@ export class PlaylistProvider extends Component {
   componentDidMount() {
     this.socket = io(server);
     this.socket.on('connect', (response) => {
+
     });
     this.socket.on('play', (response) => {
       if (response !== null) {
