@@ -9,6 +9,7 @@ import SearchResultSet from "./components/body/ResultSet/SearchResultSet";
 import Playlist from "./components/body/Playlist/Playlist";
 import { PlaylistProvider } from "./contexts/PlaylistContext";
 import UserModification from "./components/body/UserModification/UserModification"
+import CountdownClock from './components/clock/CountdownClock';
 
 
 
@@ -39,6 +40,7 @@ class App extends Component {
                 </Row>
               </Container>
             </PlaylistProvider>
+            <CountdownClock/>
           </div>
         </div>
       </Router>

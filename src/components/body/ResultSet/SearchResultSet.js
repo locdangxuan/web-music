@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
 // import { gorgeous_server } from "../../../server.js";
-import { lovely_server } from "../../../server.js";
+import { server } from "../../../server.js";
 
 export default class SearchResultSet extends Component {
   constructor(props) {
@@ -80,7 +80,7 @@ export default class SearchResultSet extends Component {
 
   getSongList(value) {
     axios
-      .get(lovely_server + `/songs/search/${value}`)
+      .get(server + `/api/songs/search/${value}`)
       .then(response => {
         if (response.data === "No Video Found") {
           this.setState({ videoFound: false });

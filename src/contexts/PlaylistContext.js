@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { confirmAlert } from "react-confirm-alert";
-import { lovely_server, gorgeous_server } from "../server";
+import { server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
@@ -14,7 +14,6 @@ export class PlaylistProvider extends Component {
     this.state = {
       playlist: [],
       currentSong: { id: "", duration: "" },
-      connection: null,
       playlistStart: false,
       returnToIndex: false
     };
@@ -30,16 +29,13 @@ export class PlaylistProvider extends Component {
     this.getPlaylist();
   }
   componentDidMount() {
-    this.socket = io(gorgeous_server);
+    this.socket = io(server);
     this.socket.on('connect', (response) => {
-      this.setState({ connection: response });
-      console.log(response);
     });
     this.socket.on('play', (response) => {
       if (response !== null) {
         this.playlistStart(response);
       }
-      console.log(response);
     });
     this.socket.on('end', (response) => {
       if (response !== null) {
@@ -75,7 +71,7 @@ export class PlaylistProvider extends Component {
             JSON.parse(localStorage.getItem("Token")).token
           }`
         },
-        url: lovely_server + "/songs/vote",
+        url: server + "/api/songs/vote",
         data: {
           video_id: Id,
           isUpvote: isUpvote
@@ -119,7 +115,7 @@ export class PlaylistProvider extends Component {
                   Authorization:
                     "Bearer " + JSON.parse(localStorage.getItem("Token")).token
                 },
-                url: lovely_server + "/songs/add",
+                url: server + "/api/songs/add",
                 data: {
                   id: videoId
                 }
@@ -155,7 +151,7 @@ export class PlaylistProvider extends Component {
         Authorization:
           "Bearer " + JSON.parse(localStorage.getItem("Token")).token
       },
-      url: lovely_server + "/songs/add",
+      url: server + "/songs/add",
       data: {
         id: videoId
       }
@@ -179,7 +175,7 @@ export class PlaylistProvider extends Component {
       playlist: []
     });
     axios
-      .get(lovely_server + `/songs/playlist`)
+      .get(server + `/api/songs/playlist`)
       .then(response => {
         this.setState({
           playlist: response.data

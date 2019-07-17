@@ -11,14 +11,14 @@ export default class VideoSong extends Component {
     let startAt = 0;
     let autoplay = 0;
     let control = 1;
-    let iframeid = 'myId2';
+    let iframeid = 'normal';
     console.log(this.props.location.state);
     if(this.props.location.state.passingTime !== undefined)
     {
       startAt = this.props.location.state.passingTime;
       autoplay = 1;
       control = 0;
-      iframeid = 'myId';
+      iframeid = 'playlist-start';
     }  
     this.state = {
       id: this.props.match.params.id,
