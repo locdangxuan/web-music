@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
-import { server } from '../../../server';
+import { gorgeous_server }   from '../../../server.js';
 
 export default class SearchResultSet extends Component {
   constructor(props) {
@@ -81,7 +81,7 @@ export default class SearchResultSet extends Component {
   }
 
   getSongList(value) {
-    axios.get(server + `/songs/search/${value}`)
+    axios.get(gorgeous_server + `/songs/search/${value}`)
       .then(response => {
         if (response.data === "No Video Found") {
           this.setState({ videoFound: false });
