@@ -31,14 +31,23 @@ export default class SearchResultSet extends Component {
 
   async loadResult(keyword) {
     //Xoa cac ket qua hien co
+<<<<<<< HEAD
     console.log("1");
+=======
+>>>>>>> 34fcf29b0085d75e596f939f3b2c217a291918d5
     await this.setState({
       text: this.props.match.params.text,
       SongList: [],
       videoFound: true
+<<<<<<< HEAD
     });
     console.log("2");
     const storage = localStorage.getItem("SearchingHistory");
+=======
+    })
+    
+    const storage = localStorage.getItem('SearchingHistory');
+>>>>>>> 34fcf29b0085d75e596f939f3b2c217a291918d5
     if (storage === null) {
       this.getSongList(keyword);
       console.log("Case1");

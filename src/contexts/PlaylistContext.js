@@ -220,15 +220,17 @@ export class PlaylistProvider extends Component {
       message: 'Please Come Back Tomorrow',
       buttons: [
         {
-          label: 'OK' 
+          label: 'OK',
         }
-      ]
+      ],
+      closeOnClickOutside: true,
+      closeOnEscape: true
+
     })
     this.setState({
       currentSong: {},
       playlistStart: false,
-      returnToIndex: true,
-      playlist: []
+      returnToIndex: true
     })
   }
 
