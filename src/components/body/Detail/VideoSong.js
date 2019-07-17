@@ -4,14 +4,32 @@ import { Button } from "reactstrap";
 import Iframe from "react-iframe";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
 
+
 export default class VideoSong extends Component {
   constructor(props) {
     super(props);
+    let startAt = 0;
+    let autoplay = 0;
+    let control = 1;
+    let iframeid = 'myId2';
+    console.log(this.props.location.state);
+    if(this.props.location.state.passingTime !== undefined)
+    {
+      startAt = this.props.location.state.passingTime;
+      autoplay = 1;
+      control = 0;
+      iframeid = 'myId';
+    }  
     this.state = {
       id: this.props.match.params.id,
       singer: this.props.location.state.singer,
-      title: this.props.location.state.title
+      title: this.props.location.state.title,
+      startAt: startAt,
+      autoplay: autoplay,
+      control : control,
+      iframeId : iframeid
     };
+    this.socket = null;
   }
 
   componentDidUpdate = () => {
@@ -19,20 +37,23 @@ export default class VideoSong extends Component {
       this.setState({
         id: this.props.match.params.id,
         singer: this.props.location.state.singer,
-        title: this.props.location.state.title
+        title: this.props.location.state.title,
+        startAt: this.props.location.state.start
       });
     }
   };
 
+
   render() {
-    const { id, singer, title } = this.state;
+    const { id, singer, title, startAt,autoplay,control,iframeId } = this.state;
+    console.table(this.state);
     return (
       <div className="video-song">
         <div className="video text-center">
-          <Iframe
-            src={`https://www.youtube.com/embed/${id}`}
+          <iframe
+            src={`https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`}
             height="450px"
-            id="myId"
+            id={iframeId}
             className="embed-responsive embed-responsive-4by3"
             display="initial"
             position="relative"

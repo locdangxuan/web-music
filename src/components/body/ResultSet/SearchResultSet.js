@@ -30,11 +30,13 @@ export default class SearchResultSet extends Component {
 
   async loadResult(keyword) {
     //Xoa cac ket qua hien co
+    console.log('1');
     await this.setState({
       text: this.props.match.params.text,
       SongList: [],
       videoFound: true
     })
+    console.log('2');
     const storage = localStorage.getItem('SearchingHistory');
     if (storage === null) {
       this.getSongList(keyword);

@@ -12,11 +12,6 @@ class Header extends Component {
       searchText: ""
     };
   }
-  
-  changeBodyComponent = value => {
-    console.log(value);
-  };
-
   render() {
     return (
       <div className="header">
@@ -26,7 +21,7 @@ class Header extends Component {
               <Logo />
             </Col>
             <Col xs="6" className="col-search">
-              <Search searchTrigger={this.changeBodyComponent} />
+              <Search />
             </Col>
             <Col xs="3" className="col-authenitcation">
               <Authentication />

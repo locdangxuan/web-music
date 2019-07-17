@@ -10,8 +10,16 @@ import Playlist from "./components/body/Playlist/Playlist";
 import { PlaylistProvider } from "./contexts/PlaylistContext";
 import UserModification from "./components/body/UserModification/UserModification"
 
+
+
 class App extends Component {
-  render() {
+
+  constructor()
+  {
+    super();
+  }
+
+  render(){
     return (
       <Router>
         <div className="App">

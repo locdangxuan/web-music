@@ -42,13 +42,6 @@ export default class UserModification extends Component {
         if (password !== passwordValid) {
           alert("passwords does not match each others");
         } else {
-        //   let updateUser = {
-        //     username: username,
-        //     password: password,
-        //     email: email,
-        //     firstName: firstName,
-        //     lastName: lastName
-        //   };
           axios({
             method: "PUT",
             headers: {
