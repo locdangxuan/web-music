@@ -3,6 +3,7 @@ import "./VideoSong.css";
 import { Button } from "reactstrap";
 import Iframe from "react-iframe";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
+import { Redirect } from 'react-router-dom';
 
 
 export default class VideoSong extends Component {
@@ -12,24 +13,32 @@ export default class VideoSong extends Component {
     let autoplay = 0;
     let control = 1;
     let iframeid = 'normal';
-    console.log(this.props.location.state);
-    if(this.props.location.state.passingTime !== undefined)
-    {
-      startAt = this.props.location.state.passingTime;
-      autoplay = 1;
-      control = 0;
-      iframeid = 'playlist-start';
-    }  
     this.state = {
-      id: this.props.match.params.id,
-      singer: this.props.location.state.singer,
-      title: this.props.location.state.title,
+      id: '',
+      singer: '',
+      title: '',
       startAt: startAt,
       autoplay: autoplay,
-      control : control,
-      iframeId : iframeid
-    };
-    this.socket = null;
+      control: control,
+      iframeId: iframeid
+    }
+    if (this.props.location.state !== undefined) {
+      if (this.props.location.state.passingTime !== undefined) {
+        startAt = this.props.location.state.passingTime;
+        autoplay = 1;
+        control = 0;
+        iframeid = 'playlist-start';
+      }
+      this.state = {
+        id: this.props.match.params.id,
+        singer: this.props.location.state.singer,
+        title: this.props.location.state.title,
+        startAt: startAt,
+        autoplay: autoplay,
+        control: control,
+        iframeId: iframeid
+      };
+    }
   }
 
   componentDidUpdate = () => {
@@ -45,8 +54,7 @@ export default class VideoSong extends Component {
 
 
   render() {
-    const { id, singer, title, startAt,autoplay,control,iframeId } = this.state;
-    console.table(this.state);
+    const { id, singer, title, startAt, autoplay, control, iframeId } = this.state;
     return (
       <div className="video-song">
         <div className="video text-center">

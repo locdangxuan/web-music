@@ -4,6 +4,8 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
 import { server } from "../../../server";
+import { Alert } from "../../../confirmalert";
+
 
 export default class UnAuthenticated extends Component {
   constructor(props) {
@@ -11,8 +13,8 @@ export default class UnAuthenticated extends Component {
     this.state = {
       loginModal: false,
       registerModal: false,
-      registerAlert: "",
-      loginAlert: ""
+      registerAlert: '',
+      loginAlert: ''
     };
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
@@ -34,7 +36,7 @@ export default class UnAuthenticated extends Component {
             className={this.props.className}
           >
             <ModalHeader toggle={this.loginToggle}>Login</ModalHeader>
-            <span>{this.state.registerAlert}</span>
+            <span className = "warning">{this.state.registerAlert}</span>
             <ModalBody>
               <Form>
                 <FormGroup>
@@ -159,6 +161,7 @@ export default class UnAuthenticated extends Component {
                   />
                 </FormGroup>
               </Form>
+              <span className = "warning">{this.state.registerAlert}</span>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -182,14 +185,16 @@ export default class UnAuthenticated extends Component {
   registerToggle = () => {
     this.setState(prevState => ({
       registermodal: !prevState.registermodal,
-      loginModal: prevState.loginModal
+      loginModal: prevState.loginModal,
+      registerAlert: ''
     }));
   };
 
   loginToggle = () => {
     this.setState(prevState => ({
       loginModal: !prevState.loginModal,
-      registermodal: prevState.registermodal
+      registermodal: prevState.registermodal,
+      loginAlert: ''
     }));
   };
 
@@ -215,13 +220,13 @@ export default class UnAuthenticated extends Component {
       email === "" ||
       lastName === ""
     )
-      alert("Please fill all the information below");
+      this.setState({ registerAlert: 'Please fill all the information below' });
     else {
       if (username.length < 8) {
-        alert("username does not match required length ( 8 letters or more )");
+        this.setState({ registerAlert: "username does not match required length ( 8 letters or more )" });
       } else {
         if (password !== passwordValid) {
-          alert("passwords does not match each others");
+          this.setState({ registerAlert: "passwords does not match each others" });
         } else {
           this.Registertoggle();
           var newUser = {
@@ -274,8 +279,10 @@ export default class UnAuthenticated extends Component {
       let valid = await this.accountAuthentication(username, password);
       console.log(valid);
       if (valid === false) {
-        alert("Fail");
+        this.setState({ loginAlert: 'Wrong username or password' });
       } else {
+        let name = JSON.parse(localStorage.getItem('Token')).firstName + ' ' + JSON.parse(localStorage.getItem('Token')).lastName;
+        Alert('Message',`Welcome back ${name}`);
         this.loginToggle();
       }
     }

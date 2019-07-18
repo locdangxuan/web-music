@@ -5,7 +5,7 @@ import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { server }   from '../../../server.js';
-// import { gorgeous_server }   from '../../../server.js';
+import { Alert }   from '../../../confirmalert';
 
 
 export default class Authenticated extends Component {
@@ -24,21 +24,21 @@ export default class Authenticated extends Component {
     this.props.getValue(false);
     axios({
       method: 'POST',
-      url: server + "/api/users/logout",
+      url: server + '/api/users/logout',
       headers: {
         Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
+          'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
       },
       data: { username: this.state.currentUser.username}
     })
     .then(response => {
       console.log(response.status);
       if (response.status === 200) {
-        alert("Logged out Succesfully!!!");
+        Alert('Message','Logged out Succesfully!!!');
       }
     })
     .catch(error => {
-      alert(
+      Alert('Warning',
         error
       );
     });

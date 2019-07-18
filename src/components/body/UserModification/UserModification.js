@@ -4,7 +4,6 @@ import "./UserModification.css";
 import axios from "axios";
 import { Button } from "reactstrap";
 import { server } from "../../../server";
-// import { lovely_server } from "../../../server";
 
 export default class UserModification extends Component {
   constructor(props) {
@@ -15,7 +14,8 @@ export default class UserModification extends Component {
       lastName: "",
       username: "",
       password: "",
-      passwordValid: ""
+      passwordValid: "",
+      warning: ''
     };
   }
 
@@ -47,13 +47,13 @@ export default class UserModification extends Component {
         email === "" ||
         lastName === ""
       )
-        alert("Please fill all the information below");
+        this.setState({ warning: 'Please fill all the information below'});
       else {
         if (username.length < 8) {
-          alert("username does not match required length ( 8 letters or more )");
+          this.setState({ warning: "username does not match required length ( 8 letters or more )"});
         } else {
           if (password !== passwordValid) {
-            alert("passwords does not match each others");
+            this.setState({ warning: "passwords does not match each others"});
           } else {
             let updateUser = {
               username: username,
@@ -68,7 +68,7 @@ export default class UserModification extends Component {
                 Authorization:
                   "Bearer " + JSON.parse(storage).token
               },
-              url: server + "/api/users/:id",
+              url: server + `/api/users/${JSON.parse(storage).id}`,
               data: {
                 updateUser
               }
@@ -159,8 +159,9 @@ export default class UserModification extends Component {
               onKeyUp={this.enterPressed}
             />
           </FormGroup>
-          <Button style={{ float: "right" }} onClick={this.updateInfo}>
-            update
+          <div className = "warning">{this.state.warning}</div>
+          <Button outline color = 'danger' style={{ float: "right" }} onClick={this.updateInfo}>
+            Update
           </Button>
         </Form>
       </div>

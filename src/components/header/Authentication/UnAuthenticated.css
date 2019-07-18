@@ -80,3 +80,7 @@ input[type="text"] {
 .btn-secondary:focus {
   box-shadow: white;
 }
+
+.warning{
+  color: red;
+}

@@ -4,17 +4,16 @@ import './CountdownClock.css';
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
-      // Render a complete state
-      return <Completionist />;
+        return <Completionist />;
     } else {
-      // Render a countdown
-      return (
-        <span>
-          {hours}:{minutes}:{seconds}
-        </span>
-      );
+        // Render a countdown
+        return (
+            <span>
+                {hours}:{minutes}:{seconds}
+            </span>
+        );
     }
-  };
+};
 
 const Completionist = () => <span>Playlist is on !!! Drop the beat</span>;
 
@@ -68,17 +67,19 @@ export default class CountdownClock extends Component {
             default:
                 break;
         }
-        let time = month +` ${day} ${year} 17:30:00`;
+        let time = month + ` ${day} ${year} 17:30:00`;
         console.log(time);
         this.setState({
             countdown: time
         })
     }
-    render()
-    {
-        return(
-            <div className = "countdown-clock">
-            <Countdown date={this.state.countdown} renderer={renderer} />
+    render() {
+        return (
+            <div className="countdown-clock">
+                <div>
+                    <span>Playlist start in</span>
+                </div>
+                <Countdown date={this.state.countdown} renderer={renderer} />
             </div>
         )
     }
