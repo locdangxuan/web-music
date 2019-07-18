@@ -15,7 +15,8 @@ export default class UserModification extends Component {
       lastName: "",
       username: "",
       password: "",
-      passwordValid: ""
+      passwordValid: "",
+      warning: ''
     };
   }
 

@@ -16,10 +16,10 @@ export default class Playlist extends Component {
     return (
       <div className="main-playlist">
         <div className="playlist-header">
-          <img src = {playlistHeader} alt = "header" />
+          <img src={playlistHeader} alt="header" />
         </div>
         <PlaylistContext.Consumer>
-          {({ playlist }) =>
+          {({ playlist }) => 
             playlist.map((value, index) => {
               return (
                 <PlaylistCard
