@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
-import axios from "axios";
+// import axios from "axios";
 import { Button } from "reactstrap";
-import { server } from "../../../server";
-// import { lovely_server } from "../../../server";
+// import { server } from "../../../server";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default class UserModification extends Component {
   constructor(props) {
@@ -19,77 +19,97 @@ export default class UserModification extends Component {
     };
   }
 
+  // componentWillMount(){
+  //   this.setState = {
+  //     email: this.refs.email.value,
+  //     firstName: this.refs.firstName.value,
+  //     lastName: this.refs.lastName.value,
+  //     username: this.refs.username.value,
+  //     password: this.refs.password.value,
+  //     passwordValid: this.refs.passwordValid.value   
+  //   }
+  // }
+
   componentDidMount() {
-    const storage = localStorage.getItem('Token');
+    const storage = localStorage.getItem("Token");
     if (storage !== null) {
       const currentUser = JSON.parse(storage);
-      this.refs.userName.value = currentUser.username;
-      this.refs.firstname.value = currentUser.firstName;
-      this.refs.lastname.value = currentUser.lastName;
+      this.refs.username.value = currentUser.username;
+      this.refs.firstName.value = currentUser.firstName;
+      this.refs.lastName.value = currentUser.lastName;
       this.refs.email.value = currentUser.email;
     }
   }
 
-  updateInfo = () => {
-    const storage = localStorage.getItem("Token");
-    if (storage !== null) {
-      let username = this.refs.userName.value;
-      let firstName = this.refs.firstname.value;
-      let lastName = this.refs.lastname.value;
-      let password = this.refs.password.value;
-      let passwordValid = this.refs.passwordValid.value;
-      let email = this.refs.email.value;
-      if (
-        username === "" ||
-        firstName === "" ||
-        password === "" ||
-        passwordValid === "" ||
-        email === "" ||
-        lastName === ""
-      )
-        alert("Please fill all the information below");
-      else {
-        if (username.length < 8) {
-          alert("username does not match required length ( 8 letters or more )");
-        } else {
-          if (password !== passwordValid) {
-            alert("passwords does not match each others");
-          } else {
-            let updateUser = {
-              username: username,
-              password: password,
-              email: email,
-              firstName: firstName,
-              lastName: lastName
-            };
-            axios({
-              method: "PUT",
-              headers: {
-                Authorization:
-                  "Bearer " + JSON.parse(storage).token
-              },
-              url: server + "/api/users/:id",
-              data: {
-                updateUser
-              }
-            })
-              .then(response => {
-                console.log(response.status);
-                if (response.status === 200) {
-                  alert("Successfully updated !!!");
-                }
-              })
-              .catch(error => {
-                alert(
-                  "Failed to update"
-                );
-                console.log(error);
-              });
-          }
-        }
-      }
-    }
-  }
+  // updateInfo = () => {
+  //   let storage = localStorage.getItem("Token");
+  //   console.log(storage);
+  //   if (storage !== null) {
+  //     let username = this.refs.username.value;
+  //     let firstName = this.refs.firstName.value;
+  //     let lastName = this.refs.lastName.value;
+  //     let password = this.refs.password.value;
+  //     let passwordValid = this.refs.passwordValid.value;
+  //     let email = this.refs.email.value;
+  //     let userData = JSON.parse(storage);
+  //     if (
+  //       username === "" ||
+  //       firstName === "" ||
+  //       password === "" ||
+  //       passwordValid === "" ||
+  //       email === "" ||
+  //       lastName === ""
+  //     )
+  //       alert("Please fill all the information below");
+  //     else {
+  //       if (username.length < 8) {
+  //         alert("username does not match required length ( 8 letters or more )");
+  //       } else {
+  //         if (password !== passwordValid) {
+  //           alert("passwords does not match each others");
+  //         } else {
+  //           let updateUser = {
+  //             username: username,
+  //             password: password,
+  //             email: email,
+  //             firstName: firstName,
+  //             lastName: lastName
+  //           };
+  //           axios({
+  //             method: "PUT",
+  //             headers: {
+  //               Authorization:
+  //                 "Bearer " + userData.token
+  //             },
+  //             url: server + `/api/users/${userData._id}`,
+  //             data: {
+  //               updateUser
+  //             }
+  //           })
+  //             .then(response => {
+  //               console.log(response.status);
+  //               if (response.status === 200) {
+  //                 alert(response.data);
+  //                 userData.username = username;
+  //                 userData.email = email;
+  //                 userData.firstName = firstName;
+  //                 userData.lastName = lastName;
+  //                 storage = JSON.stringify(userData);
+  //                 console.log(storage);
+  //                 localStorage.setItem("Token", storage);
+  //               }
+  //             })
+  //             .catch(error => {
+  //               alert(
+  //                 "Failed to update"
+  //               );
+  //               console.log(error);
+  //             });
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   render() {
     return (
       <div className="user-update">
@@ -105,13 +125,13 @@ export default class UserModification extends Component {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="userName">Username</Label>
+            <Label for="username">Username</Label>
             <input
               className="effect-6"
               type="text"
               id="registerPart"
               placeholder=""
-              ref="userName"
+              ref="username"
             />
           </FormGroup>
           <FormGroup>
@@ -123,7 +143,7 @@ export default class UserModification extends Component {
                   type="text"
                   id="registerPart"
                   placeholder=""
-                  ref="firstname"
+                  ref="firstName"
                 />
               </Col>
               <Col xs="6">
@@ -132,13 +152,13 @@ export default class UserModification extends Component {
                   type="text"
                   id="registerPart"
                   placeholder=""
-                  ref="lastname"
+                  ref="lastName"
                 />
               </Col>
             </Row>
           </FormGroup>
           <FormGroup>
-            <Label for="passWord">Password</Label>
+            <Label for="password">Password</Label>
             <input
               className="effect-6"
               type="password"
@@ -146,10 +166,11 @@ export default class UserModification extends Component {
               placeholder=""
               ref="password"
               onKeyUp={this.enterPressed}
+              onChange=""
             />
           </FormGroup>
           <FormGroup>
-            <Label for="passWordAuth">Confirm Password</Label>
+            <Label for="passwordAuth">Confirm Password</Label>
             <input
               className="effect-6"
               type="password"
@@ -159,9 +180,21 @@ export default class UserModification extends Component {
               onKeyUp={this.enterPressed}
             />
           </FormGroup>
-          <Button style={{ float: "right" }} onClick={this.updateInfo}>
-            update
-          </Button>
+          {/* <UserContext.Consumer>
+            {({ clickToUpdate }) => (
+              <Button
+              style={{ float: "right" }}
+              onClick={() => clickToUpdate(updateUser)}
+            >
+              update
+            </Button>
+            )}
+          </UserContext.Consumer> */}
+          <Button
+              style={{ float: "right" }}
+            >
+              update
+            </Button>
         </Form>
       </div>
     );
