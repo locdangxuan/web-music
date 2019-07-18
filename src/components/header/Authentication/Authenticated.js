@@ -25,6 +25,10 @@ export default class Authenticated extends Component {
     axios({
       method: 'POST',
       url: server + "/api/users/logout",
+      headers: {
+        Authorization:
+          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
+      },
       data: { username: this.state.currentUser.username}
     })
     .then(response => {
@@ -35,9 +39,8 @@ export default class Authenticated extends Component {
     })
     .catch(error => {
       alert(
-        "Failed to log out"
+        error
       );
-      console.log(error);
     });
     localStorage.removeItem("Token");
   }
