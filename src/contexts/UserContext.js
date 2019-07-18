@@ -8,57 +8,92 @@ export class UserProvider extends Component {
   constructor() {
     super();
     this.state = {
-      user: {
-        username: "",
-        password: "",
-        passwordValid: "",
-        firstName: "",
-        lastName: "",
-        email: ""
-      }
+      email: "",
+      firstName: "",
+      lastName: "",
+      username: "",
+      password: "",
+      passwordValid: "",
+      warning: ""
     };
   }
 
-  clickToUpdate = updateUser => {
-    let storage = localStorage.getItem("Token");
-    console.log(storage);
+  updateUsername = newUsername => {
+    this.setState({ username: newUsername });
+    console.log(this.state.username);
+  };
+
+  updateFirstName = newFirstName => {
+    this.setState({firstName: newFirstName});
+    console.log(this.state.firstName);
+  }
+
+  updateLastName = newLastName => {
+    this.setState({lastName: newLastName});
+    console.log(this.state.lastName);
+  }
+
+  updateEmail = newEmail => {
+    this.setState({email: newEmail})
+    console.log(this.state.email);
+  }
+
+  updatePassword = newPassword => {
+    this.setState({password: newPassword});
+  }
+
+  updatePasswordValid = newPasswordValid => {
+    this.setState({passwordValid: newPasswordValid})
+  }
+
+  updateClick = () => {
+    const storage = localStorage.getItem("Token");
     if (storage !== null) {
-      let userData = JSON.parse(storage);
+      let username = this.refs.username.value;
+      let firstName = this.refs.firstName.value;
+      let lastName = this.refs.lastName.value;
+      let password = this.refs.password.value;
+      let passwordValid = this.refs.passwordValid.value;
+      let email = this.refs.email.value;
       if (
-        updateUser.username === "" ||
-        updateUser.firstName === "" ||
-        updateUser.password === "" ||
-        updateUser.passwordValid === "" ||
-        updateUser.email === "" ||
-        updateUser.lastName === ""
+        username === "" ||
+        firstName === "" ||
+        password === "" ||
+        passwordValid === "" ||
+        email === "" ||
+        lastName === ""
       )
-        alert("Please fill all the information below");
+        this.setState({ warning: "Please fill all the information below" });
       else {
-        if (updateUser.username.length < 8) {
-          alert(
-            "username does not match required length ( 8 letters or more )"
-          );
+        if (username.length < 8) {
+          this.setState({
+            warning:
+              "username does not match required length ( 8 letters or more )"
+          });
         } else {
-          if (updateUser.password !== updateUser.passwordValid) {
-            alert("passwords does not match each others");
+          if (password !== passwordValid) {
+            this.setState({ warning: "passwords does not match each others" });
           } else {
+            let updateUser = {
+              username: username,
+              password: password,
+              email: email,
+              firstName: firstName,
+              lastName: lastName
+            };
             axios({
               method: "PUT",
               headers: {
-                Authorization: "Bearer " + userData.token
+                Authorization: "Bearer " + JSON.parse(storage).token
               },
-              url: server + `/api/users/${userData._id}`,
+              url: server + `/api/users/${JSON.parse(storage)._id}`,
               data: {
                 updateUser
               }
             })
               .then(response => {
-                console.log(response.status);
                 if (response.status === 200) {
-                  alert(response.data);
-                  storage = JSON.stringify(userData);
-                  console.log(storage);
-                  localStorage.setItem("Token", storage);
+                  alert("Successfully updated !!!");
                 }
               })
               .catch(error => {
@@ -70,19 +105,27 @@ export class UserProvider extends Component {
       }
     }
   };
-
   render() {
     return (
-      <div>
         <UserContext.Provider
           value={{
-            user: this.state.user,
-            clickToUpdate: this.clickToUpdate
+            username: this.state.username,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            passwordValid: this.state.passwordValid,
+            email: this.state.email,
+            updateClick: this.updateClick,
+            updateUsername: this.updateUsername,
+            updateFirstName: this.updateFirstName,
+            updateLastName: this.updateLastName,
+            updateEmail: this.updateEmail,
+            updatePassword: this.updatePassword,
+            updatePasswordValid: this.updatePasswordValid
           }}
         >
           {this.props.children}
         </UserContext.Provider>
-      </div>
     );
   }
 }

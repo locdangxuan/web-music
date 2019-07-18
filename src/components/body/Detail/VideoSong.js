@@ -3,7 +3,6 @@ import "./VideoSong.css";
 import { Button } from "reactstrap";
 import Iframe from "react-iframe";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
-import { Redirect } from 'react-router-dom';
 
 
 export default class VideoSong extends Component {
