@@ -10,9 +10,14 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
     } else {
         // Render a countdown
         return (
-            <span>
-                {hours}:{minutes}:{seconds}
-            </span>
+            <div>
+                <div>
+                    <span>Playlist start in</span>
+                </div>
+                <span>
+                    {hours}:{minutes}:{seconds}
+                </span>
+            </div>
         );
     }
 };
@@ -22,7 +27,7 @@ const Completionist = () => <span>Playlist is on !!! Drop the beat</span>;
 export default class CountdownClock extends Component {
     constructor() {
         super();
-        this.state = { countdown: '',start: false }
+        this.state = { countdown: '', start: false }
         this.startCounting = this.startCounting.bind(this);
     }
     componentWillMount() {
@@ -70,35 +75,28 @@ export default class CountdownClock extends Component {
             default:
                 break;
         }
-        let time = month + ` ${day} ${year} 17:30:00`;
+        let time = month + ` ${day} ${year} 10:33:00`;
         console.log(time);
         this.setState({
             countdown: time
         })
     }
-    componentDidMount()
-    {
+    componentDidMount() {
         let countdownScheduled = new schedule.RecurrenceRule();
-        countdownScheduled.hour = 17;
-        countdownScheduled.minute = 15;
+        countdownScheduled.hour = 10;
+        countdownScheduled.minute = 32;
         schedule.scheduleJob(countdownScheduled, this.startCounting);
     }
-    startCounting()
-    {
+    startCounting() {
         this.setState({
-            start : true
+            start: true
         })
     }
     render() {
         return (
             <div className="countdown-clock">
                 {this.state.start &&
-                    <div>
-                        <div>
-                            <span>Playlist start in</span>
-                        </div>
-                        <Countdown date={this.state.countdown} renderer={renderer} />
-                    </div>
+                    <Countdown date={this.state.countdown} renderer={renderer} />
                 }
             </div>
         )
