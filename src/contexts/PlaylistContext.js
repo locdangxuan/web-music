@@ -34,12 +34,12 @@ export class PlaylistProvider extends Component {
   componentDidMount() {
     this.getPlaylist();
     let blockScheduled = new schedule.RecurrenceRule();
-    blockScheduled.hour = 15;
+    blockScheduled.hour = 17;
     blockScheduled.minute = 30;
     schedule.scheduleJob(blockScheduled, this.serviceActivate);
     let unlockScheduled = new schedule.RecurrenceRule();
-    unlockScheduled.hour = 15;
-    unlockScheduled.minute = 35;
+    unlockScheduled.hour = 5;
+    unlockScheduled.minute = 30;
     schedule.scheduleJob(unlockScheduled, this.serviceActivate);
   }
 
@@ -110,22 +110,28 @@ export class PlaylistProvider extends Component {
 
   clickToAdd(videoId) {
     if (this.state.serviceAvailable) {
-      confirmAlert({
-        title: "Confirm To Add!!!",
-        message: "You can only add one song a day",
-        buttons: [
-          {
-            label: "Add",
-            onClick: () => this.addToPlaylist(videoId)
-          },
-          {
-            label: "Cancel",
-            onClick: function () {
-              Alert('Warning', 'Song was not added');
+      const storage = localStorage.getItem("Token");
+      if (storage === null) {
+        Alert('Warning', 'Please login to add this song to the playlist');
+      }
+      else {
+        confirmAlert({
+          title: "Confirm To Add!!!",
+          message: "You can only add one song a day",
+          buttons: [
+            {
+              label: "Add",
+              onClick: () => this.addToPlaylist(videoId)
+            },
+            {
+              label: "Cancel",
+              onClick: function () {
+                Alert('Warning', 'Song was not added');
+              }
             }
-          }
-        ]
-      });
+          ]
+        });
+      }
     }
     else {
       Alert('Warning', 'Time for the playlist to play. \n You can not add this now.')
@@ -134,29 +140,24 @@ export class PlaylistProvider extends Component {
 
   addToPlaylist(videoId) {
     const storage = localStorage.getItem("Token");
-    if (storage === null) {
-      Alert('Warning', 'Please login to add this song to the playlist');
-    } else {
-      axios({
-        method: 'POST',
-        headers: {
-          Authorization:
-            'Bearer ' + JSON.parse(storage).token
-        },
-        url: server + '/api/songs/add',
-        data: {
-          id: videoId
-        }
+    axios({
+      method: 'POST',
+      headers: {
+        Authorization:
+          'Bearer ' + JSON.parse(storage).token
+      },
+      url: server + '/api/songs/add',
+      data: {
+        id: videoId
+      }
+    })
+      .then(response => {
+        Alert('Message', 'Successfully added');
+        this.getPlaylist();
       })
-        .then(response => {
-          Alert('Message', 'Successfully added');
-          this.getPlaylist();
-        })
-        .catch(error => {
-          Alert('Warning', 'This account has already added a song, try again tomorrow!!');
-        });
-    }
-
+      .catch(error => {
+        Alert('Warning', 'This account has already added a song, try again tomorrow!!');
+      });
   }
 
   getPlaylist() {

@@ -75,7 +75,7 @@ export default class CountdownClock extends Component {
             default:
                 break;
         }
-        let time = month + ` ${day} ${year} 10:33:00`;
+        let time = month + ` ${day} ${year} 17:30:00`;
         console.log(time);
         this.setState({
             countdown: time
@@ -83,8 +83,8 @@ export default class CountdownClock extends Component {
     }
     componentDidMount() {
         let countdownScheduled = new schedule.RecurrenceRule();
-        countdownScheduled.hour = 10;
-        countdownScheduled.minute = 32;
+        countdownScheduled.hour = 17;
+        countdownScheduled.minute = 15;
         schedule.scheduleJob(countdownScheduled, this.startCounting);
     }
     startCounting() {
