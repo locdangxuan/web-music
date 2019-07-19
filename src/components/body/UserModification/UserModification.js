@@ -68,7 +68,7 @@ export default class UserModification extends Component {
                 Authorization:
                   "Bearer " + JSON.parse(storage).token
               },
-              url: server + `/api/users/${JSON.parse(storage).id}`,
+              url: server + `/api/users/${JSON.parse(storage)._id}`,
               data: {
                 updateUser
               }
