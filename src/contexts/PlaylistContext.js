@@ -44,6 +44,11 @@ export class PlaylistProvider extends Component {
       if (response !== null) {
         this.playlistEnd(response);
       }
+    });
+    this.socket.on('playlist', (response) => {
+      if (response !== null) {
+        this.getPlaylist();
+      }
     })
   }
 
@@ -59,7 +64,7 @@ export class PlaylistProvider extends Component {
             JSON.parse(localStorage.getItem("Token")).token
             }`
         },
-        url: server + "/api/songs/vote",
+        url: server + '/api/songs/vote',
         data: {
           video_id: Id,
           isUpvote: isUpvote
@@ -87,14 +92,7 @@ export class PlaylistProvider extends Component {
       buttons: [
         {
           label: "Add",
-          onClick: function () {
-            const token = localStorage.getItem("Token");
-            if (token === null) {
-              Alert('Warning', 'Please login to add this song to the playlist');
-            } else {
-              this.addToPlaylist(videoId);
-            }
-          }
+          onClick: () => this.addToPlaylist(videoId)
         },
         {
           label: "Cancel",
@@ -107,30 +105,30 @@ export class PlaylistProvider extends Component {
   }
 
   addToPlaylist(videoId) {
-    axios({
-      method: "POST",
-      headers: {
-        Authorization:
-          'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
-      },
-      url: server + '/api/songs/add',
-      data: {
-        id: videoId
-      }
-    })
-      .then(response => {
-        if (response.status === 200) {
-          Alert('Message', 'Successfully added');
-          this.getPlaylist();
-        }
-
-        else {
-          Alert('Warning', 'This account has already added a song, try again tomorrow!!');
+    const storage = localStorage.getItem("Token");
+    if (storage === null) {
+      Alert('Warning', 'Please login to add this song to the playlist');
+    } else {
+      axios({
+        method: 'POST',
+        headers: {
+          Authorization:
+            'Bearer ' + JSON.parse(storage).token
+        },
+        url: server + '/api/songs/add',
+        data: {
+          id: videoId
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(response => {
+          Alert('Message', 'Successfully added');
+          this.getPlaylist();
+        })
+        .catch(error => {
+          Alert('Warning', 'This account has already added a song, try again tomorrow!!');
+        });
+    }
+
   }
 
   getPlaylist() {
@@ -195,7 +193,7 @@ export class PlaylistProvider extends Component {
       //   this.state.playlist[2]
       // ]
     });
-    localStorage.removeItem('SearchingHistory');  
+    localStorage.removeItem('SearchingHistory');
   }
 
   render() {

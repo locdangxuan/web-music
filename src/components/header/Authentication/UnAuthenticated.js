@@ -223,10 +223,10 @@ export default class UnAuthenticated extends Component {
       this.setState({ registerAlert: 'Please fill all the information below' });
     else {
       if (username.length < 8) {
-        this.setState({ registerAlert: "username does not match required length ( 8 letters or more )" });
+        this.setState({ registerAlert: "Username does not match required length ( 8 letters or more )" });
       } else {
         if (password !== passwordValid) {
-          this.setState({ registerAlert: "passwords does not match each others" });
+          this.setState({ registerAlert: "Validation password does not match" });
         } else {
           this.Registertoggle();
           var newUser = {
