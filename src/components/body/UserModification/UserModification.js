@@ -9,6 +9,7 @@ export default class UserModification extends Component {
     super(props);
     const storage = localStorage.getItem("Token");
     const currentUser = JSON.parse(storage);
+    let textInput = React.createRef();
     this.state = {
       email: currentUser.email,
       firstName: currentUser.firstName,
@@ -16,6 +17,7 @@ export default class UserModification extends Component {
       username: currentUser.username,
       password: "",
       passwordValid: "",
+      textInput: textInput,
     };
   }
 
@@ -30,22 +32,6 @@ export default class UserModification extends Component {
   //   }
   // }
 
-  // renderInfo = () => {
-  //   let username = this.refs.username.value;
-  //   let firstName = this.refs.firstName.value;
-  //   let lastName = this.refs.lastName.value;
-  //   let email = this.refs.email.value;
-  //   let password = this.refs.password.value;
-  //   let updateUser = {
-  //     username: username,
-  //     password: password,
-  //     email: email,
-  //     firstName: firstName,
-  //     lastName: lastName
-  //   };
-  //   console.log(updateUser);
-  // };
-
   render() {
     return (
       <UserContext.Consumer>
@@ -57,7 +43,8 @@ export default class UserModification extends Component {
           updatePasswordValid,
           updateEmail,
           updateClick,
-          warning
+          warning,
+          textInput
         }) => (
           <div className="user-update">
             <Form className="user-modification">
@@ -67,7 +54,8 @@ export default class UserModification extends Component {
                   className="effect-6"
                   type="text"
                   placeholder={this.state.email}
-                  //  ref="email"
+                  // ref="email"
+                  ref={textInput}
                   onChange={event => {
                     updateEmail(event.target.value);
                   }}
@@ -79,7 +67,8 @@ export default class UserModification extends Component {
                   className="effect-6"
                   type="text"
                   placeholder={this.state.username}
-                  //  ref="username"
+                  // ref="username"
+                  ref={textInput}
                   onChange={event => {
                     updateUsername(event.target.value);
                   }}
@@ -92,7 +81,8 @@ export default class UserModification extends Component {
                     <input
                       className="effect-6"
                       type="text"
-                      //  ref="firstName"
+                      // ref="firstName"
+                      ref={textInput}
                       placeholder={this.state.firstName}
                       onChange={event => {
                         updateFirstName(event.target.value);
@@ -103,7 +93,8 @@ export default class UserModification extends Component {
                     <input
                       className="effect-6"
                       type="text"
-                      //  ref="lastName"
+                      // ref="lastName"
+                      ref={textInput}
                       placeholder={this.state.lastName}
                       onChange={event => {
                         updateLastName(event.target.value);
@@ -117,7 +108,8 @@ export default class UserModification extends Component {
                 <input
                   className="effect-6"
                   type="password"
-                  //  ref="password"
+                  // ref="password"
+                  ref={textInput}
                   onChange={event => {
                     updatePassword(event.target.value);
                   }}
@@ -128,7 +120,8 @@ export default class UserModification extends Component {
                 <input
                   className="effect-6"
                   type="password"
-                  //  ref="passwordValid"
+                  // ref="passwordValid"
+                  ref={textInput}
                   onChange={event => {
                     updatePasswordValid(event.target.value);
                   }}
@@ -147,46 +140,6 @@ export default class UserModification extends Component {
           </div>
         )}
       </UserContext.Consumer>
-
-      // <div className="user-update">
-      //   <Form className="user-modification">
-      //     <FormGroup>
-      //       <Label for="Email">Email</Label>
-      //       <input className="effect-6" type="text" ref="email" />
-      //     </FormGroup>
-      //     <FormGroup>
-      //       <Label for="username">Username</Label>
-      //       <input className="effect-6" type="text" ref="username" />
-      //     </FormGroup>
-      //     <FormGroup>
-      //       <Label for="fullName">Fullname</Label>
-      //       <Row>
-      //         <Col xs="6">
-      //           <input className="effect-6" type="text" ref="firstName" />
-      //         </Col>
-      //         <Col xs="6">
-      //           <input className="effect-6" type="text" ref="lastName" />
-      //         </Col>
-      //       </Row>
-      //     </FormGroup>
-      //     <FormGroup>
-      //       <Label for="password">Password</Label>
-      //       <input className="effect-6" type="password" ref="password" />
-      //     </FormGroup>
-      //     <FormGroup>
-      //       <Label for="passwordAuth">Confirm Password</Label>
-      //       <input className="effect-6" type="password" ref="passwordValid" />
-      //     </FormGroup>
-      //     <div className="warning">{this.state.warning}</div>
-      //     <Button
-      //       outline
-      //       color="danger"
-      //       style={{ float: "right" }}
-      //     >
-      //       Update
-      //     </Button>
-      //   </Form>
-      // </div>
     );
   }
 }
