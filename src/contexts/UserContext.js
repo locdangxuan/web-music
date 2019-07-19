@@ -7,6 +7,7 @@ export const UserContext = React.createContext();
 export class UserProvider extends Component {
   constructor() {
     super();
+    let storage = localStorage.getItem("Token");
     this.state = {
       email: "",
       firstName: "",
@@ -14,28 +15,26 @@ export class UserProvider extends Component {
       username: "",
       password: "",
       passwordValid: "",
-      warning: ""
+      warning: "",
+      storage: storage,
     };
+    
   }
 
   updateUsername = newUsername => {
     this.setState({ username: newUsername });
-    console.log(this.state.username);
   };
 
   updateFirstName = newFirstName => {
     this.setState({firstName: newFirstName});
-    console.log(this.state.firstName);
   }
 
   updateLastName = newLastName => {
     this.setState({lastName: newLastName});
-    console.log(this.state.lastName);
   }
 
   updateEmail = newEmail => {
     this.setState({email: newEmail})
-    console.log(this.state.email);
   }
 
   updatePassword = newPassword => {
@@ -47,14 +46,8 @@ export class UserProvider extends Component {
   }
 
   updateClick = () => {
-    const storage = localStorage.getItem("Token");
+    const {username, firstName, lastName, password, passwordValid, email, storage} = this.state;
     if (storage !== null) {
-      let username = this.refs.username.value;
-      let firstName = this.refs.firstName.value;
-      let lastName = this.refs.lastName.value;
-      let password = this.refs.password.value;
-      let passwordValid = this.refs.passwordValid.value;
-      let email = this.refs.email.value;
       if (
         username === "" ||
         firstName === "" ||
@@ -93,18 +86,31 @@ export class UserProvider extends Component {
             })
               .then(response => {
                 if (response.status === 200) {
-                  alert("Successfully updated !!!");
+                  let userData = JSON.parse(storage);
+                  console.log(userData);
+                  userData.username = username;
+                  userData.firstName = firstName;
+                  userData.lastName = lastName;
+                  userData.email = email;
+                  console.log(userData);
+                  let storageUpdate = JSON.stringify(userData);
+                  this.setState({
+                    warning: response.data,
+                    storage: storageUpdate
+                  });
+                  localStorage.setItem("Token", storageUpdate);
                 }
               })
               .catch(error => {
                 alert("Failed to update");
-                console.log(error);
               });
           }
         }
       }
     }
   };
+
+
   render() {
     return (
         <UserContext.Provider
@@ -114,6 +120,7 @@ export class UserProvider extends Component {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
             passwordValid: this.state.passwordValid,
+            warning: this.state.warning,
             email: this.state.email,
             updateClick: this.updateClick,
             updateUsername: this.updateUsername,
@@ -121,7 +128,8 @@ export class UserProvider extends Component {
             updateLastName: this.updateLastName,
             updateEmail: this.updateEmail,
             updatePassword: this.updatePassword,
-            updatePasswordValid: this.updatePasswordValid
+            updatePasswordValid: this.updatePasswordValid,
+            storage: this.state.storage
           }}
         >
           {this.props.children}
