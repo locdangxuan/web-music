@@ -28,7 +28,7 @@ export default class InfoSongSearch extends Component {
             <Link
               to={{
                 pathname: "/playing/" + id,
-                state: { title: song_title, singer: singer }
+                state: { title: song_title, singer: singer, status: false }
               }}
             >
               {song_title}

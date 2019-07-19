@@ -34,13 +34,13 @@ export class PlaylistProvider extends Component {
   componentDidMount() {
     this.getPlaylist();
     let blockScheduled = new schedule.RecurrenceRule();
-    blockScheduled.hour = 14;
+    blockScheduled.hour = 15;
     blockScheduled.minute = 30;
     schedule.scheduleJob(blockScheduled, this.serviceActivate);
     let unlockScheduled = new schedule.RecurrenceRule();
-    unlockScheduled.hour = 14;
-    unlockScheduled.minute = 33;
-    schedule.scheduleJob(blockScheduled, this.serviceActivate);
+    unlockScheduled.hour = 15;
+    unlockScheduled.minute = 35;
+    schedule.scheduleJob(unlockScheduled, this.serviceActivate);
   }
 
   componentWillMount() {
@@ -109,22 +109,27 @@ export class PlaylistProvider extends Component {
   }
 
   clickToAdd(videoId) {
-    confirmAlert({
-      title: "Confirm To Add!!!",
-      message: "You can only add one song a day",
-      buttons: [
-        {
-          label: "Add",
-          onClick: () => this.addToPlaylist(videoId)
-        },
-        {
-          label: "Cancel",
-          onClick: function () {
-            Alert('Warning', 'Song was not added');
+    if (this.state.serviceAvailable) {
+      confirmAlert({
+        title: "Confirm To Add!!!",
+        message: "You can only add one song a day",
+        buttons: [
+          {
+            label: "Add",
+            onClick: () => this.addToPlaylist(videoId)
+          },
+          {
+            label: "Cancel",
+            onClick: function () {
+              Alert('Warning', 'Song was not added');
+            }
           }
-        }
-      ]
-    });
+        ]
+      });
+    }
+    else {
+      Alert('Warning', 'Time for the playlist to play. \n You can not add this now.')
+    }
   }
 
   addToPlaylist(videoId) {
@@ -240,7 +245,7 @@ export class PlaylistProvider extends Component {
         {playlistStart &&
           <Redirect to={{
             pathname: `/playing/${currentSong.id}`,
-            state: { title: currentSong.title, singer: currentSong.singer, passingTime: currentSong.passingTime }
+            state: { title: currentSong.title, singer: currentSong.singer, passingTime: currentSong.passingTime, status: true }
           }} />}
 
       </div>

@@ -32,11 +32,13 @@ export default class VideoSong extends Component {
         id: this.props.match.params.id,
         singer: this.props.location.state.singer,
         title: this.props.location.state.title,
+        status: this.props.location.state.status,
         startAt: startAt,
         autoplay: autoplay,
         control: control,
         iframeId: iframeid
       };
+      console.log(this.state.status);
     }
   }
 
@@ -53,7 +55,7 @@ export default class VideoSong extends Component {
 
 
   render() {
-    const { id, singer, title, startAt, autoplay, control, iframeId } = this.state;
+    const { id, singer, title, startAt, autoplay, control, iframeId, status } = this.state;
     return (
       <div className="video-song">
         <div className="video text-center">
@@ -67,20 +69,21 @@ export default class VideoSong extends Component {
           />
         </div>
         <div className="song-video-name">
-          <PlaylistContext.Consumer>
-            {({ clickToAdd }) => (
-              <div className="add-song">
-                <Button
-                  outline
-                  color="primary"
-                  className="btnAdd"
-                  onClick={() => clickToAdd(id)}
-                >
-                  Add
+          <div className="add-song">
+            {!status &&
+              <PlaylistContext.Consumer>
+                {({ clickToAdd }) => (
+                  <Button
+                    outline
+                    color="primary"
+                    className="btnAdd"
+                    onClick={() => clickToAdd(id)}
+                  >
+                    Add
                 </Button>
-              </div>
-            )}
-          </PlaylistContext.Consumer>
+                )}
+              </PlaylistContext.Consumer>}
+          </div>
         </div>
         <div className="detail">
           <p style={{ fontSize: "22px" }}>{title}</p>

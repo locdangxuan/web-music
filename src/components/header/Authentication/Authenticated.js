@@ -12,7 +12,7 @@ export default class Authenticated extends Component {
   constructor(props) {
     super(props);
     const token = JSON.parse(localStorage.getItem("Token"));
-    var isLoggedIn = false;
+    let isLoggedIn = false;
     if (token !== null) {
       isLoggedIn = true;
     }
@@ -20,9 +20,9 @@ export default class Authenticated extends Component {
     this.logoutBtnClicked = this.logoutBtnClicked.bind(this);
   }
 
-  logoutBtnClicked() {
+  async logoutBtnClicked() {
     this.props.getValue(false);
-    axios({
+    await axios({
       method: 'POST',
       url: server + '/api/users/logout',
       headers: {

@@ -48,7 +48,7 @@ export default class SidebarPlaylistCard extends Component {
           <Link
             to={{
               pathname: "/playing/" + id,
-              state: { title: song_title, singer: singer }
+              state: { title: song_title, singer: singer, status: true }
             }} style={{textDecoration: "none"}}
           >
             <div className="sidebar-song-title">
