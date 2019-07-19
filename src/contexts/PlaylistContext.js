@@ -5,8 +5,9 @@ import { server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
-
 import { Alert } from '../confirmalert';
+import schedule from 'node-schedule';
+
 
 export const PlaylistContext = React.createContext();
 
@@ -18,9 +19,11 @@ export class PlaylistProvider extends Component {
       currentSong: { id: "", duration: "" },
       playlistStart: false,
       returnToIndex: false,
-      playlistEnd: true
+      playlistEnd: true,
+      serviceAvailable: true
     };
     this.socket = null;
+    this.serviceActivate = this.serviceActivate.bind(this);
     this.getPlaylist = this.getPlaylist.bind(this);
     this.clickToVote = this.clickToVote.bind(this);
     this.clickToAdd = this.clickToAdd.bind(this);
@@ -28,10 +31,19 @@ export class PlaylistProvider extends Component {
     this.playlistEnd = this.playlistEnd.bind(this);
   }
 
-  componentWillMount() {
-    this.getPlaylist();
-  }
   componentDidMount() {
+    this.getPlaylist();
+    let blockScheduled = new schedule.RecurrenceRule();
+    blockScheduled.hour = 14;
+    blockScheduled.minute = 30;
+    schedule.scheduleJob(blockScheduled, this.serviceActivate);
+    let unlockScheduled = new schedule.RecurrenceRule();
+    unlockScheduled.hour = 14;
+    unlockScheduled.minute = 33;
+    schedule.scheduleJob(blockScheduled, this.serviceActivate);
+  }
+
+  componentWillMount() {
     this.socket = io(server);
     this.socket.on('connect', (response) => {
     });
@@ -52,36 +64,47 @@ export class PlaylistProvider extends Component {
     })
   }
 
+  serviceActivate() {
+    this.setState({
+      serviceAvailable: !this.state.serviceAvailable
+    })
+  }
+
   clickToVote(Id, isUpvote) {
-    const token = localStorage.getItem("Token");
-    if (token === null) {
-      Alert('Warning', 'Please log in to vote ');
-    } else {
-      axios({
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("Token")).token
-            }`
-        },
-        url: server + '/api/songs/vote',
-        data: {
-          video_id: Id,
-          isUpvote: isUpvote
-        }
-      })
-        .then(response => {
-          if (response.status === 400)
-            Alert('Warning', 'You have used all your votes today, please comeback tomorrow');
-          else if (response.status === 200) {
-            Alert('Message', 'Successfully Voted');
-            this.getPlaylist();
+    if (this.state.serviceAvailable) {
+      const token = localStorage.getItem("Token");
+      if (token === null) {
+        Alert('Warning', 'Please log in to vote ');
+      } else {
+        axios({
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("Token")).token
+              }`
+          },
+          url: server + '/api/songs/vote',
+          data: {
+            video_id: Id,
+            isUpvote: isUpvote
           }
         })
-        .catch(error => {
-          Alert('Error', 'Voted Fail !!! Please try again later');
-          console.log(error);
-        });
+          .then(response => {
+            if (response.status === 400)
+              Alert('Warning', 'You have used all your votes today, please comeback tomorrow');
+            else if (response.status === 200) {
+              Alert('Message', 'Successfully Voted');
+              this.getPlaylist();
+            }
+          })
+          .catch(error => {
+            Alert('Error', 'Voted Fail !!! Please try again later');
+            console.log(error);
+          });
+      }
+    }
+    else {
+      Alert('Warning', 'Time for the playlist to play. \n You can not vote now.')
     }
   }
 

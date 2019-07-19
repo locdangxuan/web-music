@@ -9,6 +9,8 @@ export function Alert (title,message)
             {
                 label: 'OK'
             }
-        ]
+        ],
+        closeOnClickOutside : true,
+        closeOnEscape : true
     })
 }
