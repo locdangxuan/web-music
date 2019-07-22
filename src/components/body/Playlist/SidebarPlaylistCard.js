@@ -5,6 +5,7 @@ import { MdThumbDown } from "react-icons/md";
 import { Row, Col } from "reactstrap";
 import "./SidebarPlaylistCard.css";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
+import schedule from 'node-schedule';
 
 export default class SidebarPlaylistCard extends Component {
   constructor(props) {
@@ -17,8 +18,24 @@ export default class SidebarPlaylistCard extends Component {
       downvote: this.props.downvote,
       id: this.props.id,
       token: localStorage.token,
-      votingID: this.props.votingID
+      votingID: this.props.votingID,
+      available: true
     };
+  }
+
+  componentWillMount() {
+    let now = new Date();
+    if (now.getHours() === 11) {
+      if (now.getMinutes() >= 1) {
+        this.setState({
+          available: false
+        })
+      }
+    }
+    else if (now.getHours() > 11)
+      this.setState({
+        available: false
+      })
   }
 
   render() {
@@ -29,38 +46,52 @@ export default class SidebarPlaylistCard extends Component {
       upvote,
       downvote,
       votingID,
-      id
+      id,
+      available
     } = this.state;
     const MAX_LENGTH = 40;
     return (
       <Row className="sidebar-song">
         <Col xs="4" className="sidebar-song-img">
-          <Link
-            to={{
-              pathname: "/playing/" + id,
-              state: { title: song_title, singer: singer }
-            }}
-          >
-            <img src={thumbnail} alt="#" className="img-fluid" />
-          </Link>
+          {available &&
+            <Link
+              to={{
+                pathname: "/playing/" + id,
+                state: { title: song_title, singer: singer }
+              }}
+            >
+              <img src={thumbnail} alt="#" className="img-fluid" />
+            </Link>}
+          {!available && <img src={thumbnail} alt="#" className="img-fluid" />}
         </Col>
         <Col xs="6" className="sidebar-song-info">
-          <Link
-            to={{
-              pathname: "/playing/" + id,
-              state: { title: song_title, singer: singer, status: true }
-            }} style={{textDecoration: "none"}}
-          >
-            <div className="sidebar-song-title">
-              {song_title.length > MAX_LENGTH ? (
-                <div> {`${song_title.substring(0, MAX_LENGTH)}...`}</div>
-              ) : (
-                <div>{song_title}</div>
-              )}
-            </div><div className="sidebar-song-singer">{singer}</div>
-          </Link>
-
-          
+          {available &&
+            <Link
+              to={{
+                pathname: "/playing/" + id,
+                state: { title: song_title, singer: singer, status: true }
+              }} style={{ textDecoration: "none" }}
+            >
+              <div className="sidebar-song-title">
+                {song_title.length > MAX_LENGTH ? (
+                  <div> {`${song_title.substring(0, MAX_LENGTH)}...`}</div>
+                ) : (
+                    <div>{song_title}</div>
+                  )}
+              </div>
+              <div className="sidebar-song-singer">{singer}</div>
+            </Link>}
+          {!available &&
+            <div className = "playlist-playing">
+              <div className="sidebar-song-title" >
+                {song_title.length > MAX_LENGTH ? (
+                  <div> {`${song_title.substring(0, MAX_LENGTH)}...`}</div>
+                ) : (
+                    <div>{song_title}</div>
+                  )}
+              </div>
+              <div className="sidebar-song-singer">{singer}</div>
+            </div>}
         </Col>
         <PlaylistContext.Consumer>
           {({ clickToVote }) => (

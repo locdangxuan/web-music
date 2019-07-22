@@ -12,7 +12,8 @@ export default class InfoSongSearch extends Component {
       imgsrc: this.props.imgsrc,
       song_title: this.props.song_title,
       singer: this.props.singer,
-      id: this.props.id
+      id: this.props.id,
+      
     };
   }
 

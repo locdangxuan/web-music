@@ -176,22 +176,26 @@ export class PlaylistProvider extends Component {
   }
 
   async playlistStart(response) {
-    let now = new Date();
-    let result = {};
-    for (let song of this.state.playlist) {
-      if (song.id === response.videoId)
-        result = song;
-    }
-    let passingTime =
-      (now.getHours() - response.startAt.hour) * 3600 +
-      (now.getMinutes() - response.startAt.minute) * 60 +
-      (now.getSeconds() - response.startAt.second);
+    // let now = new Date();
+    // let result = {};
+    // for (let song of this.state.playlist) {
+    //   if (song.id === response.videoId)
+    //   {
+    //     result = song;
+    //     console.log(result);
+    //   }
+        
+    // }
+    // let passingTime =
+    //   (now.getHours() - response.startAt.hour) * 3600 +
+    //   (now.getMinutes() - response.startAt.minute) * 60 +
+    //   (now.getSeconds() - response.startAt.second);
     await this.setState({
       currentSong: {
         id: response.videoId,
-        passingTime: passingTime,
-        title: result.title,
-        singer: result.singer
+      //   passingTime: passingTime,
+      //   title: result.title,
+      //   singer: result.singer
       },
       playlistStart: true,
       playlistEnd: false
@@ -246,9 +250,8 @@ export class PlaylistProvider extends Component {
         {playlistStart &&
           <Redirect to={{
             pathname: `/playing/${currentSong.id}`,
-            state: { title: currentSong.title, singer: currentSong.singer, passingTime: currentSong.passingTime, status: true }
+            state: { fromPlaylist: true }
           }} />}
-
       </div>
     );
   }

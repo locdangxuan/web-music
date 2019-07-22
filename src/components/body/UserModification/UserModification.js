@@ -1,170 +1,128 @@
 import React, { Component } from "react";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
-import axios from "axios";
 import { Button } from "reactstrap";
-import { server } from "../../../server";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default class UserModification extends Component {
   constructor(props) {
     super(props);
+    const storage = localStorage.getItem("Token");
+    const currentUser = JSON.parse(storage);
+    let textInput = React.createRef();
     this.state = {
-      email: "",
-      firstName: "",
-      lastName: "",
-      username: "",
+      email: currentUser.email,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      username: currentUser.username,
       password: "",
       passwordValid: "",
-      warning: ''
+      textInput: textInput,
     };
   }
 
-  componentDidMount() {
-    const storage = localStorage.getItem('Token');
-    if (storage !== null) {
-      const currentUser = JSON.parse(storage);
-      this.refs.userName.value = currentUser.username;
-      this.refs.firstname.value = currentUser.firstName;
-      this.refs.lastname.value = currentUser.lastName;
-      this.refs.email.value = currentUser.email;
-    }
-  }
-
-  updateInfo = () => {
-    const storage = localStorage.getItem("Token");
-    if (storage !== null) {
-      let username = this.refs.userName.value;
-      let firstName = this.refs.firstname.value;
-      let lastName = this.refs.lastname.value;
-      let password = this.refs.password.value;
-      let passwordValid = this.refs.passwordValid.value;
-      let email = this.refs.email.value;
-      if (
-        username === "" ||
-        firstName === "" ||
-        password === "" ||
-        passwordValid === "" ||
-        email === "" ||
-        lastName === ""
-      )
-        this.setState({ warning: 'Please fill all the information below'});
-      else {
-        if (username.length < 8) {
-          this.setState({ warning: "username does not match required length ( 8 letters or more )"});
-        } else {
-          if (password !== passwordValid) {
-            this.setState({ warning: "passwords does not match each others"});
-          } else {
-            let updateUser = {
-              username: username,
-              password: password,
-              email: email,
-              firstName: firstName,
-              lastName: lastName
-            };
-            axios({
-              method: "PUT",
-              headers: {
-                Authorization:
-                  "Bearer " + JSON.parse(storage).token
-              },
-              url: server + `/api/users/${JSON.parse(storage)._id}`,
-              data: {
-                updateUser
-              }
-            })
-              .then(response => {
-                console.log(response.status);
-                if (response.status === 200) {
-                  alert("Successfully updated !!!");
-                }
-              })
-              .catch(error => {
-                alert(
-                  "Failed to update"
-                );
-                console.log(error);
-              });
-          }
-        }
-      }
-    }
-  }
   render() {
     return (
-      <div className="user-update">
-        <Form className="user-modification">
-          <FormGroup>
-            <Label for="Email">Email</Label>
-            <input
-              className="effect-6"
-              type="text"
-              id="registerPart"
-              placeholder=""
-              ref="email"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="userName">Username</Label>
-            <input
-              className="effect-6"
-              type="text"
-              id="registerPart"
-              placeholder=""
-              ref="userName"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="fullName">Fullname</Label>
-            <Row>
-              <Col xs="6">
+      <UserContext.Consumer>
+        {({
+          updateUsername,
+          updatePassword,
+          updateFirstName,
+          updateLastName,
+          updatePasswordValid,
+          updateEmail,
+          updateClick,
+          warning,
+          textInput
+        }) => (
+          <div className="user-update">
+            <Form className="user-modification">
+              <FormGroup>
+                <Label for="Email">Email</Label>
                 <input
                   className="effect-6"
                   type="text"
-                  id="registerPart"
-                  placeholder=""
-                  ref="firstname"
+                  placeholder={this.state.email}
+                  ref={textInput}
+                  onChange={event => {
+                    updateEmail(event.target.value);
+                  }}
                 />
-              </Col>
-              <Col xs="6">
+              </FormGroup>
+              <FormGroup>
+                <Label for="username">Username</Label>
                 <input
                   className="effect-6"
                   type="text"
-                  id="registerPart"
-                  placeholder=""
-                  ref="lastname"
+                  placeholder={this.state.username}
+                  ref={textInput}
+                  onChange={event => {
+                    updateUsername(event.target.value);
+                  }}
                 />
-              </Col>
-            </Row>
-          </FormGroup>
-          <FormGroup>
-            <Label for="passWord">Password</Label>
-            <input
-              className="effect-6"
-              type="password"
-              id="registerPart"
-              placeholder=""
-              ref="password"
-              onKeyUp={this.enterPressed}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="passWordAuth">Confirm Password</Label>
-            <input
-              className="effect-6"
-              type="password"
-              id="registerPart"
-              placeholder=""
-              ref="passwordValid"
-              onKeyUp={this.enterPressed}
-            />
-          </FormGroup>
-          <div className = "warning">{this.state.warning}</div>
-          <Button outline color = 'danger' style={{ float: "right" }} onClick={this.updateInfo}>
-            Update
-          </Button>
-        </Form>
-      </div>
+              </FormGroup>
+              <FormGroup>
+                <Label for="fullName">Fullname</Label>
+                <Row>
+                  <Col xs="6">
+                    <input
+                      className="effect-6"
+                      type="text"
+                      ref={textInput}
+                      placeholder={this.state.firstName}
+                      onChange={event => {
+                        updateFirstName(event.target.value);
+                      }}
+                    />
+                  </Col>
+                  <Col xs="6">
+                    <input
+                      className="effect-6"
+                      type="text"
+                      ref={textInput}
+                      placeholder={this.state.lastName}
+                      onChange={event => {
+                        updateLastName(event.target.value);
+                      }}
+                    />
+                  </Col>
+                </Row>
+              </FormGroup>
+              <FormGroup>
+                <Label for="password">Password</Label>
+                <input
+                  className="effect-6"
+                  type="password"
+                  ref={textInput}
+                  onChange={event => {
+                    updatePassword(event.target.value);
+                  }}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="passwordAuth">Confirm Password</Label>
+                <input
+                  className="effect-6"
+                  type="password"
+                  ref={textInput}
+                  onChange={event => {
+                    updatePasswordValid(event.target.value);
+                  }}
+                />
+              </FormGroup>
+              <div className="warning">{warning}</div>
+              <Button
+                outline
+                color="danger"
+                style={{ float: "right" }}
+                onClick={() => updateClick()}
+              >
+                Update
+              </Button>
+            </Form>
+          </div>
+        )}
+      </UserContext.Consumer>
     );
   }
 }

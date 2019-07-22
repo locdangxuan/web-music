@@ -3,6 +3,8 @@ import "./VideoSong.css";
 import { Button } from "reactstrap";
 import Iframe from "react-iframe";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
+import { server } from '../../../server';
+import io from "socket.io-client";
 
 
 export default class VideoSong extends Component {
@@ -12,6 +14,7 @@ export default class VideoSong extends Component {
     let autoplay = 0;
     let control = 1;
     let iframeid = 'normal';
+    this.socket = null;
     this.state = {
       id: '',
       singer: '',
@@ -20,26 +23,55 @@ export default class VideoSong extends Component {
       autoplay: autoplay,
       control: control,
       iframeId: iframeid
-    }
+    };
+  }
+
+  componentWillMount() {
+    console.log(this.props.location.state);
     if (this.props.location.state !== undefined) {
-      if (this.props.location.state.passingTime !== undefined) {
-        startAt = this.props.location.state.passingTime;
-        autoplay = 1;
-        control = 0;
-        iframeid = 'playlist-start';
+      if (this.props.location.state.fromPlaylist === true) {
+        this.socket = io(server);
+        this.socket.on('play', (response) => {
+          if (response !== null) {
+            console.log(response);
+            this.playFromPlaylist(response);
+          }
+        });
+        this.socket.on('end', (response) => {
+          window.location.assign('localhost:3000');
+        });
       }
-      this.state = {
+    }
+    else {
+      this.setState({
         id: this.props.match.params.id,
         singer: this.props.location.state.singer,
         title: this.props.location.state.title,
-        status: this.props.location.state.status,
-        startAt: startAt,
-        autoplay: autoplay,
-        control: control,
-        iframeId: iframeid
-      };
-      console.log(this.state.status);
+        startAt: 0,
+        autoplay: 0,
+        control: 1,
+        iframeId: 'normal'
+      })
     }
+  }
+
+  async playFromPlaylist(data) {
+    let now = new Date();
+    let startAt =
+      (now.getHours() - data.startAt.hour) * 3600 +
+      (now.getMinutes() - data.startAt.minute) * 60 +
+      (now.getSeconds() - data.startAt.second);
+    await this.setState({
+      id: data.videoId,
+      singer: data.channelTitle,
+      title: data.title,
+      status: data.status,
+      startAt: startAt,
+      autoplay: 1,
+      control: 0,
+      iframeId: 'playlist-start'
+    })
+    window.location.assign('localhost:3000');
   }
 
   componentDidUpdate = () => {
@@ -52,7 +84,6 @@ export default class VideoSong extends Component {
       });
     }
   };
-
 
   render() {
     const { id, singer, title, startAt, autoplay, control, iframeId, status } = this.state;
