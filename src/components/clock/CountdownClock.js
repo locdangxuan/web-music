@@ -68,7 +68,6 @@ export default class CountdownClock extends Component {
                 break;
         }
         let time = month + ` ${day} ${year} 17:30:00`;
-        console.log(time);
         this.setState({
             countdown: time
         })

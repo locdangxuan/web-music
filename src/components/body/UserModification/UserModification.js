@@ -32,6 +32,19 @@ export default class UserModification extends Component {
   //   }
   // }
 
+  componentDidMount(){
+    const storage = localStorage.getItem("Token");
+    const currentUser = JSON.parse(storage);
+    this.setState({
+      email: currentUser.email,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      username: currentUser.username,
+      password: "",
+      passwordValid: "",
+    })
+  }
+
   render() {
     return (
       <UserContext.Consumer>

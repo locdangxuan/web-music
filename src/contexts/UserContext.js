@@ -16,9 +16,8 @@ export class UserProvider extends Component {
       password: "",
       passwordValid: "",
       warning: "",
-      storage: storage,
+      storage: storage
     };
-    
   }
 
   updateUsername = newUsername => {
@@ -26,27 +25,35 @@ export class UserProvider extends Component {
   };
 
   updateFirstName = newFirstName => {
-    this.setState({firstName: newFirstName});
-  }
+    this.setState({ firstName: newFirstName });
+  };
 
   updateLastName = newLastName => {
-    this.setState({lastName: newLastName});
-  }
+    this.setState({ lastName: newLastName });
+  };
 
   updateEmail = newEmail => {
-    this.setState({email: newEmail})
-  }
+    this.setState({ email: newEmail });
+  };
 
   updatePassword = newPassword => {
-    this.setState({password: newPassword});
-  }
+    this.setState({ password: newPassword });
+  };
 
   updatePasswordValid = newPasswordValid => {
-    this.setState({passwordValid: newPasswordValid})
-  }
+    this.setState({ passwordValid: newPasswordValid });
+  };
 
   updateClick = () => {
-    const {username, firstName, lastName, password, passwordValid, email, storage} = this.state;
+    const {
+      username,
+      firstName,
+      lastName,
+      password,
+      passwordValid,
+      email,
+      storage
+    } = this.state;
     if (storage !== null) {
       if (
         username === "" ||
@@ -76,23 +83,20 @@ export class UserProvider extends Component {
             };
             axios({
               method: "PUT",
+              url: server + "/api/users/update",
               headers: {
-                Authorization: "Bearer " + JSON.parse(storage).token
+                Authorization:
+                  "Bearer " + JSON.parse(localStorage.getItem("Token")).token
               },
-              url: server + `/api/users/${JSON.parse(storage)._id}`,
-              data: {
-                updateUser
-              }
+              data: updateUser
             })
               .then(response => {
                 if (response.status === 200) {
                   let userData = JSON.parse(storage);
-                  console.log(userData);
                   userData.username = username;
                   userData.firstName = firstName;
                   userData.lastName = lastName;
                   userData.email = email;
-                  console.log(userData);
                   let storageUpdate = JSON.stringify(userData);
                   this.setState({
                     warning: response.data,
@@ -102,7 +106,8 @@ export class UserProvider extends Component {
                 }
               })
               .catch(error => {
-                alert("Failed to update");
+                this.setState({ warning: "Failed to update" });
+                console.log(error);
               });
           }
         }
@@ -110,30 +115,29 @@ export class UserProvider extends Component {
     }
   };
 
-
   render() {
     return (
-        <UserContext.Provider
-          value={{
-            username: this.state.username,
-            password: this.state.password,
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            passwordValid: this.state.passwordValid,
-            warning: this.state.warning,
-            email: this.state.email,
-            updateClick: this.updateClick,
-            updateUsername: this.updateUsername,
-            updateFirstName: this.updateFirstName,
-            updateLastName: this.updateLastName,
-            updateEmail: this.updateEmail,
-            updatePassword: this.updatePassword,
-            updatePasswordValid: this.updatePasswordValid,
-            storage: this.state.storage
-          }}
-        >
-          {this.props.children}
-        </UserContext.Provider>
+      <UserContext.Provider
+        value={{
+          username: this.state.username,
+          password: this.state.password,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          passwordValid: this.state.passwordValid,
+          warning: this.state.warning,
+          email: this.state.email,
+          updateClick: this.updateClick,
+          updateUsername: this.updateUsername,
+          updateFirstName: this.updateFirstName,
+          updateLastName: this.updateLastName,
+          updateEmail: this.updateEmail,
+          updatePassword: this.updatePassword,
+          updatePasswordValid: this.updatePasswordValid,
+          storage: this.state.storage
+        }}
+      >
+        {this.props.children}
+      </UserContext.Provider>
     );
   }
 }

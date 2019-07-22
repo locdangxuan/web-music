@@ -6,7 +6,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
 
-import { Alert } from '../confirmalert';
+import { Alert } from "../confirmalert";
 
 export const PlaylistContext = React.createContext();
 
@@ -33,31 +33,30 @@ export class PlaylistProvider extends Component {
   }
   componentDidMount() {
     this.socket = io(server);
-    this.socket.on('connect', (response) => {
-    });
-    this.socket.on('play', (response) => {
+    this.socket.on("connect", response => {});
+    this.socket.on("play", response => {
       if (response !== null) {
         this.playlistStart(response);
       }
     });
-    this.socket.on('end', (response) => {
+    this.socket.on("end", response => {
       if (response !== null) {
         this.playlistEnd(response);
       }
-    })
+    });
   }
 
   clickToVote(Id, isUpvote) {
     const token = localStorage.getItem("Token");
     if (token === null) {
-      Alert('Warning', 'Please log in to vote ');
+      Alert("Warning", "Please log in to vote ");
     } else {
       axios({
         method: "POST",
         headers: {
           Authorization: `Bearer ${
             JSON.parse(localStorage.getItem("Token")).token
-            }`
+          }`
         },
         url: server + "/api/songs/vote",
         data: {
@@ -67,14 +66,17 @@ export class PlaylistProvider extends Component {
       })
         .then(response => {
           if (response.status === 400)
-            Alert('Warning', 'You have used all your votes today, please comeback tomorrow');
+            Alert(
+              "Warning",
+              "You have used all your votes today, please comeback tomorrow"
+            );
           else if (response.status === 200) {
-            Alert('Message', 'Successfully Voted');
+            Alert("Message", "Successfully Voted");
             this.getPlaylist();
           }
         })
         .catch(error => {
-          Alert('Error', 'Voted Fail !!! Please try again later');
+          Alert("Error", "Voted Fail !!! Please try again later");
           console.log(error);
         });
     }
@@ -87,58 +89,87 @@ export class PlaylistProvider extends Component {
       buttons: [
         {
           label: "Add",
-          onClick: function () {
+          onClick: function() {
             const token = localStorage.getItem("Token");
             if (token === null) {
-              Alert('Warning', 'Please login to add this song to the playlist');
+              Alert("Warning", "Please login to add this song to the playlist");
             } else {
-              this.addToPlaylist(videoId);
+              axios({
+                method: "POST",
+                headers: {
+                  Authorization:
+                    "Bearer " + JSON.parse(localStorage.getItem("Token")).token
+                },
+                url: server + "/api/songs/add",
+                data: {
+                  id: videoId
+                }
+              })
+                .then(response => {
+                  if (response.status === 200) {
+                    Alert("Message", "Successfully added");
+                    this.getPlaylist();
+                  } else {
+                    Alert(
+                      "Warning",
+                      "This account has already added a song, try again tomorrow!!"
+                    );
+                  }
+                })
+                .catch(error => {
+                  console.log(error);
+                  Alert(
+                    "Warning",
+                    "This account has already added a song, try again tomorrow!!"
+                  );
+                });
             }
           }
         },
         {
           label: "Cancel",
-          onClick: function () {
-            Alert('Warning', 'Song was not added');
+          onClick: function() {
+            Alert("Warning", "Song was not added");
           }
         }
       ]
     });
   }
 
-  addToPlaylist(videoId) {
+  addToPlaylist = videoId => {
     axios({
       method: "POST",
       headers: {
         Authorization:
-          'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
+          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
       },
-      url: server + '/api/songs/add',
+      url: server + "/api/songs/add",
       data: {
         id: videoId
       }
     })
       .then(response => {
         if (response.status === 200) {
-          Alert('Message', 'Successfully added');
+          Alert("Message", "Successfully added");
           this.getPlaylist();
-        }
-
-        else {
-          Alert('Warning', 'This account has already added a song, try again tomorrow!!');
+        } else {
+          Alert(
+            "Warning",
+            "This account has already added a song, try again tomorrow!!"
+          );
         }
       })
       .catch(error => {
         console.log(error);
       });
-  }
+  };
 
   getPlaylist() {
     this.setState({
       playlist: []
-    })
+    });
     axios
-      .get(server + '/api/songs/playlist')
+      .get(server + "/api/songs/playlist")
       .then(response => {
         this.setState({
           playlist: response.data,
@@ -152,8 +183,7 @@ export class PlaylistProvider extends Component {
     let now = new Date();
     let result = {};
     for (let song of this.state.playlist) {
-      if (song.id === response.videoId)
-        result = song;
+      if (song.id === response.videoId) result = song;
     }
     let passingTime =
       (now.getHours() - response.startAt.hour) * 3600 +
@@ -173,11 +203,11 @@ export class PlaylistProvider extends Component {
 
   async playlistEnd(response) {
     confirmAlert({
-      title: 'Playlist Ended !!!',
-      message: 'Please Come Back Tomorrow',
+      title: "Playlist Ended !!!",
+      message: "Please Come Back Tomorrow",
       buttons: [
         {
-          label: 'OK',
+          label: "OK"
         }
       ],
       closeOnClickOutside: true,
@@ -195,7 +225,7 @@ export class PlaylistProvider extends Component {
       //   this.state.playlist[2]
       // ]
     });
-    localStorage.removeItem('SearchingHistory');  
+    localStorage.removeItem("SearchingHistory");
   }
 
   render() {
@@ -213,15 +243,19 @@ export class PlaylistProvider extends Component {
         >
           {this.props.children}
         </PlaylistContext.Provider>
-        {returnToIndex &&
-          <Redirect to={'/'} />
-        }
-        {playlistStart &&
-          <Redirect to={{
-            pathname: `/playing/${currentSong.id}`,
-            state: { title: currentSong.title, singer: currentSong.singer, passingTime: currentSong.passingTime }
-          }} />}
-
+        {returnToIndex && <Redirect to={"/"} />}
+        {playlistStart && (
+          <Redirect
+            to={{
+              pathname: `/playing/${currentSong.id}`,
+              state: {
+                title: currentSong.title,
+                singer: currentSong.singer,
+                passingTime: currentSong.passingTime
+              }
+            }}
+          />
+        )}
       </div>
     );
   }

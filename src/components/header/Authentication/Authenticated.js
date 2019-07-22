@@ -20,6 +20,13 @@ export default class Authenticated extends Component {
     this.logoutBtnClicked = this.logoutBtnClicked.bind(this);
   }
 
+  componentDidUpdate(){
+    const storage = JSON.parse(localStorage.getItem("Token"));
+    this.setState({
+      currentUser: storage
+    })
+  }
+
   logoutBtnClicked() {
     this.props.getValue(false);
     axios({
