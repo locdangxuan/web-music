@@ -22,9 +22,15 @@ export default class Authenticated extends Component {
 
   async logoutBtnClicked() {
     this.props.getValue(false);
+<<<<<<< HEAD
     await axios({
       method: 'POST',
       url: server + '/api/users/logout',
+=======
+    axios({
+      method: "POST",
+      url: server + "/api/users/logout",
+>>>>>>> e1cedf70bb4eea00f000017ceaf39c56e31fc8c6
       headers: {
         Authorization:
           "Bearer " + JSON.parse(localStorage.getItem("Token")).token
