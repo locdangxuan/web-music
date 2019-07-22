@@ -14,7 +14,7 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
                 <div>
                     <span>Playlist start in</span>
                 </div>
-                <span>
+                <span className = "wrapper">
                     {hours}:{minutes}:{seconds}
                 </span>
             </div>
