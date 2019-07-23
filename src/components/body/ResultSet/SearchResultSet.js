@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
 import { server } from "../../../server.js";
-import ShowMore from "@tedconf/react-show-more";
-
+import {Button} from 'reactstrap';
 export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
@@ -118,7 +117,7 @@ export default class SearchResultSet extends Component {
     const { text, videoFound } = this.state;
     const SongList = this.state.SongList;
     return (
-      <div>
+      <div className="text-center">
         <div className="SearchAreaHeader text-center">
           <span>
             Show results for <span className="SearchInput">{text}</span>
@@ -142,13 +141,13 @@ export default class SearchResultSet extends Component {
             </div>
           )}
         </div>{" "}
-        <button
+        <Button outline color="primary" className="show-more-btn"
           onClick={() => {
             this.showMore();
           }}
         >
           Show more
-        </button>
+        </Button>
       </div>
     );
   }
