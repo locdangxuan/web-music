@@ -20,6 +20,7 @@ class App extends Component {
           <UserProvider>
             <Header />
             <div className="body">
+              <CountdownClock />
               <PlaylistProvider>
                 <Container>
                   <Route exact path="/" component={Playlist} />
@@ -39,7 +40,7 @@ class App extends Component {
                   </Row>
                 </Container>
               </PlaylistProvider>
-              <CountdownClock />
+
             </div>
           </UserProvider>
         </div>

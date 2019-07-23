@@ -84,7 +84,7 @@ export default class CountdownClock extends Component {
     componentDidMount() {
         let countdownScheduled = new schedule.RecurrenceRule();
         countdownScheduled.hour = 17;
-        countdownScheduled.minute = 15;
+        countdownScheduled.minute = 20;
         schedule.scheduleJob(countdownScheduled, this.startCounting);
     }
     startCounting() {

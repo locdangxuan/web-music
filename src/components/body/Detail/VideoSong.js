@@ -41,18 +41,19 @@ export default class VideoSong extends Component {
           window.location.assign('localhost:3000');
         });
       }
+      else {
+        this.setState({
+          id: this.props.match.params.id,
+          singer: this.props.location.state.singer,
+          title: this.props.location.state.title,
+          startAt: 0,
+          autoplay: 0,
+          control: 1,
+          iframeId: 'normal'
+        })
+      }
     }
-    else {
-      this.setState({
-        id: this.props.match.params.id,
-        singer: this.props.location.state.singer,
-        title: this.props.location.state.title,
-        startAt: 0,
-        autoplay: 0,
-        control: 1,
-        iframeId: 'normal'
-      })
-    }
+    
   }
 
   async playFromPlaylist(data) {

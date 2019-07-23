@@ -36,7 +36,7 @@ export default class SearchResultSet extends Component {
       SongList: [],
       videoFound: true
     })
-    
+
     const storage = localStorage.getItem('SearchingHistory');
     if (storage === null) {
       this.getSongList(keyword);
