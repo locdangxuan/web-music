@@ -232,7 +232,7 @@ export class PlaylistProvider extends Component {
         {playlistStart &&
           <Redirect to={{
             pathname: `/playing/${currentSong.id}`,
-            state: { fromPlaylist: true }
+            state: { playlistStart: true }
           }} />}
       </div>
     );

@@ -3,6 +3,7 @@ import PlaylistCard from "./PlaylistCard";
 import "./Playlist.css";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
 import playlistHeader from '../../Image/playlist-header.svg';
+import playlistEndHeader from '../../Image/Playlist Ended.svg';
 
 export default class Playlist extends Component {
   constructor() {
@@ -13,20 +14,40 @@ export default class Playlist extends Component {
   }
 
   render() {
+    let please = ['P','L','E','A','S','E'];
+    let comeback = ['C','O','M','E','B','A','C','K'];
+    let tomorrow = ['T','O','M','O','R','R','O','W'];
     return (
       <div className="main-playlist">
-        <div className="playlist-header">
-          <img src={playlistHeader} alt="header" />
-        </div>
         <PlaylistContext.Consumer>
-          {({ playlist }) => 
+          {({ playlistEnd }) => (
+            <div className="playlist-header">
+              {playlistEnd &&
+                <img src={playlistHeader} alt="header" />}
+              {!playlistEnd &&
+                <div>
+                  <img src = {playlistEndHeader} alt="end-header"></img>
+                  <div className="popout">
+                  {please.map((value) => { return <span>{value}</span> })}  
+                  <span>&ensp;</span>
+                  {comeback.map((value) => { return <span>{value}</span> })}
+                  <br/>
+                  {tomorrow.map((value) => { return <span>{value}</span> })}
+                  </div>
+                </div>
+              }
+            </div>
+          )}
+        </PlaylistContext.Consumer>
+        <PlaylistContext.Consumer>
+          {({ playlist }) =>
             playlist.map((value, index) => {
               return (
                 <PlaylistCard
                   id={value.videoId}
                   song_title={value.title}
                   singer={value.channelTitle}
-                  adder={value.addedUser}
+                  addedUser={value.addedUser}
                   thumbnail={value.thumbnails}
                   upvote={value.upvote}
                   downvote={value.downvote}

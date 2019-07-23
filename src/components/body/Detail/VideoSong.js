@@ -29,7 +29,7 @@ export default class VideoSong extends Component {
   componentWillMount() {
     console.log(this.props.location.state);
     if (this.props.location.state !== undefined) {
-      if (this.props.location.state.fromPlaylist === true) {
+      if (this.props.location.state.playlistStart === true) {
         this.socket = io(server);
         this.socket.on('play', (response) => {
           if (response !== null) {
@@ -42,10 +42,13 @@ export default class VideoSong extends Component {
         });
       }
       else {
+        console.log(this.props.location.state.status);
         this.setState({
           id: this.props.match.params.id,
           singer: this.props.location.state.singer,
           title: this.props.location.state.title,
+          status: this.props.location.state.status,
+          addedUser: this.props.location.state.addedUser,
           startAt: 0,
           autoplay: 0,
           control: 1,
@@ -53,7 +56,7 @@ export default class VideoSong extends Component {
         })
       }
     }
-    
+
   }
 
   async playFromPlaylist(data) {
@@ -62,6 +65,7 @@ export default class VideoSong extends Component {
       (now.getHours() - data.startAt.hour) * 3600 +
       (now.getMinutes() - data.startAt.minute) * 60 +
       (now.getSeconds() - data.startAt.second);
+    console.log(data);
     await this.setState({
       id: data.videoId,
       singer: data.channelTitle,
@@ -72,7 +76,6 @@ export default class VideoSong extends Component {
       control: 0,
       iframeId: 'playlist-start'
     })
-    window.location.assign('localhost:3000');
   }
 
   componentDidUpdate = () => {
@@ -81,15 +84,18 @@ export default class VideoSong extends Component {
         id: this.props.match.params.id,
         singer: this.props.location.state.singer,
         title: this.props.location.state.title,
-        startAt: this.props.location.state.start
+        startAt: this.props.location.state.start,
+        status: this.props.location.state.status,
+        addedUser: this.props.location.state.addedUser
       });
     }
   };
 
   render() {
-    const { id, singer, title, startAt, autoplay, control, iframeId, status } = this.state;
+    const { id, singer, title, startAt, autoplay, control, iframeId, status, addedUser } = this.state;
     return (
       <div className="video-song">
+
         <div className="video text-center">
           <Iframe
             src={`https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`}
@@ -101,25 +107,29 @@ export default class VideoSong extends Component {
           />
         </div>
         <div className="song-video-name">
+          {status &&
+            <div style={{ fontSize: "28px" }}>This song has already been added to the playlist</div>
+          }
           <div className="add-song">
-            {!status &&
-              <PlaylistContext.Consumer>
-                {({ clickToAdd }) => (
-                  <Button
-                    outline
-                    color="primary"
-                    className="btnAdd"
-                    onClick={() => clickToAdd(id)}
-                  >
-                    Add
+            <PlaylistContext.Consumer>
+              {({ clickToAdd }) => (
+                <Button
+                  outline
+                  color="primary"
+                  className="btnAdd"
+                  onClick={() => clickToAdd(id)}
+                >
+                  Add
                 </Button>
-                )}
-              </PlaylistContext.Consumer>}
+              )}
+            </PlaylistContext.Consumer>
           </div>
         </div>
         <div className="detail">
           <p style={{ fontSize: "22px" }}>{title}</p>
           <p>{singer}</p>
+          {status && 
+          <p>Added by {addedUser}</p>}
         </div>
       </div>
     );

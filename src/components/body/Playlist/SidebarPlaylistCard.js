@@ -18,20 +18,21 @@ export default class SidebarPlaylistCard extends Component {
       id: this.props.id,
       token: localStorage.token,
       votingID: this.props.votingID,
+      addedUser: this.props.addedUser,
       available: true
     };
   }
 
   componentWillMount() {
     let now = new Date();
-    if (now.getHours() === 11) {
-      if (now.getMinutes() >= 1) {
+    if (now.getHours() === 17) {
+      if (now.getMinutes() >= 29) {
         this.setState({
           available: false
         })
       }
     }
-    else if (now.getHours() > 11)
+    else if (now.getHours() > 17)
       this.setState({
         available: false
       })
@@ -46,7 +47,8 @@ export default class SidebarPlaylistCard extends Component {
       downvote,
       votingID,
       id,
-      available
+      available,
+      addedUser
     } = this.state;
     const MAX_LENGTH = 40;
     return (
@@ -56,7 +58,7 @@ export default class SidebarPlaylistCard extends Component {
             <Link
               to={{
                 pathname: "/playing/" + id,
-                state: { title: song_title, singer: singer }
+                state: { title: song_title, singer: singer, status: true, addedUser: addedUser }
               }}
             >
               <img src={thumbnail} alt="#" className="img-fluid" />
@@ -68,7 +70,7 @@ export default class SidebarPlaylistCard extends Component {
             <Link
               to={{
                 pathname: "/playing/" + id,
-                state: { title: song_title, singer: singer, status: true }
+                state: { title: song_title, singer: singer, status: true, addedUser: addedUser }
               }} style={{ textDecoration: "none" }}
             >
               <div className="sidebar-song-title">
