@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
-// import { gorgeous_server } from "../../../server.js";
 import { server } from "../../../server.js";
-
+import {Button} from 'reactstrap';
 export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +17,7 @@ export default class SearchResultSet extends Component {
     this.check = this.check.bind(this);
     this.storageUpdate = this.storageUpdate.bind(this);
   }
+
   componentDidMount() {
     this.loadResult(this.props.match.params.text);
   }
@@ -35,12 +35,11 @@ export default class SearchResultSet extends Component {
       text: this.props.match.params.text,
       SongList: [],
       videoFound: true
-    })
-    
-    const storage = localStorage.getItem('SearchingHistory');
+    });
+
+    const storage = localStorage.getItem("SearchingHistory");
     if (storage === null) {
       this.getSongList(keyword);
-      console.log("Case1");
     } else {
       let result = this.check(keyword, JSON.parse(storage));
       if (result === null) {
@@ -85,7 +84,8 @@ export default class SearchResultSet extends Component {
           this.setState({
             text: value,
             SongList: response.data.data,
-            videoFound: true
+            videoFound: true,
+            nextPage: response.data.nextPage
           });
           this.storageUpdate({ keyword: value, songList: response.data.data });
         }
@@ -93,23 +93,31 @@ export default class SearchResultSet extends Component {
       .catch(error => console.log(error));
   }
 
+  showMore = async () => {
+    await axios
+      .get(
+        server +
+          `/api/songs/search/${this.state.text}?page=${this.state.nextPage}`
+      )
+      .then(response => {
+        if (response.data === "No Video Found") {
+          this.setState({ videoFound: false });
+        } else {
+          this.setState({
+            SongList: this.state.SongList.concat(response.data.data),
+            nextPage: response.data.nextPage
+          });
+        }
+      })
+      .catch(error => console.log(error));
+    console.log(this.state);
+  };
+
   render() {
     const { text, videoFound } = this.state;
     const SongList = this.state.SongList;
-    var elementSong = SongList.map((value, key) => {
-      return (
-        <SearchResultCard
-          id={value.videoId}
-          song_title={value.title}
-          singer={value.channelTitle}
-          views={"value.views"}
-          imgsrc={value.thumbnails}
-          key={key}
-        />
-      );
-    });
     return (
-      <div>
+      <div className="text-center">
         <div className="SearchAreaHeader text-center">
           <span>
             Show results for <span className="SearchInput">{text}</span>
@@ -117,8 +125,29 @@ export default class SearchResultSet extends Component {
         </div>
         <div className="ResultSet">
           {videoFound === false && <div>NO VIDEO FOUND</div>}
-          {videoFound === true && <div>{elementSong}</div>}
-        </div>
+          {videoFound === true && (
+            <div>
+              {SongList.map((value, key) => {
+                return (
+                  <SearchResultCard
+                    id={value.videoId}
+                    song_title={value.title}
+                    singer={value.channelTitle}
+                    imgsrc={value.thumbnails}
+                    key={key}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>{" "}
+        <Button outline color="primary" className="show-more-btn"
+          onClick={() => {
+            this.showMore();
+          }}
+        >
+          Show more
+        </Button>
       </div>
     );
   }

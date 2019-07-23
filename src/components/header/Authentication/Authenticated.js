@@ -20,7 +20,18 @@ export default class Authenticated extends Component {
     this.logoutBtnClicked = this.logoutBtnClicked.bind(this);
   }
 
+<<<<<<< HEAD
   async logoutBtnClicked() {
+=======
+  componentDidUpdate(){
+    const storage = JSON.parse(localStorage.getItem("Token"));
+    this.setState({
+      currentUser: storage
+    })
+  }
+
+  logoutBtnClicked() {
+>>>>>>> 6434ff5768174fce61c3fd0057404cf32a83ce54
     this.props.getValue(false);
     await axios({
       method: 'POST',

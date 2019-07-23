@@ -5,9 +5,8 @@ import { server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
-import { Alert } from '../confirmalert';
-import schedule from 'node-schedule';
 
+import { Alert } from "../confirmalert";
 
 export const PlaylistContext = React.createContext();
 
@@ -45,14 +44,13 @@ export class PlaylistProvider extends Component {
 
   componentWillMount() {
     this.socket = io(server);
-    this.socket.on('connect', (response) => {
-    });
-    this.socket.on('play', (response) => {
+    this.socket.on("connect", response => {});
+    this.socket.on("play", response => {
       if (response !== null) {
         this.playlistStart(response);
       }
     });
-    this.socket.on('end', (response) => {
+    this.socket.on("end", response => {
       if (response !== null) {
         this.playlistEnd(response);
       }
@@ -146,7 +144,7 @@ export class PlaylistProvider extends Component {
         Authorization:
           'Bearer ' + JSON.parse(storage).token
       },
-      url: server + '/api/songs/add',
+      url: server + "/api/songs/add",
       data: {
         id: videoId
       }
@@ -158,14 +156,14 @@ export class PlaylistProvider extends Component {
       .catch(error => {
         Alert('Warning', 'This account has already added a song, try again tomorrow!!');
       });
-  }
+  };
 
   getPlaylist() {
     this.setState({
       playlist: []
-    })
+    });
     axios
-      .get(server + '/api/songs/playlist')
+      .get(server + "/api/songs/playlist")
       .then(response => {
         this.setState({
           playlist: response.data,
@@ -176,26 +174,9 @@ export class PlaylistProvider extends Component {
   }
 
   async playlistStart(response) {
-    // let now = new Date();
-    // let result = {};
-    // for (let song of this.state.playlist) {
-    //   if (song.id === response.videoId)
-    //   {
-    //     result = song;
-    //     console.log(result);
-    //   }
-        
-    // }
-    // let passingTime =
-    //   (now.getHours() - response.startAt.hour) * 3600 +
-    //   (now.getMinutes() - response.startAt.minute) * 60 +
-    //   (now.getSeconds() - response.startAt.second);
     await this.setState({
       currentSong: {
-        id: response.videoId,
-      //   passingTime: passingTime,
-      //   title: result.title,
-      //   singer: result.singer
+        id: response.videoId
       },
       playlistStart: true,
       playlistEnd: false
@@ -204,11 +185,11 @@ export class PlaylistProvider extends Component {
 
   async playlistEnd(response) {
     confirmAlert({
-      title: 'Playlist Ended !!!',
-      message: 'Please Come Back Tomorrow',
+      title: "Playlist Ended !!!",
+      message: "Please Come Back Tomorrow",
       buttons: [
         {
-          label: 'OK',
+          label: "OK"
         }
       ],
       closeOnClickOutside: true,

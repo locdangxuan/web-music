@@ -19,6 +19,7 @@ class App extends Component {
         <div className="App">
           <UserProvider>
             <Header />
+            <CountdownClock />
             <div className="body">
               <PlaylistProvider>
                 <Container>
@@ -39,7 +40,6 @@ class App extends Component {
                   </Row>
                 </Container>
               </PlaylistProvider>
-              <CountdownClock />
             </div>
           </UserProvider>
         </div>
