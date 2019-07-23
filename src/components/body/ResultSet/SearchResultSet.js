@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
 import { server } from "../../../server.js";
-import {Button} from 'reactstrap';
+import { Button } from "reactstrap";
+import "./SearchResultSet.css"
 export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
@@ -141,7 +142,10 @@ export default class SearchResultSet extends Component {
             </div>
           )}
         </div>{" "}
-        <Button outline color="primary" className="show-more-btn"
+        <Button
+          outline
+          color="primary"
+          className="show-more-btn"
           onClick={() => {
             this.showMore();
           }}
