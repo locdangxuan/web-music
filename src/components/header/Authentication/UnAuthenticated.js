@@ -262,7 +262,14 @@ export default class UnAuthenticated extends Component {
     await axios
       .post(server + "/api/users/authenticate", user)
       .then(response => {
-        localStorage.setItem("Token", JSON.stringify(response.data));
+        let currentUser = {
+          token : response.data.token,
+          firstName : response.data.firstName,
+          lastName : response.data.lastName,
+          username : response.data.username,
+          email : response.data.email
+        }
+        localStorage.setItem("Token", JSON.stringify(currentUser));
         this.props.getValue(true);
         result = true;
       })

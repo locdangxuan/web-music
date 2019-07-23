@@ -27,20 +27,21 @@ export default class Authenticated extends Component {
       url: server + '/api/users/logout',
       headers: {
         Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
+          'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
       },
       data: { username: this.state.currentUser.username }
     })
       .then(response => {
         console.log(response.status);
         if (response.status === 200) {
-          Alert("Message", "Logged out Succesfully!!!");
+          Alert('Message', 'Logged out Succesfully!!!');
+          localStorage.removeItem('Token');
         }
       })
       .catch(error => {
-        Alert("Warning", error);
+        Alert('Warning', error);
       });
-    localStorage.removeItem("Token");
+    
   }
 
   render() {
