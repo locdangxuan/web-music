@@ -41,10 +41,6 @@ class App extends Component {
                   </Row>
                 </Container>
               </PlaylistProvider>
-<<<<<<< HEAD
-=======
-
->>>>>>> 22/07
             </div>
           </UserProvider>
         </div>
