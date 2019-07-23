@@ -39,12 +39,10 @@ export default class VideoSong extends Component {
           }
         });
         this.socket.on('end', (response) => {
-          window.location.assign(window.location.hostname + window.location.pathname);
+          window.location.assign(window.location.hostname);
         });
       }
       else {
-        console.log(window.location.href);
-        console.log(window.location.hostname + window.location.pathname);
         this.setState({
           id: this.props.match.params.id,
           singer: this.props.location.state.singer,
