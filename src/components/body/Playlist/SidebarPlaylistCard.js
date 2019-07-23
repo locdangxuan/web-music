@@ -5,7 +5,6 @@ import { MdThumbDown } from "react-icons/md";
 import { Row, Col } from "reactstrap";
 import "./SidebarPlaylistCard.css";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
-import schedule from 'node-schedule';
 
 export default class SidebarPlaylistCard extends Component {
   constructor(props) {

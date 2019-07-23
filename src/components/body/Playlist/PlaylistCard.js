@@ -33,7 +33,7 @@ export default class PlaylistCard extends Component {
       votingID
     } = this.state;
     return (
-      <div className="playlist-card">
+      <div className='playlist-card'>
         <Link
           to={{
             pathname: "/playing/" + id,
@@ -47,8 +47,8 @@ export default class PlaylistCard extends Component {
 
         <Link
           to={{
-            pathname: "/playing/" + id,
-            state: { title: song_title, singer: singer, status: true }
+            pathname: '/playing/' + id,
+            state: { title: song_title, singer: singer }
           }}
           className="info"
         >

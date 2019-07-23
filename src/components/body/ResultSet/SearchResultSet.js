@@ -35,9 +35,15 @@ export default class SearchResultSet extends Component {
       text: this.props.match.params.text,
       SongList: [],
       videoFound: true
+<<<<<<< HEAD
     });
 
     const storage = localStorage.getItem("SearchingHistory");
+=======
+    })
+
+    const storage = localStorage.getItem('SearchingHistory');
+>>>>>>> 22/07
     if (storage === null) {
       this.getSongList(keyword);
     } else {

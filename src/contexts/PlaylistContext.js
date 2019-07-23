@@ -7,6 +7,7 @@ import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
 
 import { Alert } from "../confirmalert";
+import schedule from 'node-schedule';
 
 export const PlaylistContext = React.createContext();
 
@@ -44,7 +45,7 @@ export class PlaylistProvider extends Component {
 
   componentWillMount() {
     this.socket = io(server);
-    this.socket.on("connect", response => {});
+    this.socket.on("connect", response => { });
     this.socket.on("play", response => {
       if (response !== null) {
         this.playlistStart(response);
