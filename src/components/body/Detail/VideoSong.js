@@ -24,6 +24,7 @@ export default class VideoSong extends Component {
       control: control,
       iframeId: iframeid
     };
+    
   }
 
   componentWillMount() {
@@ -38,11 +39,12 @@ export default class VideoSong extends Component {
           }
         });
         this.socket.on('end', (response) => {
-          window.location.assign('localhost:3000');
+          window.location.assign(window.location.hostname + window.location.pathname);
         });
       }
       else {
-        console.log(this.props.location.state.status);
+        console.log(window.location.href);
+        console.log(window.location.hostname + window.location.pathname);
         this.setState({
           id: this.props.match.params.id,
           singer: this.props.location.state.singer,
