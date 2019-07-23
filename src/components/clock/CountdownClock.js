@@ -11,10 +11,10 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
         // Render a countdown
         return (
             <div>
-                <div>
+                <div className = "wrapper">
                     <span>Playlist start in</span>
                 </div>
-                <span className = "wrapper">
+                <span >
                     {hours}:{minutes}:{seconds}
                 </span>
             </div>
