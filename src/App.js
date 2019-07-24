@@ -11,6 +11,8 @@ import { PlaylistProvider } from "./contexts/PlaylistContext";
 import UserModification from "./components/body/UserModification/UserModification";
 import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
+import Footer from "./components/Footer/Footer";
+import ShowAuto from "./components/body/SlideShow/ShowAuto";
 
 class App extends Component {
   render() {
@@ -19,9 +21,10 @@ class App extends Component {
         <div className="App">
           <UserProvider>
             <Header />
-            <CountdownClock />
             <div className="body">
               <PlaylistProvider>
+                {/* <ShowAuto /> */}
+                <CountdownClock />
                 <Container>
                   <Route exact path="/" component={Playlist} />
                   <Route path="/info/" component={UserModification} />
@@ -41,6 +44,7 @@ class App extends Component {
                 </Container>
               </PlaylistProvider>
             </div>
+            <Footer />
           </UserProvider>
         </div>
       </Router>

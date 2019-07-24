@@ -8,19 +8,25 @@ export class UserProvider extends Component {
   constructor() {
     super();
     let storage = localStorage.getItem("Token");
-    this.state = {
-      email: "",
-      firstName: "",
-      lastName: "",
-      username: "",
-      password: "",
-      passwordValid: "",
-      warning: "",
-      storage: storage
-    };
+      if (storage !== null) {
+        
+      }
+
+      this.state = {
+        email: "",
+        firstName: "",
+        lastName: "",
+        username: "",
+        password: "",
+        passwordValid: "",
+        warning: "",
+        storage: JSON.parse(storage),
+      };
+    
   }
 
   updateUsername = newUsername => {
+    console.log("change");
     this.setState({ username: newUsername });
   };
 
@@ -92,7 +98,7 @@ export class UserProvider extends Component {
             })
               .then(response => {
                 if (response.status === 200) {
-                  let userData = JSON.parse(storage);
+                  let userData = storage;
                   userData.username = username;
                   userData.firstName = firstName;
                   userData.lastName = lastName;
@@ -100,7 +106,7 @@ export class UserProvider extends Component {
                   let storageUpdate = JSON.stringify(userData);
                   this.setState({
                     warning: response.data,
-                    storage: storageUpdate
+                    storage: userData
                   });
                   localStorage.setItem("Token", storageUpdate);
                 }
@@ -125,7 +131,6 @@ export class UserProvider extends Component {
           lastName: this.state.lastName,
           passwordValid: this.state.passwordValid,
           warning: this.state.warning,
-          email: this.state.email,
           updateClick: this.updateClick,
           updateUsername: this.updateUsername,
           updateFirstName: this.updateFirstName,

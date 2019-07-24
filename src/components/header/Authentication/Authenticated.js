@@ -52,14 +52,24 @@ export default class Authenticated extends Component {
 
   render() {
     const { currentUser } = this.state;
+    console.log(currentUser);
     return (
       <div className="authenticated">
         <div className="avatar">
           <img src={Icon} width={40} alt="Icon" />
         </div>
         <UserContext.Consumer>
-          {({ firstName, lastName }) => (
+          {/* {({ storage }) => (
             <div className="user-info">
+              <Link
+                className="user"
+                to={`/info/${storage.firstName}_${storage.lastName}`}
+              >
+                <p>{storage.firstName + " " + storage.lastName}</p>
+              </Link>
+            </div>
+          )} */}
+          <div className="user-info">
               <Link
                 className="user"
                 to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
@@ -67,7 +77,6 @@ export default class Authenticated extends Component {
                 <p>{currentUser.firstName + " " + currentUser.lastName}</p>
               </Link>
             </div>
-          )}
         </UserContext.Consumer>
         <div className="logout-btn">
           <Link to={"/"}>
