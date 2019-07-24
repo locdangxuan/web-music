@@ -21,7 +21,6 @@ class App extends Component {
           <UserProvider>
             <Header />
             <div className="body">
-              <CountdownClock />
               <PlaylistProvider>
                 <CountdownClock />
                 <Container>
@@ -45,7 +44,6 @@ class App extends Component {
             </div>
             <Footer />
           </UserProvider>
-         
         </div>
       </Router>
     );
