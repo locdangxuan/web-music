@@ -18,7 +18,6 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-     
           <UserProvider>
             <Header />
             <div className="body">

@@ -52,7 +52,6 @@ export default class Authenticated extends Component {
 
   render() {
     const { currentUser } = this.state;
-    console.log(currentUser);
     return (
       <div className="authenticated">
         <div className="avatar">
