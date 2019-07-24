@@ -16,10 +16,11 @@
 }
 
 .full-image {
-  background-image: url(../Image/HaLongBay.jpeg);
+  background-image: url(../Image/italy.jpg);
   background-attachment: fixed;
   background-size: cover;
   position: absolute;
+  z-index: -1;
   left: 0;
   top: 0;
   bottom: 0;
