@@ -223,10 +223,10 @@ export default class UnAuthenticated extends Component {
       this.setState({ registerAlert: 'Please fill all the information below' });
     else {
       if (username.length < 8) {
-        this.setState({ registerAlert: "username does not match required length ( 8 letters or more )" });
+        this.setState({ registerAlert: "Username does not match required length ( 8 letters or more )" });
       } else {
         if (password !== passwordValid) {
-          this.setState({ registerAlert: "passwords does not match each others" });
+          this.setState({ registerAlert: "Validation password does not match" });
         } else {
           this.Registertoggle();
           var newUser = {
@@ -262,7 +262,14 @@ export default class UnAuthenticated extends Component {
     await axios
       .post(server + "/api/users/authenticate", user)
       .then(response => {
-        localStorage.setItem("Token", JSON.stringify(response.data));
+        let currentUser = {
+          token : response.data.token,
+          firstName : response.data.firstName,
+          lastName : response.data.lastName,
+          username : response.data.username,
+          email : response.data.email
+        }
+        localStorage.setItem("Token", JSON.stringify(currentUser));
         this.props.getValue(true);
         result = true;
       })

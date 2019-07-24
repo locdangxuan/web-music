@@ -41,5 +41,7 @@
 .down-vote {
   margin-left: 10px;
 }
-
+.playlist-playing{
+  pointer-events: none;
+}
 

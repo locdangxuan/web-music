@@ -12,7 +12,7 @@ export default class Authenticated extends Component {
   constructor(props) {
     super(props);
     const token = JSON.parse(localStorage.getItem("Token"));
-    var isLoggedIn = false;
+    let isLoggedIn = false;
     if (token !== null) {
       isLoggedIn = true;
     }
@@ -20,34 +20,28 @@ export default class Authenticated extends Component {
     this.logoutBtnClicked = this.logoutBtnClicked.bind(this);
   }
 
-  componentDidUpdate(){
-    const storage = JSON.parse(localStorage.getItem("Token"));
-    this.setState({
-      currentUser: storage
-    })
-  }
-
-  logoutBtnClicked() {
+  async logoutBtnClicked() {
     this.props.getValue(false);
-    axios({
-      method: "POST",
-      url: server + "/api/users/logout",
+    await axios({
+      method: 'POST',
+      url: server + '/api/users/logout',
       headers: {
         Authorization:
-          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
+          'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
       },
       data: { username: this.state.currentUser.username }
     })
       .then(response => {
         console.log(response.status);
         if (response.status === 200) {
-          Alert("Message", "Logged out Succesfully!!!");
+          Alert('Message', 'Logged out Succesfully!!!');
+          localStorage.removeItem('Token');
         }
       })
       .catch(error => {
-        Alert("Warning", error);
+        Alert('Warning', error);
       });
-    localStorage.removeItem("Token");
+    
   }
 
   render() {

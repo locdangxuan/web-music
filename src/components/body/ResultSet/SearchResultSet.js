@@ -38,7 +38,7 @@ export default class SearchResultSet extends Component {
       videoFound: true
     });
 
-    const storage = localStorage.getItem("SearchingHistory");
+    const storage = localStorage.getItem('SearchingHistory');
     if (storage === null) {
       this.getSongList(keyword);
     } else {

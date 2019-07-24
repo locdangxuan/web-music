@@ -12,7 +12,7 @@ export default class PlaylistCard extends Component {
       thumbnail: this.props.thumbnail,
       song_title: this.props.song_title,
       singer: this.props.singer,
-      adder: this.props.adder,
+      addedUser: this.props.addedUser,
       upvote: this.props.upvote,
       downvote: this.props.downvote,
       id: this.props.id,
@@ -26,18 +26,18 @@ export default class PlaylistCard extends Component {
       thumbnail,
       singer,
       song_title,
-      adder,
+      addedUser,
       upvote,
       downvote,
       id,
       votingID
     } = this.state;
     return (
-      <div className="playlist-card">
+      <div className='playlist-card'>
         <Link
           to={{
             pathname: "/playing/" + id,
-            state: { title: song_title, singer: singer }
+            state: { title: song_title, singer: singer, status : true, addedUser: addedUser }
           }}
         >
           <div className="thumbnail">
@@ -47,8 +47,8 @@ export default class PlaylistCard extends Component {
 
         <Link
           to={{
-            pathname: "/playing/" + id,
-            state: { title: song_title, singer: singer }
+            pathname: '/playing/' + id,
+            state: { title: song_title, singer: singer, status : true,addedUser: addedUser }
           }}
           className="info"
         >
@@ -59,7 +59,7 @@ export default class PlaylistCard extends Component {
         </Link>
 
         <div className="user-relation">
-          <div className="adder">{adder}</div>
+          <div className="adder">{addedUser}</div>
           <PlaylistContext.Consumer>
             {({ clickToVote }) => (
               <div className="sidebar-vote">

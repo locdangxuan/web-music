@@ -22,6 +22,7 @@ class App extends Component {
           <UserProvider>
             <Header />
             <div className="body">
+              <CountdownClock />
               <PlaylistProvider>
                 {/* <ShowAuto /> */}
                 <CountdownClock />

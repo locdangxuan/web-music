@@ -28,10 +28,10 @@
         transition: all .5s;
         background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
         border: solid 1px #ccc;
-        padding: 9px 10px 9px 32px;
+        padding: 5px 0px 5px 35px;
     }
     input[type=search]:focus {
-        width: 550px;
+        width: 500px;
         background-color: #fff;
         border-color: orange;
         -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
