@@ -254,7 +254,6 @@ export default class UnAuthenticated extends Component {
   };
 
   async accountAuthentication(username, password) {
-    console.log(1);
     var user = { username: username, password: password };
     // axios post automatically transform user to JSON file
     let result;
@@ -277,7 +276,6 @@ export default class UnAuthenticated extends Component {
       let username = this.refs.usernameLogin.value;
       let password = this.refs.passwordLogin.value;
       let valid = await this.accountAuthentication(username, password);
-      console.log(valid);
       if (valid === false) {
         this.setState({ loginAlert: 'Wrong username or password' });
       } else {

@@ -20,11 +20,11 @@ export default class Authenticated extends Component {
     this.logoutBtnClicked = this.logoutBtnClicked.bind(this);
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     const storage = JSON.parse(localStorage.getItem("Token"));
     this.setState({
       currentUser: storage
-    })
+    });
   }
 
   logoutBtnClicked() {
@@ -57,18 +57,24 @@ export default class Authenticated extends Component {
         <div className="avatar">
           <img src={Icon} width={40} alt="Icon" />
         </div>
-        <UserContext.Consumer>
-          {({ firstName, lastName }) => (
-            <div className="user-info">
+        <div className="user-info">
+        {/* <UserContext.Consumer>
+          {({ storage }) => (
               <Link
                 className="user"
-                to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
+                to={`/info/${storage.firstName}_${storage.lastName}`}
               >
-                <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+                <p>{storage.firstName + " " + storage.lastName}</p>
               </Link>
-            </div>
           )}
-        </UserContext.Consumer>
+          </UserContext.Consumer> */}
+          <Link
+            className="user"
+            to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
+          >
+            <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+          </Link>
+        </div>
         <div className="logout-btn">
           <Link to={"/"}>
             <Button onClick={this.logoutBtnClicked} className="button">

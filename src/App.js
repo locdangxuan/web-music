@@ -11,6 +11,8 @@ import { PlaylistProvider } from "./contexts/PlaylistContext";
 import UserModification from "./components/body/UserModification/UserModification";
 import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
+import Footer from "./components/Footer/Footer";
+
 
 class App extends Component {
   render() {
@@ -41,6 +43,7 @@ class App extends Component {
                 </Container>
               </PlaylistProvider>
             </div>
+            <Footer />
           </UserProvider>
         </div>
       </Router>
