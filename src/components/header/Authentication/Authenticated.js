@@ -23,25 +23,24 @@ export default class Authenticated extends Component {
   async logoutBtnClicked() {
     this.props.getValue(false);
     await axios({
-      method: 'POST',
-      url: server + '/api/users/logout',
+      method: "POST",
+      url: server + "/api/users/logout",
       headers: {
         Authorization:
-          'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
+          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
       },
       data: { username: this.state.currentUser.username }
     })
       .then(response => {
         console.log(response.status);
         if (response.status === 200) {
-          Alert('Message', 'Logged out Succesfully!!!');
-          localStorage.removeItem('Token');
+          Alert("Message", "Logged out Succesfully!!!");
+          localStorage.removeItem("Token");
         }
       })
       .catch(error => {
-        Alert('Warning', error);
+        Alert("Warning", error);
       });
-    
   }
 
   render() {
@@ -53,7 +52,7 @@ export default class Authenticated extends Component {
           <img src={Icon} width={40} alt="Icon" />
         </div>
         <UserContext.Consumer>
-          {/* {({ storage }) => (
+          {({ storage }) => (
             <div className="user-info">
               <Link
                 className="user"
@@ -62,16 +61,17 @@ export default class Authenticated extends Component {
                 <p>{storage.firstName + " " + storage.lastName}</p>
               </Link>
             </div>
-          )} */}
-          <div className="user-info">
-              <Link
-                className="user"
-                to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
-              >
-                <p>{currentUser.firstName + " " + currentUser.lastName}</p>
-              </Link>
-            </div>
+          )}
+          
         </UserContext.Consumer>
+        {/* <div className="user-info">
+          <Link
+            className="user"
+            to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
+          >
+            <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+          </Link>
+        </div> */}
         <div className="logout-btn">
           <Link to={"/"}>
             <Button onClick={this.logoutBtnClicked} className="button">

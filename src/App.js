@@ -12,13 +12,14 @@ import UserModification from "./components/body/UserModification/UserModificatio
 import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
 import Footer from "./components/Footer/Footer";
-import ShowAuto from "./components/body/SlideShow/ShowAuto";
+// import ShowAuto from "./components/body/SlideShow/ShowAuto";
 
 class App extends Component {
   render() {
     return (
       <Router>
         <div className="App">
+     
           <UserProvider>
             <Header />
             <div className="body">
@@ -47,6 +48,7 @@ class App extends Component {
             </div>
             <Footer />
           </UserProvider>
+         
         </div>
       </Router>
     );
