@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../../server.js";
 import { Alert } from "../../../confirmalert";
-import  UserContext  from "../../../contexts/UserContext";
+import  {UserContext}  from "../../../contexts/UserContext";
 
 export default class Authenticated extends Component {
   constructor(props) {

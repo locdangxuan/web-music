@@ -44,6 +44,7 @@ class App extends Component {
               </PlaylistProvider>
             </div>
           </div>
+          <Footer/>
         </UserProvider>
       </Router>
     );

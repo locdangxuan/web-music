@@ -4,7 +4,7 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
 import { server } from "../../../server";
-import  UserContext  from "../../../contexts/UserContext";
+import  {UserContext}  from "../../../contexts/UserContext";
 
 
 export default class UnAuthenticated extends Component {

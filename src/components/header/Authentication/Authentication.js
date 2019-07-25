@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Authenticated from "./Authenticated";
 import UnAuthenticated from "./UnAuthenticated";
-import  UserContext  from "../../../contexts/UserContext";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default class Authentication extends Component {
   // constructor(props) {
