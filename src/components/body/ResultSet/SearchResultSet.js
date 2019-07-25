@@ -3,7 +3,7 @@ import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
 import { server } from "../../../server.js";
 import { Button } from "reactstrap";
-import "./SearchResultSet.css"
+import "./SearchResultSet.css";
 export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
@@ -110,7 +110,9 @@ export default class SearchResultSet extends Component {
           });
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+      });
     console.log(this.state);
   };
 
