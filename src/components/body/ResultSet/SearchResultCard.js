@@ -5,7 +5,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { Link } from "react-router-dom";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
 
-export default class InfoSongSearch extends Component {
+export default class SearchResultCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
