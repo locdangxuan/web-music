@@ -4,7 +4,7 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
 import { server } from "../../../server";
-import { Alert } from "../../../confirmalert";
+import  UserContext  from "../../../contexts/UserContext";
 
 
 export default class UnAuthenticated extends Component {
@@ -18,14 +18,12 @@ export default class UnAuthenticated extends Component {
     };
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
-    this.loginBtn = this.loginBtn.bind(this);
     this.registerBtn = this.registerBtn.bind(this);
     this.enterPressed = this.enterPressed.bind(this);
-    this.accountAuthentication = this.accountAuthentication.bind(this);
   }
   render() {
     return (
-      <div className="unauthenticated">
+      <div className="unauthenticated">     
         <div className="login">
           <Button className="btn-login" onClick={this.loginToggle}>
             Login
@@ -47,7 +45,6 @@ export default class UnAuthenticated extends Component {
                     className="effect-6"
                     placeholder="Username"
                     ref="usernameLogin"
-                    onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -58,27 +55,33 @@ export default class UnAuthenticated extends Component {
                     className="effect-6"
                     placeholder="Input Password"
                     ref="passwordLogin"
-                    onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
               </Form>
-              <span>{this.state.loginAlert}</span>
+              <UserContext.Consumer>
+              {({message}) => (
+              <span>{message}</span>)}
+              </UserContext.Consumer>
             </ModalBody>
             <ModalFooter>
+            <UserContext.Consumer>
+            {({loginFunction}) => (
               <Button
                 outline
                 color="primary"
                 className="LoginBtn"
-                onClick={this.loginBtn}
+                onClick={() => loginFunction(this.refs.usernameLogin.value,this.refs.passwordLogin.value)}
               >
                 Login
-              </Button>{" "}
+              </Button>
+              )}
+              </UserContext.Consumer>{"  "}
               <Button outline color="primary" onClick={this.loginToggle}>
                 Cancel
               </Button>
             </ModalFooter>
           </Modal>
-        </div>
+        </div>    
         <div className="register">
           <Button className="btn-register" onClick={this.registerToggle}>
             Register
@@ -177,7 +180,7 @@ export default class UnAuthenticated extends Component {
               </Button>
             </ModalFooter>
           </Modal>
-        </div>
+        </div>     
       </div>
     );
   }
@@ -236,7 +239,6 @@ export default class UnAuthenticated extends Component {
             firstName: firstName,
             lastName: lastName
           };
-
           // axios post automatically transform user to JSON file
           axios
             .post(server + "/api/users/register", newUser)
@@ -253,46 +255,4 @@ export default class UnAuthenticated extends Component {
     }
   };
 
-  async accountAuthentication(username, password) {
-    var user = { username: username, password: password };
-    // axios post automatically transform user to JSON file
-    let result;
-
-    await axios
-      .post(server + "/api/users/authenticate", user)
-      .then(response => {
-        let currentUser = {
-          token : response.data.token,
-          firstName : response.data.firstName,
-          lastName : response.data.lastName,
-          username : response.data.username,
-          email : response.data.email
-        }
-        localStorage.setItem("Token", JSON.stringify(currentUser));
-        this.props.getValue(true);
-        result = true;
-      })
-      .catch(error => {
-        result = false;
-      });
-    return result;
-  }
-
-  async loginBtn() {
-    try {
-      let username = this.refs.usernameLogin.value;
-      let password = this.refs.passwordLogin.value;
-      let valid = await this.accountAuthentication(username, password);
-      if (valid === false) {
-        this.setState({ loginAlert: 'Wrong username or password' });
-      } else {
-        let name = JSON.parse(localStorage.getItem('Token')).firstName + ' ' + JSON.parse(localStorage.getItem('Token')).lastName;
-        Alert('Message',`Welcome back ${name}`);
-        this.loginToggle();
-      }
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
 }

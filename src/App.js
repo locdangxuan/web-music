@@ -17,8 +17,9 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
-          <UserProvider>
+        <UserProvider>
+          <div className="App">
+
             <Header />
             <div className="body">
               <PlaylistProvider>
@@ -42,9 +43,8 @@ class App extends Component {
                 </Container>
               </PlaylistProvider>
             </div>
-            <Footer />
-          </UserProvider>
-        </div>
+          </div>
+        </UserProvider>
       </Router>
     );
   }

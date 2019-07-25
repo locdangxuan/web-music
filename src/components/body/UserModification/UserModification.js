@@ -2,53 +2,44 @@ import React, { Component } from "react";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
 import { Button } from "reactstrap";
-import { UserContext } from "../../../contexts/UserContext";
+// import  UserContext  from "../../../contexts/UserContext";
+import {UserContext} from "../../../contexts/UserContext"
 
 export default class UserModification extends Component {
-  constructor(props) {
-    super(props);
-    const storage = localStorage.getItem("Token");
-    if (storage !== null) {
-      const currentUser = JSON.parse(storage);
-      let textInput = React.createRef();
-      this.state = {
-        email: currentUser.email,
-        firstName: currentUser.firstName,
-        lastName: currentUser.lastName,
-        username: currentUser.username,
-        password: "",
-        passwordValid: "",
-        textInput: textInput,
-      };
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      oldPassword: '',
+      newPassword: '',
+      newPasswordValidation: ''
     }
+    this.onChangeHandler = this.onChangeHandler.bind(this);
   }
-
+  async onChangeHandler(event) {
+    await this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
   render() {
     return (
-      <UserContext.Consumer>
-        {({
-          updateUsername,
-          updatePassword,
-          updateFirstName,
-          updateLastName,
-          updatePasswordValid,
-          updateEmail,
-          updateClick,
-          warning,
-          textInput
-        }) => (
-            <div className="user-update">
-              <Form className="user-modification">
+      <div className="user-update">
+        <Form className="user-modification">
+          <UserContext.Consumer>
+            {({ currentUser }) => (
+              <div>
                 <FormGroup>
                   <Label for="Email">Email</Label>
                   <input
-                    className="effect-6"
                     type="text"
-                    placeholder={this.state.email}
-                    ref={textInput}
-                    onChange={event => {
-                      updateEmail(event.target.value);
-                    }}
+                    id="loginPart"
+                    className="effect-6"
+                    name="email"
+                    placeholder={currentUser.username}
+                    onChange={this.onChangeHandler}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -56,11 +47,9 @@ export default class UserModification extends Component {
                   <input
                     className="effect-6"
                     type="text"
-                    placeholder={this.state.username}
-                    ref={textInput}
-                    onChange={event => {
-                      updateUsername(event.target.value);
-                    }}
+                    name="username"
+                    placeholder={currentUser.username}
+                    onChange={this.onChangeHandler}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -70,61 +59,82 @@ export default class UserModification extends Component {
                       <input
                         className="effect-6"
                         type="text"
-                        ref={textInput}
-                        placeholder={this.state.firstName}
-                        onChange={event => {
-                          updateFirstName(event.target.value);
-                        }}
+                        name="firstName"
+                        placeholder={currentUser.firstName}
+                        onChange={this.onChangeHandler}
                       />
                     </Col>
                     <Col xs="6">
                       <input
                         className="effect-6"
                         type="text"
-                        ref={textInput}
-                        placeholder={this.state.lastName}
-                        onChange={event => {
-                          updateLastName(event.target.value);
-                        }}
+                        name="lastName"
+                        placeholder={currentUser.lastName}
+                        onChange={this.onChangeHandler}
                       />
                     </Col>
                   </Row>
                 </FormGroup>
-                <FormGroup>
-                  <Label for="password">Password</Label>
-                  <input
-                    className="effect-6"
-                    type="password"
-                    ref={textInput}
-                    onChange={event => {
-                      updatePassword(event.target.value);
-                    }}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label for="passwordAuth">Confirm Password</Label>
-                  <input
-                    className="effect-6"
-                    type="password"
-                    ref={textInput}
-                    onChange={event => {
-                      updatePasswordValid(event.target.value);
-                    }}
-                  />
-                </FormGroup>
-                <div className="warning">{warning}</div>
-                <Button
-                  outline
-                  color="danger"
-                  style={{ float: "right" }}
-                  onClick={() => updateClick()}
-                >
-                  Update
-              </Button>
-              </Form>
-            </div>
-          )}
-      </UserContext.Consumer>
+              </div>)}
+          </UserContext.Consumer>
+          <UserContext.Consumer>
+            {({ message }) => (
+              <span className="warning">{message}</span>
+            )}
+          </UserContext.Consumer>
+          <UserContext.Consumer>
+            {({ changeInfo }) => (
+              <Button
+                outline
+                color="danger"
+                style={{ float: "right" }}
+                onClick={() => changeInfo(this.state.username, this.state.email, this.state.firstName, this.state.lastName)}
+              >
+                Update
+              </Button>)}
+          </UserContext.Consumer>
+          <br/><br/><br/>
+          <FormGroup>
+            <Label for="password">Old Password</Label>
+            <input
+              className="effect-6"
+              type="password"
+              name="oldPassword"
+              onChange={this.onChangeHandler}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="password">New Password</Label>
+            <input
+              className="effect-6"
+              type="password"
+              name="newPassword"
+              onChange={this.onChangeHandler}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="passwordAuth">Confirm New Password</Label>
+            <input
+              className="effect-6"
+              type="password"
+              name="newPasswordValidation"
+              onChange={this.onChangeHandler}
+            />
+          </FormGroup>
+          <UserContext.Consumer>
+            {({ changePassword }) => (
+              <Button
+                outline
+                color="danger"
+                style={{ float: "right" }}
+                onClick={() => changePassword(this.state.oldPassword, this.state.newPassword, this.state.newPasswordValidation)}
+              >
+                Change Password
+              </Button>)}
+          </UserContext.Consumer>
+        </Form>
+      </div>
+
     );
   }
 }
