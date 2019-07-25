@@ -13,6 +13,9 @@
   font-family: "Roboto", sans-serif;
   font-weight: 500;
 }
+.detail .title{
+  font-Size: "22px";
+}
 #playlist-start {
   pointer-events: none;
 }

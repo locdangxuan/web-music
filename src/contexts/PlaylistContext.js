@@ -20,7 +20,8 @@ export class PlaylistProvider extends Component {
       playlistStart: false,
       returnToIndex: false,
       playlistEnd: true,
-      serviceAvailable: true
+      serviceAvailable: true,
+      topSongs: []
     };
     this.socket = null;
     this.serviceActivate = this.serviceActivate.bind(this);
@@ -167,8 +168,7 @@ export class PlaylistProvider extends Component {
       .get(server + "/api/songs/playlist")
       .then(response => {
         this.setState({
-          playlist: response.data,
-          topSongs: [response.data[0], response.data[1], response.data[2]]
+          playlist: response.data
         });
       })
       .catch(error => console.log(error));
@@ -179,6 +179,7 @@ export class PlaylistProvider extends Component {
       currentSong: {
         id: response.videoId
       },
+      topSongs: [this.state.playlist[0], this.state.playlist[1], this.state.playlist[2]],
       playlistStart: true,
       playlistEnd: false
     });
@@ -201,12 +202,7 @@ export class PlaylistProvider extends Component {
       playlistStart: false,
       playlistEnd: true,
       returnToIndex: true,
-      playlist: []
-      // playlist: [
-      //   this.state.playlist[0],
-      //   this.state.playlist[1],
-      //   this.state.playlist[2]
-      // ]
+      // playlist: this.state.topSongs
     });
     localStorage.removeItem('SearchingHistory');
   }

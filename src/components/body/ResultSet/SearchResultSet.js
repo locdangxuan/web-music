@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import SearchResultCard from "./SearchResultCard";
 import { server } from "../../../server.js";
-import {Button} from 'reactstrap';
+import { Button } from 'reactstrap';
 export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
@@ -11,6 +11,7 @@ export default class SearchResultSet extends Component {
       SongList: [],
       videoFound: false
     };
+
     this._isMounted = false;
     this.getSongList = this.getSongList.bind(this);
     this.loadResult = this.loadResult.bind(this);
@@ -19,24 +20,28 @@ export default class SearchResultSet extends Component {
   }
 
   componentDidMount() {
-    this.loadResult(this.props.match.params.text);
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let song = params.get('q');
+    this.loadResult(song);
   }
 
   componentDidUpdate() {
-    //Khi keyword tren url thay doi thi ham loadResult se duoc goi
-    if (this.state.text !== this.props.match.params.text) {
-      this.loadResult(this.props.match.params.text);
+    let search = window.location.search;
+    let params = new URLSearchParams(search);
+    let song = params.get('q');
+    //Clear the list in the state
+    if (this.state.text !== song) {
+      this.setState({
+        SongList: []
+      });
+      //Get new list after the list is cleared
+      if (this.state.SongList.length === 0)
+        this.loadResult(song);
     }
   }
 
   async loadResult(keyword) {
-    //Xoa cac ket qua hien co
-    await this.setState({
-      text: this.props.match.params.text,
-      SongList: [],
-      videoFound: true
-    });
-
     const storage = localStorage.getItem('SearchingHistory');
     if (storage === null) {
       this.getSongList(keyword);
@@ -77,11 +82,11 @@ export default class SearchResultSet extends Component {
   getSongList(value) {
     axios
       .get(server + `/api/songs/search/${value}`)
-      .then(response => {
+      .then(async (response) => {
         if (response.data === "No Video Found") {
           this.setState({ videoFound: false });
         } else {
-          this.setState({
+          await this.setState({
             text: value,
             SongList: response.data.data,
             videoFound: true,
@@ -93,11 +98,11 @@ export default class SearchResultSet extends Component {
       .catch(error => console.log(error));
   }
 
-  showMore = async () => {
+  async showMore() {
     await axios
       .get(
         server +
-          `/api/songs/search/${this.state.text}?page=${this.state.nextPage}`
+        `/api/songs/search/${this.state.text}?page=${this.state.nextPage}`
       )
       .then(response => {
         if (response.data === "No Video Found") {
@@ -110,7 +115,6 @@ export default class SearchResultSet extends Component {
         }
       })
       .catch(error => console.log(error));
-    console.log(this.state);
   };
 
   render() {
@@ -118,20 +122,20 @@ export default class SearchResultSet extends Component {
     const SongList = this.state.SongList;
     return (
       <div className="text-center">
-        <div className="SearchAreaHeader text-center">
+        <div className="search-area-header">
           <span>
-            Show results for <span className="SearchInput">{text}</span>
+            Show results for <span className="search-input">{text}</span>
           </span>
         </div>
-        <div className="ResultSet">
+        <div className="result-set">
           {videoFound === false && <div>NO VIDEO FOUND</div>}
           {videoFound === true && (
             <div>
               {SongList.map((value, key) => {
                 return (
                   <SearchResultCard
-                    id={value.videoId}
-                    song_title={value.title}
+                    videoId={value.videoId}
+                    songTitle={value.title}
                     singer={value.channelTitle}
                     imgsrc={value.thumbnails}
                     key={key}
@@ -141,7 +145,7 @@ export default class SearchResultSet extends Component {
             </div>
           )}
         </div>{" "}
-        <Button outline color="primary" className="show-more-btn"
+        <Button outline color="primary" className="show-more-button"
           onClick={() => {
             this.showMore();
           }}

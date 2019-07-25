@@ -39,7 +39,7 @@ class Search extends Component {
           placeholder="Search"
           onKeyUp={this.enterBtnClick}
         />
-        {searchingStart && <Redirect to={"/searching/" + searchText} />}
+        {searchingStart && <Redirect to={"/searching/?q=" + searchText} />}
       </div>
     );
   }

@@ -10,14 +10,14 @@ export default class PlaylistCard extends Component {
     super(props);
     this.state = {
       thumbnail: this.props.thumbnail,
-      song_title: this.props.song_title,
+      songTitle: this.props.songTitle,
       singer: this.props.singer,
       addedUser: this.props.addedUser,
       upvote: this.props.upvote,
       downvote: this.props.downvote,
       id: this.props.id,
       token: localStorage.token,
-      votingID: this.props.votingID
+      songID: this.props.votingID
     };
   }
 
@@ -25,39 +25,37 @@ export default class PlaylistCard extends Component {
     const {
       thumbnail,
       singer,
-      song_title,
+      songTitle,
       addedUser,
       upvote,
       downvote,
       id,
-      votingID
+      songID
     } = this.state;
     return (
       <div className='playlist-card'>
         <Link
           to={{
             pathname: "/playing/" + id,
-            state: { title: song_title, singer: singer, status : true, addedUser: addedUser }
+            state: { title: songTitle, singer: singer, status: true, addedUser: addedUser }
           }}
         >
           <div className="thumbnail">
-            <img src={thumbnail} alt="#" width={100} />
+            <img src={thumbnail} alt="Thumbnail" width={100} />
           </div>
         </Link>
-
         <Link
           to={{
             pathname: '/playing/' + id,
-            state: { title: song_title, singer: singer, status : true,addedUser: addedUser }
+            state: { title: songTitle, singer: singer, status: true, addedUser: addedUser }
           }}
           className="info"
         >
           <div>
-            <div className="song-title">{song_title}</div>
+            <div className="song-title">{songTitle}</div>
             <div className="singer">{singer}</div>
           </div>
         </Link>
-
         <div className="user-relation">
           <div className="adder">{addedUser}</div>
           <PlaylistContext.Consumer>
@@ -65,14 +63,14 @@ export default class PlaylistCard extends Component {
               <div className="sidebar-vote">
                 <div className="upvote">
                   <MdThumbUp
-                    onClick={() => clickToVote(votingID, true)}
+                    onClick={() => clickToVote(songID, true)}
                     className="like"
                   />
                   <span className="amount">{upvote}</span>
                 </div>
                 <div className="downvote">
                   <MdThumbDown
-                    onClick={() => clickToVote(votingID, false)}
+                    onClick={() => clickToVote(songID, false)}
                     className="dislike"
                   />
                   <span className="amount">{downvote}</span>

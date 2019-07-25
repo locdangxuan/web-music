@@ -45,7 +45,7 @@ export default class Playlist extends Component {
               return (
                 <PlaylistCard
                   id={value.videoId}
-                  song_title={value.title}
+                  songTitle={value.title}
                   singer={value.channelTitle}
                   addedUser={value.addedUser}
                   thumbnail={value.thumbnails}

@@ -30,13 +30,13 @@ class App extends Component {
                   <Row style={{ backgroundColor: "white", paddingTop: "20px" }}>
                     <Col xs="8">
                       <Route
-                        path="/searching/:text"
+                        path="/searching/"
                         component={SearchResultSet}
                       />
-                      <Route exact path="/playing/:id" component={VideoSong} />
+                      <Route exact path="/playing/:songId" component={VideoSong} />
                     </Col>
                     <Col xs="4">
-                      <Route path="/playing/:id" component={SidebarPlaylist} />
+                      <Route path="/playing/:songId" component={SidebarPlaylist} />
                       <Route path="/searching/" component={SidebarPlaylist} />
                     </Col>
                   </Row>
