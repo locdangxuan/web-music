@@ -16,8 +16,9 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="App">
-          <UserProvider>
+        <UserProvider>
+          <div className="App">
+
             <Header />
             <CountdownClock />
             <div className="body">
@@ -42,8 +43,8 @@ class App extends Component {
                 </Container>
               </PlaylistProvider>
             </div>
-          </UserProvider>
-        </div>
+          </div>
+        </UserProvider>
       </Router>
     );
   }
