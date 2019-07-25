@@ -75,10 +75,11 @@ export default class CountdownClock extends Component {
     render() {
         return (
             <div className="countdown-clock">
-                <div>
-                    <span>Playlist start in</span>
+                <div className="wrapper">
+                    <span>Playlist start in </span>
+                    <Countdown date={this.state.countdown} renderer={renderer} />
                 </div>
-                <Countdown date={this.state.countdown} renderer={renderer} />
+               
             </div>
         )
     }
