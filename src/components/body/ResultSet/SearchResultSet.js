@@ -8,54 +8,87 @@ export default class SearchResultSet extends Component {
     super(props);
     this.state = {
       text: "",
-      SongList: [],
-      videoFound: false
+      songList: [],
+      videoFound: false,
+      nextPage: ''
     };
-
-    this._isMounted = false;
     this.getSongList = this.getSongList.bind(this);
     this.loadResult = this.loadResult.bind(this);
-    this.check = this.check.bind(this);
+    this.checkStorage = this.checkStorage.bind(this);
     this.storageUpdate = this.storageUpdate.bind(this);
+    this.showMore = this.showMore.bind(this);
   }
 
   componentDidMount() {
-    let search = window.location.search;
-    let params = new URLSearchParams(search);
-    let song = params.get('q');
-    this.loadResult(song);
+    this.loadResult(new URLSearchParams(this.props.location.search).get('q'));
   }
 
-  componentDidUpdate() {
-    let search = window.location.search;
-    let params = new URLSearchParams(search);
-    let song = params.get('q');
-    //Clear the list in the state
-    if (this.state.text !== song) {
-      this.setState({
-        SongList: []
-      });
-      //Get new list after the list is cleared
-      if (this.state.SongList.length === 0)
-        this.loadResult(song);
-    }
+  componentDidUpdate(prevProps) {
+    if (new URLSearchParams(prevProps.location.search).get('q') !== new URLSearchParams(this.props.location.search).get('q'))
+      this.loadResult(new URLSearchParams(this.props.location.search).get('q'));
   }
 
   async loadResult(keyword) {
-    const storage = localStorage.getItem('SearchingHistory');
-    if (storage === null) {
-      this.getSongList(keyword);
-    } else {
-      let result = this.check(keyword, JSON.parse(storage));
-      if (result === null) {
-        this.getSongList(keyword);
-      } else {
+    if (keyword !== this.state.text) {
+      //clear the current list in state
+      if (this.state.songList.length !== 0) {
         await this.setState({
-          text: keyword,
-          SongList: result.songList,
-          videoFound: true
+          songList: []
         });
       }
+      //add new list to the state
+      const storage = localStorage.getItem('SearchingHistory');
+      let result = null;
+      if (storage === null) {
+        result = await this.getSongList(keyword);
+        await this.setState({
+          text: result.text,
+          videoFound: result.videoFound,
+          nextPage: result.nextPage,
+          songList: result.songList
+        })
+      } else {
+        let result = this.checkStorage(keyword, JSON.parse(storage));
+        if (result !== null) {
+          await this.setState({
+            text: result.text,
+            songList: result.songList,
+            videoFound: true,
+            nextPage: result.nextPage
+          });
+        } else {
+          result = await this.getSongList(keyword);
+          await this.setState({
+            text: result.text,
+            songList: result.songList,
+            videoFound: result.videoFound,
+            nextPage: result.nextPage
+          });
+        }
+      }
+    }
+  }
+
+  async getSongList(value) {
+    let songList = [];
+    let nextPage = '';
+    let videoFound = false;
+    await axios
+      .get(server + `/api/songs/search/${value}`)
+      .then((response) => {
+        if (response.data !== "No Video Found") {
+          this.storageUpdate({ keyword: value, songList: response.data.data, nextPage: response.data.nextPage });
+          songList = response.data.data;
+          nextPage = response.data.nextPage;
+          videoFound = true;
+        }
+      })
+      .catch(error => console.log(error));
+    return {
+      text: value,
+      songList: songList,
+      videoFound: videoFound,
+      nextPage: nextPage
     }
   }
 
@@ -70,32 +103,13 @@ export default class SearchResultSet extends Component {
     localStorage.setItem("SearchingHistory", JSON.stringify(newArr));
   }
 
-  check(keyword, array) {
+  checkStorage(keyword, array) {
     for (let result of array) {
       if (result.keyword === keyword) {
         return result;
       }
     }
     return null;
-  }
-
-  getSongList(value) {
-    axios
-      .get(server + `/api/songs/search/${value}`)
-      .then(async (response) => {
-        if (response.data === "No Video Found") {
-          this.setState({ videoFound: false });
-        } else {
-          await this.setState({
-            text: value,
-            SongList: response.data.data,
-            videoFound: true,
-            nextPage: response.data.nextPage
-          });
-          this.storageUpdate({ keyword: value, songList: response.data.data });
-        }
-      })
-      .catch(error => console.log(error));
   }
 
   async showMore() {
@@ -109,7 +123,7 @@ export default class SearchResultSet extends Component {
           this.setState({ videoFound: false });
         } else {
           this.setState({
-            SongList: this.state.SongList.concat(response.data.data),
+            songList: this.state.SongList.concat(response.data.data),
             nextPage: response.data.nextPage
           });
         }
@@ -118,8 +132,7 @@ export default class SearchResultSet extends Component {
   };
 
   render() {
-    const { text, videoFound } = this.state;
-    const SongList = this.state.SongList;
+    const { text, videoFound,songList } = this.state;
     return (
       <div className="text-center">
         <div className="search-area-header">
@@ -131,7 +144,7 @@ export default class SearchResultSet extends Component {
           {videoFound === false && <div>NO VIDEO FOUND</div>}
           {videoFound === true && (
             <div>
-              {SongList.map((value, key) => {
+              {songList.map((value, key) => {
                 return (
                   <SearchResultCard
                     videoId={value.videoId}
@@ -146,9 +159,7 @@ export default class SearchResultSet extends Component {
           )}
         </div>{" "}
         <Button outline color="primary" className="show-more-button"
-          onClick={() => {
-            this.showMore();
-          }}
+          onClick={this.showMore}
         >
           Show more
         </Button>
