@@ -1,4 +1,4 @@
-/* #footer {
+#footer {
   position: relative;
   color: #ccc;
   height: 650px;
@@ -7,7 +7,7 @@
 #footer .section {
   position: static;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: -1;
+
   height: 100%;
 }
 .content{
@@ -27,4 +27,4 @@
   height: 100%;
   background-repeat: repeat;
 }
- */
+

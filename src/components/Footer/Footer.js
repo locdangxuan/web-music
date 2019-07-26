@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Footer.css";
-// import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import logo from "../Image/CodeEngine.png";
 
 export default class Footer extends Component {
@@ -8,7 +8,7 @@ export default class Footer extends Component {
     return (
       <div id="footer">
         <section className="section">
-          {/* <div className="full-image" />
+          <div className="full-image" />
           <Container className="content">
             <Row>
               <Col md="4">
@@ -25,7 +25,7 @@ export default class Footer extends Component {
                 <p>newbusiness@codeenginestudio.com</p>
               </Col>
             </Row>
-          </Container> */}
+          </Container>
           <div className="text-center">
             <img src={logo} alt="logo" />
           </div>
