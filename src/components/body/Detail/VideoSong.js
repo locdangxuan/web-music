@@ -24,7 +24,6 @@ export default class VideoSong extends Component {
       control: control,
       iframeId: iframeid
     };
-    
   }
 
   componentWillMount() {

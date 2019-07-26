@@ -201,7 +201,7 @@ export default class UnAuthenticated extends Component {
     }));
   };
 
-  enterPressed = event => {
+  enterPressed(event) {
     if (event.keyCode === 13 && event.target.id === "loginPart")
       this.loginBtn();
     else if (event.keyCode === 13 && event.target.id === "registerPart")

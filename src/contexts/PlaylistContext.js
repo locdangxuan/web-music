@@ -168,8 +168,9 @@ export class PlaylistProvider extends Component {
       .get(server + "/api/songs/playlist")
       .then(response => {
         this.setState({
-          playlist: response.data
+          playlist: response.data.message
         });
+        
       })
       .catch(error => console.log(error));
   }
@@ -180,8 +181,7 @@ export class PlaylistProvider extends Component {
         id: response.videoId
       },
       topSongs: [this.state.playlist[0], this.state.playlist[1], this.state.playlist[2]],
-      playlistStart: true,
-      playlistEnd: false
+      playlistStart: true
     });
   }
 
@@ -202,22 +202,23 @@ export class PlaylistProvider extends Component {
       playlistStart: false,
       playlistEnd: true,
       returnToIndex: true,
-      // playlist: this.state.topSongs
     });
     localStorage.removeItem('SearchingHistory');
   }
 
   render() {
-    const { currentSong, playlistStart, returnToIndex } = this.state;
+    const { currentSong, playlistStart, returnToIndex, serviceAvailable } = this.state;
     return (
       <div>
         <PlaylistContext.Provider
           value={{
             playlist: this.state.playlist,
+            playlistStart: playlistStart,
             playlistEnd: this.state.playlistEnd,
             top1Song: this.state.top1Song,
             clickToAdd: this.clickToAdd,
-            clickToVote: this.clickToVote
+            clickToVote: this.clickToVote,
+            serviceAvailable: serviceAvailable
           }}
         >
           {this.props.children}

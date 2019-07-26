@@ -9,10 +9,9 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
         return <span>Playlist is on !!! Drop the beat</span>;
     } else {
         return (
-            <div>
-                <div className = "wrapper">
-                    <span>Playlist start in</span>
-                </div>
+            <div className="wrapper">
+                <span>Playlist start in</span>
+                <br />
                 <span >
                     {hours}:{minutes}:{seconds}
                 </span>
@@ -79,8 +78,8 @@ export default class CountdownClock extends Component {
     }
     componentDidMount() {
         let countdownScheduled = new schedule.RecurrenceRule();
-        countdownScheduled.hour = 17;
-        countdownScheduled.minute = 20;
+        countdownScheduled.hour = 16;
+        countdownScheduled.minute = 14;
         schedule.scheduleJob(countdownScheduled, this.startCounting);
     }
     startCounting() {

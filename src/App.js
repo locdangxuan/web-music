@@ -17,13 +17,11 @@ class App extends Component {
     return (
       <Router>
         <UserProvider>
-          <div className="App">
-
-            <Header />
-            <CountdownClock />
-            <div className="body">
+          <PlaylistProvider>
+            <div className="App">
+              <Header />
               <CountdownClock />
-              <PlaylistProvider>
+              <div className="body">
                 <Container>
                   <Route exact path="/" component={Playlist} />
                   <Route path="/info/" component={UserModification} />
@@ -41,9 +39,9 @@ class App extends Component {
                     </Col>
                   </Row>
                 </Container>
-              </PlaylistProvider>
+              </div>
             </div>
-          </div>
+          </PlaylistProvider>
         </UserProvider>
       </Router>
     );

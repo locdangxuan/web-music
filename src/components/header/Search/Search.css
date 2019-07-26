@@ -31,7 +31,6 @@
         padding: 5px 0px 5px 35px;
     }
     input[type=search]:focus {
-        width: 500px;
         background-color: #fff;
         border-color: orange;
         -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
