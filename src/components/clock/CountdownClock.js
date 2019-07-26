@@ -2,25 +2,30 @@ import React, { Component } from 'react';
 import Countdown from 'react-countdown-now';
 import './CountdownClock.css';
 
+import schedule from 'node-schedule';
+
 const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
-        return <Completionist />;
+        return <span>Playlist is on !!! Drop the beat</span>;
     } else {
-        // Render a countdown
         return (
-            <span>
-                {hours}:{minutes}:{seconds}
-            </span>
+            <div>
+                <div className = "wrapper">
+                    <span>Playlist start in</span>
+                </div>
+                <span >
+                    {hours}:{minutes}:{seconds}
+                </span>
+            </div>
         );
     }
 };
 
-const Completionist = () => <span>Playlist is on !!! Drop the beat</span>;
-
 export default class CountdownClock extends Component {
     constructor() {
         super();
-        this.state = { countdown: 0 }
+        this.state = { countdown: '', start: false }
+        this.startCounting = this.startCounting.bind(this);
     }
     componentWillMount() {
         let d = new Date();
@@ -72,14 +77,23 @@ export default class CountdownClock extends Component {
             countdown: time
         })
     }
+    componentDidMount() {
+        let countdownScheduled = new schedule.RecurrenceRule();
+        countdownScheduled.hour = 17;
+        countdownScheduled.minute = 20;
+        schedule.scheduleJob(countdownScheduled, this.startCounting);
+    }
+    startCounting() {
+        this.setState({
+            start: true
+        })
+    }
     render() {
         return (
             <div className="countdown-clock">
-                <div className="wrapper">
-                    <span>Playlist start in </span>
+                {this.state.start &&
                     <Countdown date={this.state.countdown} renderer={renderer} />
-                </div>
-               
+                }
             </div>
         )
     }

@@ -1,18 +1,20 @@
 #footer {
   position: relative;
-  z-index: -1;
-  color: #ccc;
-  height: 650px;
+  /* z-index: -1; */
+  color: #cccccc;
+  height: 750px;
 }
 
 #footer .section {
   position: static;
   background-color: rgba(0, 0, 0, 0.6);
+  background-image: url(../Image/italy.jpg);
+  background-size: cover;
   height: 100%;
 }
 
 .content{
-  padding: 100px 0;
+  padding: 50px 0;
 }
 
 .full-image {

@@ -26,6 +26,7 @@ export default class SidebarPlaylist extends Component {
                   key={index}
                   duration={value.duration}
                   votingID={value._id}
+                  addedUser = {value.addedUser}
                 />
               );
             })
