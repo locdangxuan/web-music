@@ -26,7 +26,7 @@ export default class Playlist extends Component {
                 <img src={playlistHeader} alt="header" />}
               {!playlistEnd &&
                 <div>
-                  <img src = {playlistEndHeader} alt="end-header"></img>
+                  <img src = {playlistEndHeader} alt="end-header" key="1"></img>
                   <div className="popout">
                   {please.map((value) => { return <span>{value}</span> })}  
                   <span>&ensp;</span>
