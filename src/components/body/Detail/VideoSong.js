@@ -104,9 +104,9 @@ export default class VideoSong extends Component {
           />
         </div>
         <div className="song-video-name">
-          {status &&
+          {/* {status &&
             <div style={{ fontSize: "28px" }}>This song has already been added to the playlist</div>
-          }
+          } */}
           <div className="add-song">
             <PlaylistContext.Consumer>
               {({ clickToAdd }) => (
