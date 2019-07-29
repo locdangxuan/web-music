@@ -83,36 +83,21 @@ export default class SearchResultSet extends Component {
         }
         this.storageUpdate({ keyword: value, songList: songList, nextPage: nextPage });
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        return {
+          keyword: value,
+          songList: songList,
+          videoFound: videoFound,
+          nextPage: nextPage
+        }
+      });
     return {
-      text: value,
+      keyword: value,
       songList: songList,
       videoFound: videoFound,
       nextPage: nextPage
     }
-    // try {
-    //   let response = await axios.get(server + `/api/songs/search/${value}`);
-    //   if (response.data.message !== "No video found") {
-    //     songList = response.data.message.data;
-    //     nextPage = response.data.message.nextPage;
-    //     videoFound = true;
-    //   }
-    //   this.storageUpdate({ keyword: value, songList: songList, nextPage: nextPage });
-    //   return {
-    //     keyword: value,
-    //     songList: songList,
-    //     videoFound: videoFound,
-    //     nextPage: nextPage
-    //   }
-    // }
-    // catch (error) {
-    //   return {
-    //     keyword: value,
-    //     songList: songList,
-    //     videoFound: videoFound,
-    //     nextPage: nextPage
-    //   }
-    // };
   }
 
   storageUpdate(object) {
