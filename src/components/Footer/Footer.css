@@ -22,7 +22,7 @@
   z-index: 1;
 }
 
-.full-image {
+.full-background {
   background-color: rgba(0, 0, 0, 0.6);
   background-attachment: fixed;
   position: absolute;

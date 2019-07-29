@@ -6,6 +6,12 @@ import heading from '../../Image/Playlist.svg';
 
 
 export default class SidebarPlaylist extends Component {
+  constructor() {
+    super();
+    this.state = {
+      rank: 1,
+    };
+  }
   render() {
     return (
       <div className="sidebar-playlist">

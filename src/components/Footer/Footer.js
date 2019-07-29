@@ -8,7 +8,7 @@ export default class Footer extends Component {
     return (
       <div id="footer">
         <section className="section">
-          <div className="full-image" />
+          <div className="full-background" />
           <Container className="content">
             <Row>
               <Col md="4">

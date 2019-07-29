@@ -33,21 +33,32 @@ export default class PlaylistCard extends Component {
       songID
     } = this.state;
     return (
-      <div className='playlist-card'>
+      <div className="playlist-card">
         <Link
           to={{
             pathname: "/playing/" + id,
-            state: { title: songTitle, singer: singer, status: true, addedUser: addedUser }
+            state: {
+              title: songTitle,
+              singer: singer,
+              status: true,
+              addedUser: addedUser
+            }
           }}
         >
           <div className="thumbnail">
+            <div className="rank">{this.props.rank}</div>
             <img src={thumbnail} alt="Thumbnail" width={100} />
           </div>
         </Link>
         <Link
           to={{
-            pathname: '/playing/' + id,
-            state: { title: songTitle, singer: singer, status: true, addedUser: addedUser }
+            pathname: "/playing/" + id,
+            state: {
+              title: songTitle,
+              singer: singer,
+              status: true,
+              addedUser: addedUser
+            }
           }}
           className="info"
         >

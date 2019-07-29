@@ -168,7 +168,7 @@ export class PlaylistProvider extends Component {
       .get(server + "/api/songs/playlist")
       .then(response => {
         this.setState({
-          playlist: response.data
+          playlist: response.data.message
         });
       })
       .catch(error => console.log(error));
