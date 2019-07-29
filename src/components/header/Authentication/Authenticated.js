@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Authenticated.css";
-import Icon from "../../Image/gastly.svg";
+import Icon from "../../Image/user.svg";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContext";
