@@ -7,7 +7,7 @@ export default class FooterDetail extends Component {
   render() {
     return (
       <div id="footer-detail">
-        <Container className="content">
+        <Container className="content-detail">
           <Row>
             <Col md="4">
               <h4>NEW BUSINESS INQUIRES</h4>

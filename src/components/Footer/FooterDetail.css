@@ -1,4 +1,9 @@
 #footer-detail{
     background: #f15927;
     color: white;
+    margin-top: 50px;
+}
+
+.content-detail{
+    padding-top: 30px;
 }

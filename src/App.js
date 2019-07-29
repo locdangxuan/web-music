@@ -11,7 +11,7 @@ import { PlaylistProvider } from "./contexts/PlaylistContext";
 import UserModification from "./components/body/UserModification/UserModification";
 import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
-// import Footer from "./components/Footer/Footer";
+import Footer from "./components/Footer/Footer";
 import FooterDetail from "./components/Footer/FooterDetail";
 
 class App extends Component {
@@ -46,8 +46,9 @@ class App extends Component {
                   </Row>
                 </Container>
               </div>
-              {/* <Route exact path="/" component={Footer} /> */}
-              <Route exact path="/" component={FooterDetail} />
+              <Route exact path="/" component={Footer} />
+              <Route exact path="/searching" component={FooterDetail} />
+              <Route path="/playing/:songId" component={FooterDetail} />
             </div>
           </PlaylistProvider>
         </UserProvider>
