@@ -7,7 +7,7 @@ export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "",
+      keyword: "",
       songList: [],
       videoFound: false,
       nextPage: ''
@@ -42,7 +42,7 @@ export default class SearchResultSet extends Component {
       if (storage === null) {
         result = await this.getSongList(keyword);
         await this.setState({
-          text: result.text,
+          keyword: result.keyword,
           videoFound: result.videoFound,
           nextPage: result.nextPage,
           songList: result.songList
@@ -51,7 +51,7 @@ export default class SearchResultSet extends Component {
         let result = this.checkStorage(keyword, JSON.parse(storage));
         if (result !== null) {
           await this.setState({
-            text: result.text,
+            keyword: result.keyword,
             songList: result.songList,
             videoFound: true,
             nextPage: result.nextPage
@@ -59,7 +59,7 @@ export default class SearchResultSet extends Component {
         } else {
           result = await this.getSongList(keyword);
           await this.setState({
-            text: result.text,
+            keyword: result.keyword,
             songList: result.songList,
             videoFound: result.videoFound,
             nextPage: result.nextPage
@@ -76,12 +76,12 @@ export default class SearchResultSet extends Component {
     await axios
       .get(server + `/api/songs/search/${value}`)
       .then((response) => {
-        if (response.data !== "No Video Found") {
-          this.storageUpdate({ keyword: value, songList: response.data.data, nextPage: response.data.nextPage });
-          songList = response.data.data;
-          nextPage = response.data.nextPage;
+        if (response.data.message !== "No video found") {
+          songList = response.data.message.data;
+          nextPage = response.data.message.nextPage;
           videoFound = true;
         }
+        this.storageUpdate({ keyword: value, songList: songList, nextPage: nextPage });
       })
       .catch(error => console.log(error));
     return {
@@ -90,6 +90,29 @@ export default class SearchResultSet extends Component {
       videoFound: videoFound,
       nextPage: nextPage
     }
+    // try {
+    //   let response = await axios.get(server + `/api/songs/search/${value}`);
+    //   if (response.data.message !== "No video found") {
+    //     songList = response.data.message.data;
+    //     nextPage = response.data.message.nextPage;
+    //     videoFound = true;
+    //   }
+    //   this.storageUpdate({ keyword: value, songList: songList, nextPage: nextPage });
+    //   return {
+    //     keyword: value,
+    //     songList: songList,
+    //     videoFound: videoFound,
+    //     nextPage: nextPage
+    //   }
+    // }
+    // catch (error) {
+    //   return {
+    //     keyword: value,
+    //     songList: songList,
+    //     videoFound: videoFound,
+    //     nextPage: nextPage
+    //   }
+    // };
   }
 
   storageUpdate(object) {
@@ -97,8 +120,8 @@ export default class SearchResultSet extends Component {
     let newArr = [];
     if (storage !== null) {
       newArr = JSON.parse(storage);
-      if (newArr.length >= 6) newArr.shift();
-    }
+      if (newArr.length >= 10) newArr.shift();
+    } 
     newArr.push(object);
     localStorage.setItem("SearchingHistory", JSON.stringify(newArr));
   }
@@ -112,19 +135,19 @@ export default class SearchResultSet extends Component {
     return null;
   }
 
-  async showMore() {
-    await axios
+  showMore() {
+    axios
       .get(
         server +
         `/api/songs/search/${this.state.text}?page=${this.state.nextPage}`
       )
       .then(response => {
-        if (response.data === "No Video Found") {
+        if (response.data.message === "No video found") {
           this.setState({ videoFound: false });
         } else {
           this.setState({
-            songList: this.state.SongList.concat(response.data.data),
-            nextPage: response.data.nextPage
+            songList: this.state.songList.concat(response.data.message.data),
+            nextPage: response.data.message.nextPage
           });
         }
       })
@@ -132,16 +155,16 @@ export default class SearchResultSet extends Component {
   };
 
   render() {
-    const { text, videoFound,songList } = this.state;
+    const { keyword, videoFound, songList } = this.state;
     return (
       <div className="text-center">
         <div className="search-area-header">
           <span>
-            Show results for <span className="search-input">{text}</span>
+            Show results for <span className="search-input">{keyword}</span>
           </span>
         </div>
         <div className="result-set">
-          {videoFound === false && <div>NO VIDEO FOUND</div>}
+          {videoFound === 0 && <div>NO VIDEO FOUND</div>}
           {videoFound === true && (
             <div>
               {songList.map((value, key) => {
