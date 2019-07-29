@@ -23,9 +23,9 @@ export default class UnAuthenticated extends Component {
   }
   render() {
     return (
-      <div className="unauthenticated">     
+      <div className="un-authenticated">     
         <div className="login">
-          <Button className="btn-login" onClick={this.loginToggle}>
+          <Button className="button" onClick={this.loginToggle}>
             Login
           </Button>
           <Modal
@@ -83,7 +83,7 @@ export default class UnAuthenticated extends Component {
           </Modal>
         </div>    
         <div className="register">
-          <Button className="btn-register" onClick={this.registerToggle}>
+          <Button className="button" onClick={this.registerToggle}>
             Register
           </Button>
           <Modal

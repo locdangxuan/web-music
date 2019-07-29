@@ -8,7 +8,7 @@ export default class Footer extends Component {
     return (
       <div id="footer">
         <section className="section">
-          <div className="full-image" />
+          <div className="full-background" />
           <Container className="content">
             <Row>
               <Col md="4">
@@ -26,7 +26,7 @@ export default class Footer extends Component {
               </Col>
             </Row>
           </Container>
-          <div className="text-center">
+          <div className="text-center logo-footer">
             <img src={logo} alt="logo" />
           </div>
         </section>

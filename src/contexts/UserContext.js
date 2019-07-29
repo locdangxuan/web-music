@@ -11,7 +11,6 @@ export class UserProvider extends Component {
     let storage = localStorage.getItem("Token");
     let user = {};
     let isLoggedIn = false;
-    console.log(storage);
     if (storage !== null) {
       user = JSON.parse(storage); isLoggedIn = true;
     }

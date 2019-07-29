@@ -11,7 +11,8 @@ import { PlaylistProvider } from "./contexts/PlaylistContext";
 import UserModification from "./components/body/UserModification/UserModification";
 import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
-import Footer from "./components/Footer/Footer";
+// import Footer from "./components/Footer/Footer";
+import FooterDetail from "./components/Footer/FooterDetail";
 
 class App extends Component {
   render() {
@@ -19,32 +20,36 @@ class App extends Component {
       <Router>
         <UserProvider>
           <div className="App">
-
             <Header />
             <div className="body">
               <PlaylistProvider>
-                <CountdownClock ></CountdownClock>
+                <CountdownClock />
                 <Container>
                   <Route exact path="/" component={Playlist} />
                   <Route path="/info/" component={UserModification} />
                   <Row style={{ backgroundColor: "white", paddingTop: "20px" }}>
                     <Col xs="8">
+                      <Route path="/searching/" component={SearchResultSet} />
                       <Route
-                        path="/searching/:text"
-                        component={SearchResultSet}
+                        exact
+                        path="/playing/:songId"
+                        component={VideoSong}
                       />
-                      <Route exact path="/playing/:id" component={VideoSong} />
                     </Col>
                     <Col xs="4">
-                      <Route path="/playing/:id" component={SidebarPlaylist} />
+                      <Route
+                        path="/playing/:songId"
+                        component={SidebarPlaylist}
+                      />
                       <Route path="/searching/" component={SidebarPlaylist} />
                     </Col>
                   </Row>
                 </Container>
+                {/* <Route exact path="/" component={Footer} /> */}
+                <Route exact path="/" component={FooterDetail} />
               </PlaylistProvider>
             </div>
           </div>
-          <Footer/>
         </UserProvider>
       </Router>
     );

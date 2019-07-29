@@ -5,7 +5,6 @@
 }
 
 .add-song {
-  display: flex;
   float: right;
 }
 
@@ -13,6 +12,10 @@
   font-family: "Roboto", sans-serif;
   font-weight: 500;
 }
+.detail .title{
+  font-Size: 20px;
+}
+
 #playlist-start {
   pointer-events: none;
 }

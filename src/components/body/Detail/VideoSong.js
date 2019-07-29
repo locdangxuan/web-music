@@ -28,13 +28,11 @@ export default class VideoSong extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props.location.state);
     if (this.props.location.state !== undefined) {
       if (this.props.location.state.playlistStart === true) {
         this.socket = io(server);
         this.socket.on('play', (response) => {
           if (response !== null) {
-            console.log(response);
             this.playFromPlaylist(response);
           }
         });
@@ -44,7 +42,7 @@ export default class VideoSong extends Component {
       }
       else {
         this.setState({
-          id: this.props.match.params.id,
+          id: this.props.match.params.songId,
           singer: this.props.location.state.singer,
           title: this.props.location.state.title,
           status: this.props.location.state.status,
@@ -65,7 +63,6 @@ export default class VideoSong extends Component {
       (now.getHours() - data.startAt.hour) * 3600 +
       (now.getMinutes() - data.startAt.minute) * 60 +
       (now.getSeconds() - data.startAt.second);
-    console.log(data);
     await this.setState({
       id: data.videoId,
       singer: data.channelTitle,
@@ -79,9 +76,9 @@ export default class VideoSong extends Component {
   }
 
   componentDidUpdate = () => {
-    if (this.state.id !== this.props.match.params.id) {
+    if (this.state.id !== this.props.match.params.songId) {
       this.setState({
-        id: this.props.match.params.id,
+        id: this.props.match.params.songId,
         singer: this.props.location.state.singer,
         title: this.props.location.state.title,
         startAt: this.props.location.state.start,
@@ -93,12 +90,12 @@ export default class VideoSong extends Component {
 
   render() {
     const { id, singer, title, startAt, autoplay, control, iframeId, status, addedUser } = this.state;
+    let url = `https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`
     return (
       <div className="video-song">
-
         <div className="video text-center">
           <Iframe
-            src={`https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`}
+            src={url}
             height="450px"
             id={iframeId}
             className="embed-responsive embed-responsive-4by3"
@@ -107,9 +104,9 @@ export default class VideoSong extends Component {
           />
         </div>
         <div className="song-video-name">
-          {status &&
+          {/* {status &&
             <div style={{ fontSize: "28px" }}>This song has already been added to the playlist</div>
-          }
+          } */}
           <div className="add-song">
             <PlaylistContext.Consumer>
               {({ clickToAdd }) => (
@@ -126,7 +123,7 @@ export default class VideoSong extends Component {
           </div>
         </div>
         <div className="detail">
-          <p style={{ fontSize: "22px" }}>{title}</p>
+          <p className = "title">{title}</p>
           <p>{singer}</p>
           {status && 
           <p>Added by {addedUser}</p>}

@@ -16,7 +16,7 @@
   justify-content: center;
 }
 
-.button-add {
+.add-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +34,7 @@
   padding: 0;
 }
 
-.show-more-btn{
+.show-more-button{
   margin-top: 10px;
   border: none;
 }

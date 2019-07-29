@@ -6,9 +6,8 @@ import schedule from 'node-schedule';
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
-        return <Completionist />;
+        return <span>Playlist is on !!! Drop the beat</span>;
     } else {
-        // Render a countdown
         return (
             <div>
                 <div className = "wrapper">
@@ -21,8 +20,6 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
         );
     }
 };
-
-const Completionist = () => <span>Playlist is on !!! Drop the beat</span>;
 
 export default class CountdownClock extends Component {
     constructor() {
@@ -94,11 +91,17 @@ export default class CountdownClock extends Component {
     render() {
         return (
             <div className="countdown-clock">
+<<<<<<< HEAD
                 <div className="wrapper">
                     <span>Playlist start in </span>
                     <Countdown date={this.state.countdown} renderer={renderer} />
                 </div>
                
+=======
+                {this.state.start &&
+                    <Countdown date={this.state.countdown} renderer={renderer} />
+                }
+>>>>>>> update
             </div>
         )
     }

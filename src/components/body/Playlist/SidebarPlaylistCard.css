@@ -34,14 +34,14 @@
   justify-content: center;
 }
 
-.like:hover, .dislike:hover {
+.like:hover,
+.dislike:hover {
   color: blue;
 }
 
 .down-vote {
   margin-left: 10px;
 }
-.playlist-playing{
+.playlist-playing {
   pointer-events: none;
 }
-

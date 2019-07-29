@@ -9,7 +9,8 @@ export default class Playlist extends Component {
   constructor() {
     super();
     this.state = {
-      playlist: []
+      playlist: [],
+      rank: 1,
     };
   }
 
@@ -17,6 +18,7 @@ export default class Playlist extends Component {
     let please = ['P','L','E','A','S','E'];
     let comeback = ['C','O','M','E','B','A','C','K'];
     let tomorrow = ['T','O','M','O','R','R','O','W'];
+    let {rank} = this.state
     return (
       <div className="main-playlist">
         <PlaylistContext.Consumer>
@@ -45,7 +47,7 @@ export default class Playlist extends Component {
               return (
                 <PlaylistCard
                   id={value.videoId}
-                  song_title={value.title}
+                  songTitle={value.title}
                   singer={value.channelTitle}
                   addedUser={value.addedUser}
                   thumbnail={value.thumbnails}
@@ -54,6 +56,7 @@ export default class Playlist extends Component {
                   key={index}
                   duration={value.duration}
                   votingID={value._id}
+                  rank={rank++}
                 />
               );
             })

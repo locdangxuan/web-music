@@ -1,4 +1,4 @@
-.unauthenticated {
+.un-authenticated {
   margin-top: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -53,26 +53,17 @@ input[type="text"] {
   display: flex;
 }
 
-.logoutBtn {
-  padding-top: 0px;
-  margin-left: 20px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
 .login {
   margin-right: 20px;
 }
 
-.btn-login,
-.btn-register {
+.button {
   color: white;
   background: #f15927;
   border: none;
 }
 
-.btn-login:hover,
-.btn-register:hover {
+.button:hover{
   color: #f15927;
   background: white;
   border: none;
