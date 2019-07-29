@@ -5,7 +5,7 @@ import { server } from "../server";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
-
+import moment from 'moment';
 import { Alert } from "../confirmalert";
 import schedule from 'node-schedule';
 
@@ -34,14 +34,14 @@ export class PlaylistProvider extends Component {
 
   componentDidMount() {
     this.getPlaylist();
-    let blockScheduled = new schedule.RecurrenceRule();
-    blockScheduled.hour = 17;
-    blockScheduled.minute = 30;
-    schedule.scheduleJob(blockScheduled, this.serviceActivate);
     let unlockScheduled = new schedule.RecurrenceRule();
-    unlockScheduled.hour = 5;
-    unlockScheduled.minute = 30;
-    schedule.scheduleJob(unlockScheduled, this.serviceActivate);
+    if (moment().isBefore(moment('5:30:0', 'hh:mm:ss'))) {
+      unlockScheduled.hour = 5;
+      unlockScheduled.minute = 30;
+      schedule.scheduleJob(unlockScheduled, this.serviceActivate(true));
+    }
+    else
+      this.serviceActivate(true);
   }
 
   componentWillMount() {
@@ -50,6 +50,7 @@ export class PlaylistProvider extends Component {
     this.socket.on("play", response => {
       if (response !== null) {
         this.playlistStart(response);
+        this.serviceActivate(false);
       }
     });
     this.socket.on("end", response => {
@@ -64,9 +65,9 @@ export class PlaylistProvider extends Component {
     })
   }
 
-  serviceActivate() {
+  serviceActivate(status) {
     this.setState({
-      serviceAvailable: !this.state.serviceAvailable
+      serviceAvailable: status
     })
   }
 
@@ -90,15 +91,13 @@ export class PlaylistProvider extends Component {
           }
         })
           .then(response => {
-            if (response.status === 400)
-              Alert('Warning', 'You have used all your votes today, please comeback tomorrow');
-            else if (response.status === 200) {
+            if (response.status === 200) {
               Alert('Message', 'Successfully Voted');
               this.getPlaylist();
             }
           })
           .catch(error => {
-            Alert('Error', 'Voted Fail !!! Please try again later');
+            Alert('Warning', 'You have used all your votes today, please comeback tomorrow');
             console.log(error);
           });
       }
@@ -170,7 +169,7 @@ export class PlaylistProvider extends Component {
         this.setState({
           playlist: response.data.message
         });
-        
+
       })
       .catch(error => console.log(error));
   }
