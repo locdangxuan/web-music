@@ -63,7 +63,6 @@ export class UserProvider extends Component {
       data: this.state.currentUser.username
     })
       .then(response => {
-        console.log(response.status);
         if (response.status === 200) {
           Alert('Message', 'Logged out Succesfully!!!');
           localStorage.removeItem('Token');
@@ -104,7 +103,7 @@ export class UserProvider extends Component {
           .then(async (response) => {
             if (response.status === 200) {
               await this.setState({
-                message: response.data,
+                message: response.data.message,
                 currentUser: {
                   username: updatedUser.username,
                   email: updatedUser.email,

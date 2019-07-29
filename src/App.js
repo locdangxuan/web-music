@@ -11,7 +11,6 @@ import { PlaylistProvider } from "./contexts/PlaylistContext";
 import UserModification from "./components/body/UserModification/UserModification";
 import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
-
 class App extends Component {
   render() {
     return (
