@@ -9,6 +9,7 @@ class Search extends Component {
       searchText: "",
       searchingStart: false
     };
+    this.enterBtnClick = this.enterBtnClick.bind(this);
   }
 
   componentDidUpdate() {
@@ -19,7 +20,7 @@ class Search extends Component {
     }
   }
 
-  enterBtnClick = event => {
+  enterBtnClick(event) {
     event.preventDefault();
     if (event.keyCode === 13 && event.target.value !== "") {
       this.setState({

@@ -8,56 +8,112 @@ export default class SearchResultSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: "",
-      SongList: [],
-      videoFound: false
+      keyword: "",
+      songList: [],
+      videoFound: false,
+      nextPage: ''
     };
-
-    this._isMounted = false;
     this.getSongList = this.getSongList.bind(this);
     this.loadResult = this.loadResult.bind(this);
-    this.check = this.check.bind(this);
+    this.checkStorage = this.checkStorage.bind(this);
     this.storageUpdate = this.storageUpdate.bind(this);
+    this.showMore = this.showMore.bind(this);
   }
 
   componentDidMount() {
-    let search = window.location.search;
-    let params = new URLSearchParams(search);
-    let song = params.get('q');
-    this.loadResult(song);
+    this.loadResult(new URLSearchParams(this.props.location.search).get('q'));
   }
 
-  componentDidUpdate() {
-    let search = window.location.search;
-    let params = new URLSearchParams(search);
-    let song = params.get('q');
-    //Clear the list in the state
-    if (this.state.text !== song) {
-      this.setState({
-        SongList: []
-      });
-      //Get new list after the list is cleared
-      if (this.state.SongList.length === 0)
-        this.loadResult(song);
-    }
+  componentDidUpdate(prevProps) {
+    if (new URLSearchParams(prevProps.location.search).get('q') !== new URLSearchParams(this.props.location.search).get('q'))
+      this.loadResult(new URLSearchParams(this.props.location.search).get('q'));
   }
 
   async loadResult(keyword) {
-    const storage = localStorage.getItem('SearchingHistory');
-    if (storage === null) {
-      this.getSongList(keyword);
-    } else {
-      let result = this.check(keyword, JSON.parse(storage));
-      if (result === null) {
-        this.getSongList(keyword);
-      } else {
+    if (keyword !== this.state.text) {
+      //clear the current list in state
+      if (this.state.songList.length !== 0) {
         await this.setState({
-          text: keyword,
-          SongList: result.songList,
-          videoFound: true
+          songList: []
         });
       }
+      //add new list to the state
+      const storage = localStorage.getItem('SearchingHistory');
+      let result = null;
+      if (storage === null) {
+        result = await this.getSongList(keyword);
+        await this.setState({
+          keyword: result.keyword,
+          videoFound: result.videoFound,
+          nextPage: result.nextPage,
+          songList: result.songList
+        })
+      } else {
+        let result = this.checkStorage(keyword, JSON.parse(storage));
+        if (result !== null) {
+          await this.setState({
+            keyword: result.keyword,
+            songList: result.songList,
+            videoFound: true,
+            nextPage: result.nextPage
+          });
+        } else {
+          result = await this.getSongList(keyword);
+          await this.setState({
+            keyword: result.keyword,
+            songList: result.songList,
+            videoFound: result.videoFound,
+            nextPage: result.nextPage
+          });
+        }
+      }
     }
+  }
+
+  async getSongList(value) {
+    let songList = [];
+    let nextPage = '';
+    let videoFound = false;
+    await axios
+      .get(server + `/api/songs/search/${value}`)
+      .then((response) => {
+        if (response.data.message !== "No video found") {
+          songList = response.data.message.data;
+          nextPage = response.data.message.nextPage;
+          videoFound = true;
+        }
+        this.storageUpdate({ keyword: value, songList: songList, nextPage: nextPage });
+      })
+      .catch(error => console.log(error));
+    return {
+      text: value,
+      songList: songList,
+      videoFound: videoFound,
+      nextPage: nextPage
+    }
+    // try {
+    //   let response = await axios.get(server + `/api/songs/search/${value}`);
+    //   if (response.data.message !== "No video found") {
+    //     songList = response.data.message.data;
+    //     nextPage = response.data.message.nextPage;
+    //     videoFound = true;
+    //   }
+    //   this.storageUpdate({ keyword: value, songList: songList, nextPage: nextPage });
+    //   return {
+    //     keyword: value,
+    //     songList: songList,
+    //     videoFound: videoFound,
+    //     nextPage: nextPage
+    //   }
+    // }
+    // catch (error) {
+    //   return {
+    //     keyword: value,
+    //     songList: songList,
+    //     videoFound: videoFound,
+    //     nextPage: nextPage
+    //   }
+    // };
   }
 
   storageUpdate(object) {
@@ -65,13 +121,13 @@ export default class SearchResultSet extends Component {
     let newArr = [];
     if (storage !== null) {
       newArr = JSON.parse(storage);
-      if (newArr.length >= 6) newArr.shift();
-    }
+      if (newArr.length >= 10) newArr.shift();
+    } 
     newArr.push(object);
     localStorage.setItem("SearchingHistory", JSON.stringify(newArr));
   }
 
-  check(keyword, array) {
+  checkStorage(keyword, array) {
     for (let result of array) {
       if (result.keyword === keyword) {
         return result;
@@ -80,38 +136,19 @@ export default class SearchResultSet extends Component {
     return null;
   }
 
-  getSongList(value) {
+  showMore() {
     axios
-      .get(server + `/api/songs/search/${value}`)
-      .then(async (response) => {
-        if (response.data === "No Video Found") {
-          this.setState({ videoFound: false });
-        } else {
-          await this.setState({
-            text: value,
-            SongList: response.data.data,
-            videoFound: true,
-            nextPage: response.data.nextPage
-          });
-          this.storageUpdate({ keyword: value, songList: response.data.data });
-        }
-      })
-      .catch(error => console.log(error));
-  }
-
-  async showMore() {
-    await axios
       .get(
         server +
         `/api/songs/search/${this.state.text}?page=${this.state.nextPage}`
       )
       .then(response => {
-        if (response.data === "No Video Found") {
+        if (response.data.message === "No video found") {
           this.setState({ videoFound: false });
         } else {
           this.setState({
-            SongList: this.state.SongList.concat(response.data.data),
-            nextPage: response.data.nextPage
+            songList: this.state.songList.concat(response.data.message.data),
+            nextPage: response.data.message.nextPage
           });
         }
       })
@@ -119,20 +156,19 @@ export default class SearchResultSet extends Component {
   };
 
   render() {
-    const { text, videoFound } = this.state;
-    const SongList = this.state.SongList;
+    const { keyword, videoFound, songList } = this.state;
     return (
       <div className="text-center">
         <div className="search-area-header">
           <span>
-            Show results for <span className="search-input">{text}</span>
+            Show results for <span className="search-input">{keyword}</span>
           </span>
         </div>
         <div className="result-set">
-          {videoFound === false && <div>NO VIDEO FOUND</div>}
+          {videoFound === 0 && <div>NO VIDEO FOUND</div>}
           {videoFound === true && (
             <div>
-              {SongList.map((value, key) => {
+              {songList.map((value, key) => {
                 return (
                   <SearchResultCard
                     videoId={value.videoId}
@@ -147,9 +183,7 @@ export default class SearchResultSet extends Component {
           )}
         </div>{" "}
         <Button outline color="primary" className="show-more-button"
-          onClick={() => {
-            this.showMore();
-          }}
+          onClick={this.showMore}
         >
           Show more
         </Button>

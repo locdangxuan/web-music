@@ -31,11 +31,11 @@ export class UserProvider extends Component {
       .post(server + "/api/users/authenticate", user)
       .then(response => {
         let currentUser = {
-          token: response.data.token,
-          firstName: response.data.firstName,
-          lastName: response.data.lastName,
-          username: response.data.username,
-          email: response.data.email
+          token: response.data.message.token,
+          firstName: response.data.message.firstName,
+          lastName: response.data.message.lastName,
+          username: response.data.message.username,
+          email: response.data.message.email
         }
         localStorage.setItem("Token", JSON.stringify(currentUser));
         this.setState({
@@ -63,7 +63,6 @@ export class UserProvider extends Component {
       data: this.state.currentUser.username
     })
       .then(response => {
-        console.log(response.status);
         if (response.status === 200) {
           Alert('Message', 'Logged out Succesfully!!!');
           localStorage.removeItem('Token');
@@ -75,7 +74,7 @@ export class UserProvider extends Component {
         }
       })
       .catch(error => {
-        Alert('Warning', error);
+        console.log(error);
       });
   }
 
@@ -104,7 +103,7 @@ export class UserProvider extends Component {
           .then(async (response) => {
             if (response.status === 200) {
               await this.setState({
-                message: response.data,
+                message: response.data.message,
                 currentUser: {
                   username: updatedUser.username,
                   email: updatedUser.email,
@@ -125,7 +124,6 @@ export class UserProvider extends Component {
   }
 
   changePassword(oldPassword, newPassword, newPasswordValid) {
-    console.log(newPassword.length);
     if (oldPassword.length === 0 || newPassword.length === 0 || newPassword.length === 0)
       this.setState({
         message: 'Please input all the three text fields above!'
@@ -171,7 +169,6 @@ export class UserProvider extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <UserContext.Provider

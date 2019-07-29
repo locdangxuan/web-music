@@ -24,7 +24,6 @@ export default class VideoSong extends Component {
       control: control,
       iframeId: iframeid
     };
-    
   }
 
   componentWillMount() {
@@ -104,9 +103,9 @@ export default class VideoSong extends Component {
           />
         </div>
         <div className="song-video-name">
-          {/* {status &&
-            <div style={{ fontSize: "28px" }}>This song has already been added to the playlist</div>
-          } */}
+          {status &&
+            <div style={{ fontSize: "28px" }}>This song has already been added to the playlist by {addedUser}</div>
+          }
           <div className="add-song">
             <PlaylistContext.Consumer>
               {({ clickToAdd }) => (
@@ -125,8 +124,6 @@ export default class VideoSong extends Component {
         <div className="detail">
           <p className = "title">{title}</p>
           <p>{singer}</p>
-          {status && 
-          <p>Added by {addedUser}</p>}
         </div>
       </div>
     );

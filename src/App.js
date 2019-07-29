@@ -19,11 +19,11 @@ class App extends Component {
     return (
       <Router>
         <UserProvider>
-          <div className="App">
-            <Header />
-            <div className="body">
-              <PlaylistProvider>
-                <CountdownClock />
+          <PlaylistProvider>
+            <div className="App">
+              <Header />
+              <CountdownClock />
+              <div className="body">
                 <Container>
                   <Route exact path="/" component={Playlist} />
                   <Route path="/info/" component={UserModification} />
@@ -45,11 +45,11 @@ class App extends Component {
                     </Col>
                   </Row>
                 </Container>
-                {/* <Route exact path="/" component={Footer} /> */}
-                <Route exact path="/" component={FooterDetail} />
-              </PlaylistProvider>
+              </div>
+              {/* <Route exact path="/" component={Footer} /> */}
+              <Route exact path="/" component={FooterDetail} />
             </div>
-          </div>
+          </PlaylistProvider>
         </UserProvider>
       </Router>
     );

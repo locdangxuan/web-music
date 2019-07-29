@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import Countdown from 'react-countdown-now';
 import './CountdownClock.css';
-
+import moment from 'moment'
 import schedule from 'node-schedule';
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
-        return <span>Playlist is on !!! Drop the beat</span>;
+        return <span className="wrapper">Playlist is on !!! Drop the beat</span>;
     } else {
         return (
-            <div>
-                <div className = "wrapper">
-                    <span>Playlist start in</span>
-                </div>
+            <div className="wrapper">
+                <span>Playlist start in</span>
+                <br />
                 <span >
                     {hours}:{minutes}:{seconds}
                 </span>
@@ -79,9 +78,13 @@ export default class CountdownClock extends Component {
     }
     componentDidMount() {
         let countdownScheduled = new schedule.RecurrenceRule();
-        countdownScheduled.hour = 17;
-        countdownScheduled.minute = 20;
-        schedule.scheduleJob(countdownScheduled, this.startCounting);
+        if (moment().isBefore(moment('17:20:0', 'hh:mm:ss'))) {
+            countdownScheduled.hour = 17;
+            countdownScheduled.minute = 20;
+            schedule.scheduleJob(countdownScheduled, this.startCounting);
+        }
+        else 
+        this.startCounting();
     }
     startCounting() {
         this.setState({
@@ -91,17 +94,9 @@ export default class CountdownClock extends Component {
     render() {
         return (
             <div className="countdown-clock">
-<<<<<<< HEAD
-                <div className="wrapper">
-                    <span>Playlist start in </span>
-                    <Countdown date={this.state.countdown} renderer={renderer} />
-                </div>
-               
-=======
                 {this.state.start &&
                     <Countdown date={this.state.countdown} renderer={renderer} />
                 }
->>>>>>> update
             </div>
         )
     }

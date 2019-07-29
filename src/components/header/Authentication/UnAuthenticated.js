@@ -201,7 +201,7 @@ export default class UnAuthenticated extends Component {
     }));
   };
 
-  enterPressed = event => {
+  enterPressed(event) {
     if (event.keyCode === 13 && event.target.id === "loginPart")
       this.loginBtn();
     else if (event.keyCode === 13 && event.target.id === "registerPart")
@@ -246,10 +246,15 @@ export default class UnAuthenticated extends Component {
               this.setState({
                 registermodal: false,
                 loginModal: true,
-                registerAlert: response.data
+                registerAlert: response.data.message
               });
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+              console.log(error);
+              this.setState({
+                registerAlert: 'Unable to register'
+              });
+            });
         }
       }
     }
