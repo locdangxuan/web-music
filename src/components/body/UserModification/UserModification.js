@@ -38,7 +38,7 @@ export default class UserModification extends Component {
                     id="loginPart"
                     className="effect-6"
                     name="email"
-                    placeholder={currentUser.username}
+                    value={currentUser.email}
                     onChange={this.onChangeHandler}
                   />
                 </FormGroup>
@@ -48,7 +48,7 @@ export default class UserModification extends Component {
                     className="effect-6"
                     type="text"
                     name="username"
-                    placeholder={currentUser.username}
+                    value={currentUser.username}
                     onChange={this.onChangeHandler}
                   />
                 </FormGroup>
@@ -79,14 +79,18 @@ export default class UserModification extends Component {
           </UserContext.Consumer>
           <UserContext.Consumer>
             {({ message }) => (
-              <span className="warning">{message}</span>
+              <div>
+                {/* {message === "Password successfully changed!" && <span className="successful">{message}</span>} */}
+                <span className="warning">{message}</span>
+              </div>
+              
             )}
           </UserContext.Consumer>
           <UserContext.Consumer>
             {({ changeInfo }) => (
               <Button
                 outline
-                color="danger"
+                color="primary"
                 style={{ float: "right" }}
                 onClick={() => changeInfo(this.state.username, this.state.email, this.state.firstName, this.state.lastName)}
               >
@@ -125,7 +129,7 @@ export default class UserModification extends Component {
             {({ changePassword }) => (
               <Button
                 outline
-                color="danger"
+                color="primary"
                 style={{ float: "right" }}
                 onClick={() => changePassword(this.state.oldPassword, this.state.newPassword, this.state.newPasswordValidation)}
               >

@@ -1,9 +1,9 @@
-#footer-detail{
-    background: #f15927;
-    color: white;
-    margin-top: 50px;
-}
-
-.content-detail{
-    padding-top: 30px;
+#footer-detail {
+  background: #f15927;
+  color: white;
+  margin-top: 20px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
