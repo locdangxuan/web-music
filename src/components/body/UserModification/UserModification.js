@@ -3,20 +3,20 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
 import { Button } from "reactstrap";
 // import  UserContext  from "../../../contexts/UserContext";
-import {UserContext} from "../../../contexts/UserContext"
+import { UserContext } from "../../../contexts/UserContext";
 
 export default class UserModification extends Component {
   constructor() {
     super();
     this.state = {
-      username: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      oldPassword: '',
-      newPassword: '',
-      newPasswordValidation: ''
-    }
+      username: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      oldPassword: "",
+      newPassword: "",
+      newPasswordValidation: ""
+    };
     this.onChangeHandler = this.onChangeHandler.bind(this);
   }
   async onChangeHandler(event) {
@@ -31,6 +31,7 @@ export default class UserModification extends Component {
           <UserContext.Consumer>
             {({ currentUser }) => (
               <div>
+                <h2 className="change-title text-center">Change Fullname</h2>
                 <FormGroup>
                   <Label for="Email">Email</Label>
                   <input
@@ -75,15 +76,19 @@ export default class UserModification extends Component {
                     </Col>
                   </Row>
                 </FormGroup>
-              </div>)}
+              </div>
+            )}
           </UserContext.Consumer>
           <UserContext.Consumer>
             {({ message }) => (
               <div>
-                {/* {message === "Password successfully changed!" && <span className="successful">{message}</span>} */}
-                <span className="warning">{message}</span>
+                {message === "User successfully updated" && (
+                  <span className="successful">{message}</span>
+                )}
+                {message === "Firstname is required" && (
+                  <span className="warning">{message}</span>
+                )}
               </div>
-              
             )}
           </UserContext.Consumer>
           <UserContext.Consumer>
@@ -92,12 +97,23 @@ export default class UserModification extends Component {
                 outline
                 color="primary"
                 style={{ float: "right" }}
-                onClick={() => changeInfo(this.state.username, this.state.email, this.state.firstName, this.state.lastName)}
+                onClick={() =>
+                  changeInfo(
+                    this.state.username,
+                    this.state.email,
+                    this.state.firstName,
+                    this.state.lastName
+                  )
+                }
               >
                 Update
-              </Button>)}
+              </Button>
+            )}
           </UserContext.Consumer>
-          <br/><br/><br/>
+          <br />
+          <br />
+          <br />
+          <h2 className="change-title text-center">Change Password</h2>
           <FormGroup>
             <Label for="password">Old Password</Label>
             <input
@@ -126,19 +142,31 @@ export default class UserModification extends Component {
             />
           </FormGroup>
           <UserContext.Consumer>
-            {({ changePassword }) => (
-              <Button
-                outline
-                color="primary"
-                style={{ float: "right" }}
-                onClick={() => changePassword(this.state.oldPassword, this.state.newPassword, this.state.newPasswordValidation)}
-              >
-                Change Password
-              </Button>)}
+            {({ changePassword, passwordUpdate }) => (
+              <div>
+                <Button
+                  outline
+                  color="primary"
+                  style={{ float: "right" }}
+                  onClick={() =>
+                    changePassword(
+                      this.state.oldPassword,
+                      this.state.newPassword,
+                      this.state.newPasswordValidation
+                    )
+                  }
+                >
+                  Change
+                </Button>
+                {passwordUpdate === "Password successfully changed" &&
+                  (<span className="successful">{passwordUpdate}</span> || (
+                    <span className="warning">{passwordUpdate}</span>
+                  ))}
+              </div>
+            )}
           </UserContext.Consumer>
         </Form>
       </div>
-
     );
   }
 }

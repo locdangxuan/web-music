@@ -9,7 +9,7 @@
 }
 
 .detail {
-  font-family: "Roboto", sans-serif;
+  font-family: "Times New Roman", Times, serif;
   font-weight: 500;
 }
 .detail .title{
@@ -18,4 +18,12 @@
 
 #playlist-start {
   pointer-events: none;
+}
+
+.title{
+  color: #007bff;
+}
+
+.addedUser{
+  color: #F15927
 }

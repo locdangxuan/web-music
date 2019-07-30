@@ -6,7 +6,7 @@ import logo from "../Image/CodeEngine.png";
 export default class Footer extends Component {
   render() {
     return (
-      <div>
+      <div id="footer">
         <div className="footer-img">
           <section className="section">
             <div className="full-background" />

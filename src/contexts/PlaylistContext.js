@@ -115,7 +115,7 @@ export class PlaylistProvider extends Component {
       }
       else {
         confirmAlert({
-          title: "Confirm To Add!!!",
+          title: "Confirm",
           message: "You can only add one song a day",
           buttons: [
             {
@@ -155,7 +155,7 @@ export class PlaylistProvider extends Component {
         this.getPlaylist();
       })
       .catch(error => {
-        Alert('Warning', 'This account has already added a song, try again tomorrow!!');
+        Alert('Warning', 'This account has already added a song, try again tomorrow');
       });
   };
 
@@ -186,7 +186,7 @@ export class PlaylistProvider extends Component {
 
   async playlistEnd(response) {
     confirmAlert({
-      title: "Playlist Ended !!!",
+      title: "Playlist Ended",
       message: "Please Come Back Tomorrow",
       buttons: [
         {

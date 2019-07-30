@@ -64,11 +64,11 @@ export default class PlaylistCard extends Component {
         >
           <div>
             <div className="song-title">{songTitle}</div>
-            <div className="singer">{singer}</div>
+            <div className="singer">{singer}   - added by <strong className="addedUser">{addedUser}</strong></div>
           </div>
         </Link>
         <div className="user-relation">
-          <div className="adder">{addedUser}</div>
+          
           <PlaylistContext.Consumer>
             {({ clickToVote }) => (
               <div className="sidebar-vote">

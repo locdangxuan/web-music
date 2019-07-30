@@ -17,7 +17,8 @@ export class UserProvider extends Component {
     this.state = {
       isLoggedIn: isLoggedIn,
       currentUser: user,
-      message: ''
+      message: '',
+      passwordUpdate: ''
     };
     this.loginFunction = this.loginFunction.bind(this);
     this.logoutFunction = this.logoutFunction.bind(this);
@@ -64,7 +65,7 @@ export class UserProvider extends Component {
     })
       .then(response => {
         if (response.status === 200) {
-          Alert('Message', 'Logged out Succesfully!!!');
+          Alert('Message', 'Logged out Succesfully!');
           localStorage.removeItem('Token');
           this.setState({
             currentUser: {},
@@ -103,7 +104,7 @@ export class UserProvider extends Component {
           .then(async (response) => {
             if (response.status === 200) {
               await this.setState({
-                message: response.data.message,
+                message: "User successfully updated",
                 currentUser: {
                   username: updatedUser.username,
                   email: updatedUser.email,
@@ -126,17 +127,17 @@ export class UserProvider extends Component {
   changePassword(oldPassword, newPassword, newPasswordValid) {
     if (oldPassword.length === 0 || newPassword.length === 0 || newPassword.length === 0)
       this.setState({
-        message: 'Please input all the three text fields above!'
+        passwordUpdate: 'Please input all the three text fields above!'
       });
     else {
       if (newPassword.length < 8)
         this.setState({
-          message: 'Password must contains 8 digits or more!'
+          passwordUpdate: 'Password must contains 8 digits or more!'
         });
       else {
         if (newPassword !== newPasswordValid)
           this.setState({
-            message: 'Password confirmation does not match!'
+            passwordUpdate: 'Password confirmation does not match!'
           });
         else
         {
@@ -152,9 +153,8 @@ export class UserProvider extends Component {
           .then(response => {
             if(response.status === 200)
             this.setState({
-              message: ''
+              passwordUpdate: 'Password successfully changed'
             });
-            Alert('Message','Password successfully changed!')
           })
           .catch(error => {
             this.setState({
@@ -180,7 +180,8 @@ export class UserProvider extends Component {
               loginFunction: this.loginFunction,
               logoutFunction: this.logoutFunction,
               changeInfo: this.changeInfo,
-              changePassword: this.changePassword
+              changePassword: this.changePassword,
+              passwordUpdate: this.state.passwordUpdate
             }
           }
         >
