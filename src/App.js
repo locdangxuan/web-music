@@ -13,7 +13,6 @@ import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
 import Footer from "./components/Footer/Footer";
 import FooterDetail from "./components/Footer/FooterDetail";
-// import { Animated } from "react-animated-css";
 
 class App extends Component {
   render() {
@@ -23,7 +22,7 @@ class App extends Component {
           <PlaylistProvider>
             <div className="App">
               <Header />
-              <CountdownClock />
+              <Route exact path="/" component={CountdownClock} />
               <div className="body">
                 <Container>
                   <Route exact path="/" component={Playlist} />

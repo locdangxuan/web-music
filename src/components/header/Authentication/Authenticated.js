@@ -31,10 +31,11 @@ export default class Authenticated extends Component {
         </div>
         <div className="user-info">
           <UserContext.Consumer>
-            {({currentUser}) => (
+            {({currentUser,resetMessage}) => (
           <Link
             className="user"
             to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
+            onClick={resetMessage}
           >
             <p>{currentUser.firstName + " " + currentUser.lastName}</p>
           </Link>)}

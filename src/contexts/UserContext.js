@@ -19,12 +19,12 @@ export class UserProvider extends Component {
       isLoggedIn: isLoggedIn,
       currentUser: user,
       message: "",
-      passwordUpdate: ""
     };
     this.loginFunction = this.loginFunction.bind(this);
     this.logoutFunction = this.logoutFunction.bind(this);
     this.changeInfo = this.changeInfo.bind(this);
     this.changePassword = this.changePassword.bind(this);
+    this.resetMessage = this.resetMessage.bind(this);
   }
 
   loginFunction(username, password) {
@@ -143,17 +143,17 @@ export class UserProvider extends Component {
       newPassword.length === 0
     )
       this.setState({
-        passwordUpdate: "Please input all the three text fields above!"
+        message: "Please input all the three text fields above!"
       });
     else {
       if (newPassword.length < 8)
         this.setState({
-          passwordUpdate: "Password must contains 8 digits or more!"
+          message: "Password must contains 8 digits or more!"
         });
       else {
         if (newPassword !== newPasswordValid)
           this.setState({
-            passwordUpdate: "Password confirmation does not match!"
+            message: "Password confirmation does not match!"
           });
         else {
           axios({
@@ -168,8 +168,9 @@ export class UserProvider extends Component {
             .then(response => {
               if (response.status === 200)
                 this.setState({
-                  passwordUpdate: "Password successfully changed"
+                  message: ""
                 });
+                Alert('Message','Password successfully changed');
             })
             .catch(error => {
               this.setState({
@@ -183,6 +184,12 @@ export class UserProvider extends Component {
     }
   }
 
+  resetMessage() {
+    this.setState({
+      message: ""
+    });
+  }
+
   render() {
     return (
       <div>
@@ -193,9 +200,9 @@ export class UserProvider extends Component {
             message: this.state.message,
             loginFunction: this.loginFunction,
             logoutFunction: this.logoutFunction,
+            resetMessage: this.resetMessage,
             changeInfo: this.changeInfo,
             changePassword: this.changePassword,
-            passwordUpdate: this.state.passwordUpdate
           }}
         >
           {this.props.children}
