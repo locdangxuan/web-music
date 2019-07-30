@@ -11,7 +11,7 @@ export default class Footer extends Component {
           <section className="section">
             <div className="full-background" />
             <div className="text-center logo-footer">
-              <img src={logo} alt="logo" className="logo-img" />
+                <img src={logo} alt="logo" className="logo-img" />
             </div>
           </section>
         </div>
@@ -19,7 +19,9 @@ export default class Footer extends Component {
           <Container>
             <Row>
               <Col md="6">All rights reserved </Col>
-              <Col md="6" className="text-right">Licences belong to Youtube</Col>
+              <Col md="6" className="text-right">
+                Licences belong to Youtube
+              </Col>
             </Row>
           </Container>
         </div>

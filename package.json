@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "@tedconf/react-show-more": "^1.1.2",
+    "animate.css": "^3.7.2",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "json-server": "^0.15.0",
     "node-schedule": "^1.3.2",
     "react": "^16.8.6",
+    "react-animated-css": "^1.2.1",
     "react-confirm-alert": "^2.4.1",
     "react-countdown-now": "^2.1.1",
     "react-dom": "^16.8.6",

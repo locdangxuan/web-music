@@ -5,6 +5,7 @@ import Iframe from "react-iframe";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
 import { server } from "../../../server";
 import io from "socket.io-client";
+import { Animated } from "react-animated-css";
 
 export default class VideoSong extends Component {
   constructor(props) {
@@ -98,43 +99,51 @@ export default class VideoSong extends Component {
     } = this.state;
     let url = `https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`;
     return (
-      <div className="video-song">
-        <div className="video text-center">
-          <Iframe
-            src={url}
-            height="450px"
-            id={iframeId}
-            className="embed-responsive embed-responsive-4by3"
-            display="initial"
-            position="relative"
-          />
-        </div>
-        <div className="song-video-name">
-          <div className="add-song">
-            <PlaylistContext.Consumer>
-              {({ clickToAdd }) => (
-                <Button
-                  outline
-                  color="primary"
-                  className="btnAdd"
-                  onClick={() => clickToAdd(id)}
-                >
-                  Add
-                </Button>
-              )}
-            </PlaylistContext.Consumer>
+      <Animated
+        animationIn="fadeInLeft"
+        animationOut="fadeOutDown"
+        isVisible={true}
+      >
+        <div className="video-song">
+          <div className="video text-center">
+            <Iframe
+              src={url}
+              height="450px"
+              id={iframeId}
+              className="embed-responsive embed-responsive-4by3"
+              display="initial"
+              position="relative"
+            />
+          </div>
+          <div className="song-video-name">
+            <div className="add-song">
+              <PlaylistContext.Consumer>
+                {({ clickToAdd }) => (
+                  <Button
+                    outline
+                    color="primary"
+                    className="btnAdd"
+                    onClick={() => clickToAdd(id)}
+                  >
+                    Add
+                  </Button>
+                )}
+              </PlaylistContext.Consumer>
+            </div>
+          </div>
+          <div className="detail">
+            <p className="title">{title}</p>
+            {status && (
+              <div>
+                <p>
+                  {singer} - added by{" "}
+                  <strong className="addedUser">{addedUser}</strong>
+                </p>
+              </div>
+            )}
           </div>
         </div>
-        <div className="detail">
-          <p className="title">{title}</p>
-          {status && (
-          <div>
-             <p>{singer} - added by <strong  className="addedUser">{addedUser}</strong></p> 
-          </div>
-        )}
-        </div>
-        
-      </div>
+      </Animated>
     );
   }
 }

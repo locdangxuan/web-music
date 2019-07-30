@@ -49,3 +49,29 @@ html {
 .popout span:nth-last-child(3n) {
   animation-delay: -0.5s;
 }
+
+
+.playlist-body {
+  height: 950px;
+  width: 100%;
+  overflow: auto;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  overflow-x: hidden;
+}
+
+.playlist-body::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.playlist-body::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f5f5f5;
+}
+
+.playlist-body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #dbdbdb;
+}
