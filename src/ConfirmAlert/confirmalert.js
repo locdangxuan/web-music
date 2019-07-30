@@ -9,7 +9,7 @@ export function Alert(title, message) {
     customUI: ({ onClose }) => {
       return (
         <div className="custom-ui">
-          {(title === "Warning" && (
+          {((title === "Warning" || title === "Error") && (
             <h1 className="title-warning">{title}</h1>
           )) || <h1 className="title-message">{title}</h1>}
           <p className="message-alert">{message}</p>

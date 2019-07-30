@@ -173,7 +173,7 @@ export class UserProvider extends Component {
             })
             .catch(error => {
               this.setState({
-                message: ""
+                passwordUpdate: ""
               });
               Alert("Error", "Password was not changed");
               console.log(error);
