@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { server } from "../server";
-import { Alert } from '../confirmalert';
+import { Alert } from "../ConfirmAlert/confirmalert";
 
 export const UserContext = React.createContext();
 
@@ -12,13 +12,14 @@ export class UserProvider extends Component {
     let user = {};
     let isLoggedIn = false;
     if (storage !== null) {
-      user = JSON.parse(storage); isLoggedIn = true;
+      user = JSON.parse(storage);
+      isLoggedIn = true;
     }
     this.state = {
       isLoggedIn: isLoggedIn,
       currentUser: user,
-      message: '',
-      passwordUpdate: ''
+      message: "",
+      passwordUpdate: ""
     };
     this.loginFunction = this.loginFunction.bind(this);
     this.logoutFunction = this.logoutFunction.bind(this);
@@ -37,61 +38,69 @@ export class UserProvider extends Component {
           lastName: response.data.message.lastName,
           username: response.data.message.username,
           email: response.data.message.email
-        }
+        };
         localStorage.setItem("Token", JSON.stringify(currentUser));
         this.setState({
           currentUser: currentUser,
           isLoggedIn: true,
-          message: ''
-        })
+          message: ""
+        });
       })
       .catch(error => {
         console.log(error);
         this.setState({
-          message: 'Invalid username or password'
-        })
+          message: "Invalid username or password"
+        });
       });
   }
 
   logoutFunction() {
     axios({
-      method: 'POST',
-      url: server + '/api/users/logout',
+      method: "POST",
+      url: server + "/api/users/logout",
       headers: {
         Authorization:
-          'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
+          "Bearer " + JSON.parse(localStorage.getItem("Token")).token
       },
-      data: this.state.currentUser.username
+      data: {
+        username: this.state.currentUser.username
+      }
     })
       .then(response => {
         if (response.status === 200) {
-          Alert('Message', 'Logged out Succesfully!');
-          localStorage.removeItem('Token');
+          Alert("Message", "Logged out Succesfully");
+          localStorage.removeItem("Token");
           this.setState({
             currentUser: {},
             isLoggedIn: false,
-            message: ''
-          })
+            message: ""
+          });
         }
       })
       .catch(error => {
+        console.log(JSON.parse(localStorage.getItem("Token")).token);
         console.log(error);
       });
   }
 
   changeInfo(username, email, firstName, lastName) {
     if (username.length < 8 && username.length > 0)
-      this.setState({ message: 'Username must contain 8 digits or more' });
+      this.setState({ message: "Username must contain 8 digits or more" });
     else {
       if (firstName.length === 0)
-        this.setState({ message: 'Firstname is required' });
+        this.setState({ message: "Firstname is required" });
       else {
         let updatedUser = {
-          username: (username.length === 0) ? this.state.currentUser.username : username,
-          email: (email.length === 0) ? this.state.currentUser.email : email,
-          firstName: (firstName.length === 0) ? this.state.currentUser.firstName : firstName,
-          lastName: (lastName.length === 0) ? this.state.currentUser.lastName : lastName,
-        }
+          username:
+            username.length === 0 ? this.state.currentUser.username : username,
+          email: email.length === 0 ? this.state.currentUser.email : email,
+          firstName:
+            firstName.length === 0
+              ? this.state.currentUser.firstName
+              : firstName,
+          lastName:
+            lastName.length === 0 ? this.state.currentUser.lastName : lastName
+        };
         axios({
           method: "PUT",
           url: server + "/api/users/update",
@@ -101,7 +110,7 @@ export class UserProvider extends Component {
           },
           data: updatedUser
         })
-          .then(async (response) => {
+          .then(async response => {
             if (response.status === 200) {
               await this.setState({
                 message: "User successfully updated",
@@ -113,11 +122,14 @@ export class UserProvider extends Component {
                   token: this.state.currentUser.token
                 }
               });
-              localStorage.setItem("Token", JSON.stringify(this.state.currentUser));
+              localStorage.setItem(
+                "Token",
+                JSON.stringify(this.state.currentUser)
+              );
             }
           })
           .catch(error => {
-            Alert('Error','Information was not updated');
+            Alert("Error", "Information was not updated");
             console.log(error);
           });
       }
@@ -125,22 +137,25 @@ export class UserProvider extends Component {
   }
 
   changePassword(oldPassword, newPassword, newPasswordValid) {
-    if (oldPassword.length === 0 || newPassword.length === 0 || newPassword.length === 0)
+    if (
+      oldPassword.length === 0 ||
+      newPassword.length === 0 ||
+      newPassword.length === 0
+    )
       this.setState({
-        passwordUpdate: 'Please input all the three text fields above!'
+        passwordUpdate: "Please input all the three text fields above!"
       });
     else {
       if (newPassword.length < 8)
         this.setState({
-          passwordUpdate: 'Password must contains 8 digits or more!'
+          passwordUpdate: "Password must contains 8 digits or more!"
         });
       else {
         if (newPassword !== newPasswordValid)
           this.setState({
-            passwordUpdate: 'Password confirmation does not match!'
+            passwordUpdate: "Password confirmation does not match!"
           });
-        else
-        {
+        else {
           axios({
             method: "PUT",
             url: server + "/api/users/changepassword",
@@ -148,21 +163,21 @@ export class UserProvider extends Component {
               Authorization:
                 "Bearer " + JSON.parse(localStorage.getItem("Token")).token
             },
-            data: {oldPassword: oldPassword,newPassword: newPassword}
+            data: { oldPassword: oldPassword, newPassword: newPassword }
           })
-          .then(response => {
-            if(response.status === 200)
-            this.setState({
-              passwordUpdate: 'Password successfully changed'
+            .then(response => {
+              if (response.status === 200)
+                this.setState({
+                  passwordUpdate: "Password successfully changed"
+                });
+            })
+            .catch(error => {
+              this.setState({
+                message: ""
+              });
+              Alert("Error", "Password was not changed");
+              console.log(error);
             });
-          })
-          .catch(error => {
-            this.setState({
-              message: ''
-            });
-            Alert('Error','Password was not changed');
-            console.log(error);
-          })
         }
       }
     }
@@ -172,22 +187,20 @@ export class UserProvider extends Component {
     return (
       <div>
         <UserContext.Provider
-          value={
-            {
-              isLoggedIn: this.state.isLoggedIn,
-              currentUser: this.state.currentUser,
-              message: this.state.message,
-              loginFunction: this.loginFunction,
-              logoutFunction: this.logoutFunction,
-              changeInfo: this.changeInfo,
-              changePassword: this.changePassword,
-              passwordUpdate: this.state.passwordUpdate
-            }
-          }
+          value={{
+            isLoggedIn: this.state.isLoggedIn,
+            currentUser: this.state.currentUser,
+            message: this.state.message,
+            loginFunction: this.loginFunction,
+            logoutFunction: this.logoutFunction,
+            changeInfo: this.changeInfo,
+            changePassword: this.changePassword,
+            passwordUpdate: this.state.passwordUpdate
+          }}
         >
           {this.props.children}
         </UserContext.Provider>
       </div>
-    )
+    );
   }
 }

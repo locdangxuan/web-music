@@ -34,7 +34,6 @@ export default class UnAuthenticated extends Component {
             className={this.props.className}
           >
             <ModalHeader toggle={this.loginToggle}>Login</ModalHeader>
-            <span className = "warning">{this.state.registerAlert}</span>
             <ModalBody>
               <Form>
                 <FormGroup>
@@ -231,7 +230,7 @@ export default class UnAuthenticated extends Component {
         if (password !== passwordValid) {
           this.setState({ registerAlert: "Validation password does not match" });
         } else {
-          this.Registertoggle();
+          // this.Registertoggle();
           var newUser = {
             username: username,
             password: password,

@@ -31,7 +31,7 @@ export default class UserModification extends Component {
           <UserContext.Consumer>
             {({ currentUser }) => (
               <div>
-                <h2 className="change-title text-center">Change Fullname</h2>
+                <h2 className="change-title text-center">CHANGE FULLNAME</h2>
                 <FormGroup>
                   <Label for="Email">Email</Label>
                   <input
@@ -113,7 +113,7 @@ export default class UserModification extends Component {
           <br />
           <br />
           <br />
-          <h2 className="change-title text-center">Change Password</h2>
+          <h2 className="change-title text-center">CHANGE PASSWORD</h2>
           <FormGroup>
             <Label for="password">Old Password</Label>
             <input
