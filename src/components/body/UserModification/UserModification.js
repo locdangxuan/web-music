@@ -155,7 +155,7 @@ export default class UserModification extends Component {
               />
             </FormGroup>
             <UserContext.Consumer>
-              {({ changePassword, passwordUpdate }) => (
+              {({ changePassword, message }) => (
                 <div>
                   <Button
                     outline
@@ -171,10 +171,7 @@ export default class UserModification extends Component {
                   >
                     Change
                   </Button>
-                  {passwordUpdate === "Password successfully changed" &&
-                    (<span className="successful">{passwordUpdate}</span> || (
-                      <span className="warning">{passwordUpdate}</span>
-                    ))}
+                  <span className="warning">{message}</span>
                 </div>
               )}
             </UserContext.Consumer>

@@ -19,7 +19,6 @@ export class UserProvider extends Component {
       isLoggedIn: isLoggedIn,
       currentUser: user,
       message: "",
-      passwordUpdate: ""
     };
     this.loginFunction = this.loginFunction.bind(this);
     this.logoutFunction = this.logoutFunction.bind(this);
@@ -130,7 +129,7 @@ export class UserProvider extends Component {
             }
           })
           .catch(error => {
-            Alert('Error','Information was not updated');
+            Alert("Error", "Information was not updated");
             console.log(error);
           });
       }
@@ -144,17 +143,17 @@ export class UserProvider extends Component {
       newPassword.length === 0
     )
       this.setState({
-        passwordUpdate: "Please input all the three text fields above!"
+        message: "Please input all the three text fields above!"
       });
     else {
       if (newPassword.length < 8)
         this.setState({
-          passwordUpdate: "Password must contains 8 digits or more!"
+          message: "Password must contains 8 digits or more!"
         });
       else {
         if (newPassword !== newPasswordValid)
           this.setState({
-            passwordUpdate: "Password confirmation does not match!"
+            message: "Password confirmation does not match!"
           });
         else {
           axios({
@@ -164,20 +163,14 @@ export class UserProvider extends Component {
               Authorization:
                 "Bearer " + JSON.parse(localStorage.getItem("Token")).token
             },
-            data: {oldPassword: oldPassword,newPassword: newPassword}
-          })
-          .then(response => {
-            if(response.status === 200)
-            this.setState({
-              message: ''
-            });
-            Alert('Message','Password successfully changed!',true)
+            data: { oldPassword: oldPassword, newPassword: newPassword }
           })
             .then(response => {
               if (response.status === 200)
                 this.setState({
-                  passwordUpdate: "Password successfully changed"
+                  message: ""
                 });
+                Alert('Message','Password successfully changed');
             })
             .catch(error => {
               this.setState({
@@ -185,16 +178,15 @@ export class UserProvider extends Component {
               });
               Alert("Error", "Password was not changed");
               console.log(error);
-          })
+            });
         }
       }
     }
   }
 
-  resetMessage()
-  {
+  resetMessage() {
     this.setState({
-      message: ''
+      message: ""
     });
   }
 
@@ -202,18 +194,16 @@ export class UserProvider extends Component {
     return (
       <div>
         <UserContext.Provider
-          value={
-            {
-              isLoggedIn: this.state.isLoggedIn,
-              currentUser: this.state.currentUser,
-              message: this.state.message,
-              loginFunction: this.loginFunction,
-              logoutFunction: this.logoutFunction,
-              resetMessage: this.resetMessage,
-              changeInfo: this.changeInfo,
-              changePassword: this.changePassword
-            }
-          }
+          value={{
+            isLoggedIn: this.state.isLoggedIn,
+            currentUser: this.state.currentUser,
+            message: this.state.message,
+            loginFunction: this.loginFunction,
+            logoutFunction: this.logoutFunction,
+            resetMessage: this.resetMessage,
+            changeInfo: this.changeInfo,
+            changePassword: this.changePassword,
+          }}
         >
           {this.props.children}
         </UserContext.Provider>
