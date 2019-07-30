@@ -23,6 +23,7 @@ export class UserProvider extends Component {
     this.logoutFunction = this.logoutFunction.bind(this);
     this.changeInfo = this.changeInfo.bind(this);
     this.changePassword = this.changePassword.bind(this);
+    this.resetMessage = this.resetMessage.bind(this);
   }
 
   loginFunction(username, password) {
@@ -168,6 +169,13 @@ export class UserProvider extends Component {
     }
   }
 
+  resetMessage()
+  {
+    this.setState({
+      message: ''
+    });
+  }
+
   render() {
     return (
       <div>
@@ -179,6 +187,7 @@ export class UserProvider extends Component {
               message: this.state.message,
               loginFunction: this.loginFunction,
               logoutFunction: this.logoutFunction,
+              resetMessage: this.resetMessage,
               changeInfo: this.changeInfo,
               changePassword: this.changePassword
             }
