@@ -69,7 +69,7 @@ export default class SearchResultSet extends Component {
     }
   }
 
-  async getSongList(value) {
+  async getSongList (value) {
     let songList = [];
     let nextPage = '';
     let videoFound = false;
