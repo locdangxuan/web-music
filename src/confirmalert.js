@@ -17,7 +17,7 @@ export function Alert(title, message, success) {
         closeOnEscape: true,
         customUI: ({onClose}) => {
             return(
-            <div>
+            <div className='custom-ui'>
                 {success &&
                     <p style = {{color:"blue", fontSize: "xx-large" }}>{title}</p>}
                 {!success &&
