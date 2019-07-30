@@ -72,6 +72,7 @@ input[type="text"] {
   box-shadow: white;
 }
 
-.warning{
+.warning-register{
   color: red;
+  font-size: 15px;
 }

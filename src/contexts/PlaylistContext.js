@@ -77,7 +77,7 @@ export class PlaylistProvider extends Component {
     if (this.state.serviceAvailable) {
       const token = localStorage.getItem("Token");
       if (token === null) {
-        Alert('Warning', 'Please log in to vote ');
+        Alert('Warning', 'Please log in to vote ',false);
       } else {
         axios({
           method: "POST",
@@ -94,18 +94,18 @@ export class PlaylistProvider extends Component {
         })
           .then(response => {
             if (response.status === 200) {
-              Alert('Message', 'Successfully Voted');
+              Alert('Message', 'Successfully Voted',true);
               this.getPlaylist();
             }
           })
           .catch(error => {
-            Alert('Warning', 'You have used all your votes today, please comeback tomorrow');
+            Alert('Warning', 'You have used all your votes today, please comeback tomorrow',false);
             console.log(error);
           });
       }
     }
     else {
-      Alert('Warning', 'Time for the playlist to play. \n You can not vote now.')
+      Alert('Warning', 'Time for the playlist to play. \n You can not vote now.',false)
     }
   }
 
@@ -113,7 +113,7 @@ export class PlaylistProvider extends Component {
     if (this.state.serviceAvailable) {
       const storage = localStorage.getItem("Token");
       if (storage === null) {
-        Alert('Warning', 'Please login to add this song to the playlist');
+        Alert('Warning', 'Please login to add this song to the playlist',false);
       }
       else {
         confirmAlert({
@@ -136,7 +136,7 @@ export class PlaylistProvider extends Component {
       }
     }
     else {
-      Alert('Warning', 'Time for the playlist to play. \n You can not add this now.')
+      Alert('Warning', 'Time for the playlist to play. \n You can not add this now.',false)
     }
   }
 
@@ -154,7 +154,7 @@ export class PlaylistProvider extends Component {
       }
     })
       .then(response => {
-        Alert('Message', 'Successfully added');
+        Alert('Message', 'Successfully added',true);
         this.getPlaylist();
       })
       .catch(error => {

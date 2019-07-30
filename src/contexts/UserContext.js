@@ -25,6 +25,7 @@ export class UserProvider extends Component {
     this.logoutFunction = this.logoutFunction.bind(this);
     this.changeInfo = this.changeInfo.bind(this);
     this.changePassword = this.changePassword.bind(this);
+    this.resetMessage = this.resetMessage.bind(this);
   }
 
   loginFunction(username, password) {
@@ -129,7 +130,7 @@ export class UserProvider extends Component {
             }
           })
           .catch(error => {
-            Alert("Error", "Information was not updated");
+            Alert('Error','Information was not updated');
             console.log(error);
           });
       }
@@ -163,7 +164,14 @@ export class UserProvider extends Component {
               Authorization:
                 "Bearer " + JSON.parse(localStorage.getItem("Token")).token
             },
-            data: { oldPassword: oldPassword, newPassword: newPassword }
+            data: {oldPassword: oldPassword,newPassword: newPassword}
+          })
+          .then(response => {
+            if(response.status === 200)
+            this.setState({
+              message: ''
+            });
+            Alert('Message','Password successfully changed!',true)
           })
             .then(response => {
               if (response.status === 200)
@@ -177,26 +185,35 @@ export class UserProvider extends Component {
               });
               Alert("Error", "Password was not changed");
               console.log(error);
-            });
+          })
         }
       }
     }
+  }
+
+  resetMessage()
+  {
+    this.setState({
+      message: ''
+    });
   }
 
   render() {
     return (
       <div>
         <UserContext.Provider
-          value={{
-            isLoggedIn: this.state.isLoggedIn,
-            currentUser: this.state.currentUser,
-            message: this.state.message,
-            loginFunction: this.loginFunction,
-            logoutFunction: this.logoutFunction,
-            changeInfo: this.changeInfo,
-            changePassword: this.changePassword,
-            passwordUpdate: this.state.passwordUpdate
-          }}
+          value={
+            {
+              isLoggedIn: this.state.isLoggedIn,
+              currentUser: this.state.currentUser,
+              message: this.state.message,
+              loginFunction: this.loginFunction,
+              logoutFunction: this.logoutFunction,
+              resetMessage: this.resetMessage,
+              changeInfo: this.changeInfo,
+              changePassword: this.changePassword
+            }
+          }
         >
           {this.props.children}
         </UserContext.Provider>

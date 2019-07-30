@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Component } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
@@ -23,11 +24,15 @@ export default class UnAuthenticated extends Component {
   }
   render() {
     return (
-      <div className="un-authenticated">     
+      <div className="un-authenticated">
         <div className="login">
-          <Button className="button" onClick={this.loginToggle}>
-            Login
+          <UserContext.Consumer>
+            {({ resetMessage }) => (
+              <Button className="button" onClick={() => { this.loginToggle(); resetMessage() }}>
+                Login
           </Button>
+            )}
+          </UserContext.Consumer>
           <Modal
             isOpen={this.state.loginModal}
             toggle={this.loginToggle}
@@ -58,29 +63,29 @@ export default class UnAuthenticated extends Component {
                 </FormGroup>
               </Form>
               <UserContext.Consumer>
-              {({message}) => (
-              <span>{message}</span>)}
+                {({message}) => (
+                <span className="warning">{message}</span>
+                )}
               </UserContext.Consumer>
             </ModalBody>
             <ModalFooter>
-            <UserContext.Consumer>
-            {({loginFunction}) => (
-              <Button
-                outline
-                color="primary"
-                className="LoginBtn"
-                onClick={() => loginFunction(this.refs.usernameLogin.value,this.refs.passwordLogin.value)}
-              >
-                Login
-              </Button>
-              )}
+              <UserContext.Consumer>
+                {({ loginFunction }) => (
+                  <Button
+                    outline
+                    color="primary"
+                    className="LoginBtn"
+                    onClick={() => loginFunction(this.refs.usernameLogin.value, this.refs.passwordLogin.value)}
+                  >
+                    Login
+              </Button>)}
               </UserContext.Consumer>{"  "}
               <Button outline color="primary" onClick={this.loginToggle}>
                 Cancel
               </Button>
             </ModalFooter>
           </Modal>
-        </div>    
+        </div>
         <div className="register">
           <Button className="button" onClick={this.registerToggle}>
             Register
@@ -163,7 +168,7 @@ export default class UnAuthenticated extends Component {
                   />
                 </FormGroup>
               </Form>
-              <span className = "warning">{this.state.registerAlert}</span>
+              <span className="warning-register">{this.state.registerAlert}</span>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -179,12 +184,12 @@ export default class UnAuthenticated extends Component {
               </Button>
             </ModalFooter>
           </Modal>
-        </div>     
+        </div>
       </div>
     );
   }
 
-  registerToggle = () => {
+  registerToggle() {
     this.setState(prevState => ({
       registermodal: !prevState.registermodal,
       loginModal: prevState.loginModal,
@@ -192,12 +197,17 @@ export default class UnAuthenticated extends Component {
     }));
   };
 
-  loginToggle = () => {
+  loginToggle() {
     this.setState(prevState => ({
       loginModal: !prevState.loginModal,
       registermodal: prevState.registermodal,
       loginAlert: ''
     }));
+    return <UserContext>
+      {({ resetMessage }) => (
+        resetMessage
+      )}
+    </UserContext>
   };
 
   enterPressed(event) {
@@ -230,7 +240,7 @@ export default class UnAuthenticated extends Component {
         if (password !== passwordValid) {
           this.setState({ registerAlert: "Validation password does not match" });
         } else {
-          // this.Registertoggle();
+          // this.registerToggle();
           var newUser = {
             username: username,
             password: password,
@@ -242,11 +252,16 @@ export default class UnAuthenticated extends Component {
           axios
             .post(server + "/api/users/register", newUser)
             .then(response => {
-              this.setState({
-                registermodal: false,
-                loginModal: true,
-                registerAlert: response.data.message
-              });
+              if (response.status === 201)
+                this.setState({
+                  registermodal: false,
+                  loginModal: true,
+                  registerAlert: ''
+                });
+              else if (response.status === 422)
+                this.setState({
+                  registerAlert: response.data.message
+                })
             })
             .catch(error => {
               console.log(error);
