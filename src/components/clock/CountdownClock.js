@@ -6,7 +6,7 @@ import schedule from 'node-schedule';
 
 const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
-        return <span className="wrapper">Playlist is on !!! Drop the beat</span>;
+        return <span className="wrapper">Playlist is on! Drop the beat</span>;
     } else {
         return (
             <div className="wrapper">

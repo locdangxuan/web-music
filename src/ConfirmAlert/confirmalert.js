@@ -13,7 +13,7 @@ export function Alert(title, message) {
             <h1 className="title-warning">{title}</h1>
           )) || <h1 className="title-message">{title}</h1>}
           <p className="message-alert">{message}</p>
-          <Button onClick={onClose}>OK</Button>
+          <Button outline color="primary" onClick={onClose}>OK</Button>
         </div>
       );
     },
