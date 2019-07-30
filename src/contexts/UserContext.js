@@ -54,6 +54,7 @@ export class UserProvider extends Component {
   }
 
   logoutFunction() {
+    let logout = {username: this.state.currentUser.username};
     axios({
       method: 'POST',
       url: server + '/api/users/logout',
@@ -61,11 +62,11 @@ export class UserProvider extends Component {
         Authorization:
           'Bearer ' + JSON.parse(localStorage.getItem('Token')).token
       },
-      data: this.state.currentUser.username
+      data: logout
     })
       .then(response => {
         if (response.status === 200) {
-          Alert('Message', 'Logged out Succesfully!!!');
+          Alert('Message', 'Logged out Succesfully!',true);
           localStorage.removeItem('Token');
           this.setState({
             currentUser: {},
@@ -117,7 +118,7 @@ export class UserProvider extends Component {
             }
           })
           .catch(error => {
-            Alert('Error','Information was not updated');
+            Alert('Error','Information was not updated',false);
             console.log(error);
           });
       }
@@ -155,13 +156,13 @@ export class UserProvider extends Component {
             this.setState({
               message: ''
             });
-            Alert('Message','Password successfully changed!')
+            Alert('Message','Password successfully changed!',true)
           })
           .catch(error => {
             this.setState({
               message: ''
             });
-            Alert('Error','Password was not changed');
+            Alert('Error','Password was not changed',false);
             console.log(error);
           })
         }
