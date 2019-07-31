@@ -66,7 +66,8 @@ export default class Playlist extends Component {
                       key={index}
                       duration={value.duration}
                       votingID={value._id}
-                      rank={++index}
+                      className={`rank-${++index}`}
+                      rank={index++}
                     />
                   );
                 })}

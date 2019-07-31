@@ -19,7 +19,11 @@ export class UserProvider extends Component {
       isLoggedIn: isLoggedIn,
       currentUser: user,
       message: "",
+<<<<<<< HEAD
       passwordMessage: ""
+=======
+      messageChangePassword: ""
+>>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
     };
     this.loginFunction = this.loginFunction.bind(this);
     this.logoutFunction = this.logoutFunction.bind(this);
@@ -48,9 +52,10 @@ export class UserProvider extends Component {
         });
       })
       .catch(error => {
+        console.log(error);
         this.setState({
-          message: error.response.data.message
-        })
+          message: "Invalid username or password"
+        });
       });
   }
 
@@ -78,7 +83,8 @@ export class UserProvider extends Component {
         }
       })
       .catch(error => {
-        Alert('Error', 'Unable to logout!', false);
+        console.log(JSON.parse(localStorage.getItem("Token")).token);
+        console.log(error);
       });
   }
 
@@ -104,10 +110,10 @@ export class UserProvider extends Component {
         },
         data: updatedUser
       })
-        .then(async (response) => {
+        .then(async response => {
           if (response.status === 200) {
             await this.setState({
-              message: response.data.message,
+              message: "User successfully updated",
               currentUser: {
                 username: updatedUser.username,
                 email: updatedUser.email,
@@ -116,13 +122,15 @@ export class UserProvider extends Component {
                 token: this.state.currentUser.token
               }
             });
-            localStorage.setItem("Token", JSON.stringify(this.state.currentUser));
+            localStorage.setItem(
+              "Token",
+              JSON.stringify(this.state.currentUser)
+            );
           }
         })
         .catch(error => {
-          this.setState({
-            message: error.response.data.message
-          });
+          Alert("Error", "Information was not updated");
+          console.log(error);
         });
     }
   }
@@ -161,13 +169,14 @@ export class UserProvider extends Component {
                 this.setState({
                   messageChangePassword: ""
                 });
-              Alert("Message", "Password successfully changed",true);
+              Alert("Message", "Password successfully changed");
             })
             .catch(error => {
               this.setState({
                 messageChangePassword: ""
               });
-              Alert('Error', 'Password was not changed', false);
+              Alert("Error", "Password was not changed");
+              console.log(error);
             });
         }
       }
@@ -177,7 +186,11 @@ export class UserProvider extends Component {
   resetMessage() {
     this.setState({
       message: "",
+<<<<<<< HEAD
       passwordMessage: ""
+=======
+      messageChangePassword: ""
+>>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
     });
   }
 
@@ -189,7 +202,11 @@ export class UserProvider extends Component {
             isLoggedIn: this.state.isLoggedIn,
             currentUser: this.state.currentUser,
             message: this.state.message,
+<<<<<<< HEAD
             passwordMessage: this.state.passwordMessage,
+=======
+            messageChangePassword: this.state.messageChangePassword,
+>>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
             loginFunction: this.loginFunction,
             logoutFunction: this.logoutFunction,
             resetMessage: this.resetMessage,

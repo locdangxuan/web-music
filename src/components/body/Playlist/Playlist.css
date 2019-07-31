@@ -50,9 +50,8 @@ html {
   animation-delay: -0.5s;
 }
 
-
 .playlist-body {
-  height: 800px;
+  height: 650px;
   width: 100%;
   overflow: auto;
   background-color: white;
