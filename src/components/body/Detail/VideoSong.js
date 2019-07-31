@@ -3,9 +3,9 @@ import "./VideoSong.css";
 import { Button } from "reactstrap";
 import Iframe from "react-iframe";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
-import { server } from '../../../server';
+import { server } from "../../../server";
 import io from "socket.io-client";
-
+import { Animated } from "react-animated-css";
 
 export default class VideoSong extends Component {
   constructor(props) {
@@ -13,12 +13,12 @@ export default class VideoSong extends Component {
     let startAt = 0;
     let autoplay = 0;
     let control = 1;
-    let iframeid = 'normal';
+    let iframeid = "normal";
     this.socket = null;
     this.state = {
-      id: '',
-      singer: '',
-      title: '',
+      id: "",
+      singer: "",
+      title: "",
       startAt: startAt,
       autoplay: autoplay,
       control: control,
@@ -30,16 +30,15 @@ export default class VideoSong extends Component {
     if (this.props.location.state !== undefined) {
       if (this.props.location.state.playlistStart === true) {
         this.socket = io(server);
-        this.socket.on('play', (response) => {
+        this.socket.on("play", response => {
           if (response !== null) {
             this.playFromPlaylist(response);
           }
         });
-        this.socket.on('end', (response) => {
+        this.socket.on("end", response => {
           window.location.assign(window.location.hostname);
         });
-      }
-      else {
+      } else {
         this.setState({
           id: this.props.match.params.songId,
           singer: this.props.location.state.singer,
@@ -49,11 +48,10 @@ export default class VideoSong extends Component {
           startAt: 0,
           autoplay: 0,
           control: 1,
-          iframeId: 'normal'
-        })
+          iframeId: "normal"
+        });
       }
     }
-
   }
 
   async playFromPlaylist(data) {
@@ -70,8 +68,8 @@ export default class VideoSong extends Component {
       startAt: startAt,
       autoplay: 1,
       control: 0,
-      iframeId: 'playlist-start'
-    })
+      iframeId: "playlist-start"
+    });
   }
 
   componentDidUpdate = () => {
@@ -88,44 +86,64 @@ export default class VideoSong extends Component {
   };
 
   render() {
-    const { id, singer, title, startAt, autoplay, control, iframeId, status, addedUser } = this.state;
-    let url = `https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`
+    const {
+      id,
+      singer,
+      title,
+      startAt,
+      autoplay,
+      control,
+      iframeId,
+      status,
+      addedUser
+    } = this.state;
+    let url = `https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`;
     return (
-      <div className="video-song">
-        <div className="video text-center">
-          <Iframe
-            src={url}
-            height="450px"
-            id={iframeId}
-            className="embed-responsive embed-responsive-4by3"
-            display="initial"
-            position="relative"
-          />
-        </div>
-        <div className="song-video-name">
-          {status &&
-            <div style={{ fontSize: "28px" }}>This song has already been added to the playlist by {addedUser}</div>
-          }
-          <div className="add-song">
-            <PlaylistContext.Consumer>
-              {({ clickToAdd }) => (
-                <Button
-                  outline
-                  color="primary"
-                  className="btnAdd"
-                  onClick={() => clickToAdd(id)}
-                >
-                  Add
-                </Button>
-              )}
-            </PlaylistContext.Consumer>
+      <Animated
+        animationIn="fadeInLeft"
+        animationOut="fadeOutDown"
+        isVisible={true}
+      >
+        <div className="video-song">
+          <div className="video text-center">
+            <Iframe
+              src={url}
+              height="450px"
+              id={iframeId}
+              className="embed-responsive embed-responsive-4by3"
+              display="initial"
+              position="relative"
+            />
+          </div>
+          <div className="song-video-name">
+            <div className="add-song">
+              <PlaylistContext.Consumer>
+                {({ clickToAdd }) => (
+                  <Button
+                    outline
+                    color="primary"
+                    className="btnAdd"
+                    onClick={() => clickToAdd(id)}
+                  >
+                    Add
+                  </Button>
+                )}
+              </PlaylistContext.Consumer>
+            </div>
+          </div>
+          <div className="detail">
+            <p className="title">{title}</p>
+            {status && (
+              <div>
+                <p>
+                  {singer} - added by{" "}
+                  <strong className="addedUser">{addedUser}</strong>
+                </p>
+              </div>
+            )}
           </div>
         </div>
-        <div className="detail">
-          <p className = "title">{title}</p>
-          <p>{singer}</p>
-        </div>
-      </div>
+      </Animated>
     );
   }
 }

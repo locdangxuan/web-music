@@ -33,31 +33,42 @@ export default class PlaylistCard extends Component {
       songID
     } = this.state;
     return (
-      <div className='playlist-card'>
+      <div className="playlist-card">
         <Link
           to={{
             pathname: "/playing/" + id,
-            state: { title: songTitle, singer: singer, status: true, addedUser: addedUser }
+            state: {
+              title: songTitle,
+              singer: singer,
+              status: true,
+              addedUser: addedUser
+            }
           }}
         >
           <div className="thumbnail">
+            <div className="rank">{this.props.rank}</div>
             <img src={thumbnail} alt="Thumbnail" width={100} />
           </div>
         </Link>
         <Link
           to={{
-            pathname: '/playing/' + id,
-            state: { title: songTitle, singer: singer, status: true, addedUser: addedUser }
+            pathname: "/playing/" + id,
+            state: {
+              title: songTitle,
+              singer: singer,
+              status: true,
+              addedUser: addedUser
+            }
           }}
           className="info"
         >
           <div>
             <div className="song-title">{songTitle}</div>
-            <div className="singer">{singer}</div>
+            <div className="singer">{singer}   - added by <strong className="addedUser">{addedUser}</strong></div>
           </div>
         </Link>
         <div className="user-relation">
-          <div className="adder">{addedUser}</div>
+          
           <PlaylistContext.Consumer>
             {({ clickToVote }) => (
               <div className="sidebar-vote">

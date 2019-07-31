@@ -1,14 +1,26 @@
-.user-update{
-   display: flex;
-   justify-content: center;
-   align-items: center;
+.user-update {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.user-modification{
-    padding-top: 30px;
-    width: 500px;
-    height: 100%;
+.user-modification {
+  padding-top: 30px;
+  width: 500px;
+  height: 100%;
 }
-.warning{
-    font-size: larger;
-    color: red;
+.warning {
+  font-size: larger;
+  color: red;
+}
+
+.successful {
+  font-size: larger;
+  color: green;
+}
+
+.change-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+    color: #F15927;
 }

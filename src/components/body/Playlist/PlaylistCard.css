@@ -38,6 +38,16 @@
 .playlist-card .user-relation .adder {
   text-align: center;
 }
+.thumbnail{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rank{
+  width: 30px;
+  text-align: center;
+  font-size: 20px;
+}
 
 .playlist-card .user-relation .sidebar-vote .upvote,
 .downvote {

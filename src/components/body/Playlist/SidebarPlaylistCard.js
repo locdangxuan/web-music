@@ -61,7 +61,7 @@ export default class SidebarPlaylistCard extends Component {
                 state: { title: song_title, singer: singer, status: true, addedUser: addedUser }
               }}
             >
-              <img src={thumbnail} alt="Thumbnail" className="img-fluid" />
+                <img src={thumbnail} alt="Thumbnail" className="img-fluid" />
             </Link>}
           {!available && <img src={thumbnail} alt="Thumbnail" className="img-fluid" />}
         </Col>

@@ -5,17 +5,25 @@
 }
 
 .add-song {
-  display: flex;
   float: right;
 }
 
 .detail {
-  font-family: "Roboto", sans-serif;
+  font-family: "Times New Roman", Times, serif;
   font-weight: 500;
 }
 .detail .title{
-  font-Size: "22px";
+  font-Size: 20px;
 }
+
 #playlist-start {
   pointer-events: none;
+}
+
+.title{
+  color: #007bff;
+}
+
+.addedUser{
+  color: #F15927
 }

@@ -5,7 +5,6 @@ import React from "react";
 import "./confirmalert.css";
 import { Button } from "reactstrap";
 export function Alert(title, message, success) {
-    console.log(title + message + success);
     confirmAlert({
         title: title,
         message: message,

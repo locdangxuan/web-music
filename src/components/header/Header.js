@@ -6,7 +6,6 @@ import Authentication from "./Authentication/Authentication";
 import { Row, Col } from "reactstrap";
 // import CountdownClock from "../clock/CountdownClock";
 
-
 class Header extends Component {
   constructor(props) {
     super(props);

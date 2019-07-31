@@ -3,19 +3,35 @@ import logo from "../../Image/ces.png";
 import "./Logo.css";
 import { Link } from "react-router-dom";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
+import { UserContext } from "../../../contexts/UserContext";
+
 class Logo extends Component {
   render() {
     return (
       <PlaylistContext.Consumer>
         {({ playlistStart }) => (
           <div className="logo-background img-fluid">
-            {!playlistStart &&
+            {!playlistStart && (
               <Link to={"/"}>
-                <img src={logo} alt="logo" className="logo-header" />
-              </Link>}
-            {playlistStart &&
-              <img src={logo} alt="logo" className="logo-header" />}
-          </div>)}
+                <UserContext.Consumer>
+                  {({ resetMessage }) => (
+                    <img
+                      src={logo}
+                      alt="logo"
+                      className="logo-header"
+                      onClick={() => {
+                        resetMessage();
+                      }}
+                    />
+                  )}
+                </UserContext.Consumer>
+              </Link>
+            )}
+            {playlistStart && (
+              <img src={logo} alt="logo" className="logo-header" />
+            )}
+          </div>
+        )}
       </PlaylistContext.Consumer>
     );
   }

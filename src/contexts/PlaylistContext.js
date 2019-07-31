@@ -6,8 +6,10 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
 import moment from 'moment';
-import { Alert } from "../confirmalert";
+import { Alert } from "../ConfirmAlert/confirmalert";
 import schedule from 'node-schedule';
+import {Button} from 'reactstrap';
+import "./PlaylistContext.css"
 
 export const PlaylistContext = React.createContext();
 
@@ -115,20 +117,21 @@ export class PlaylistProvider extends Component {
       }
       else {
         confirmAlert({
-          title: "Confirm To Add!!!",
-          message: "You can only add one song a day",
-          buttons: [
-            {
-              label: "Add",
-              onClick: () => this.addToPlaylist(videoId)
-            },
-            {
-              label: "Cancel",
-              onClick: function () {
-                Alert('Warning', 'Song was not added',false);
-              }
-            }
-          ]
+          customUI: ({ onClose }) => {
+            return (
+              <div className="custom-ui">
+                <h1 className="title-confirm">Confirm</h1>
+                <p className="message">You can only add one song a day</p>
+                <Button onClick={() => {
+                  this.addToPlaylist(videoId);
+                  onClose();
+                }}>Add</Button>
+                <Button onClick={onClose} className="cancel">Cancel</Button>
+              </div>
+            );
+          },
+          closeOnClickOutside: true,
+          closeOnEscape: true
         });
       }
     }
@@ -155,7 +158,7 @@ export class PlaylistProvider extends Component {
         this.getPlaylist();
       })
       .catch(error => {
-        Alert('Warning', 'This account has already added a song, try again tomorrow!!',false);
+        Alert('Warning', 'This account has already added a song, try again tomorrow');
       });
   };
 
@@ -186,7 +189,7 @@ export class PlaylistProvider extends Component {
 
   async playlistEnd(response) {
     confirmAlert({
-      title: "Playlist Ended !!!",
+      title: "Playlist Ended",
       message: "Please Come Back Tomorrow",
       buttons: [
         {
