@@ -46,9 +46,8 @@ export class UserProvider extends Component {
         })
       })
       .catch(error => {
-        console.log(error);
         this.setState({
-          message: 'Invalid username or password'
+          message: error.response.data.message
         })
       });
   }
@@ -76,7 +75,7 @@ export class UserProvider extends Component {
         }
       })
       .catch(error => {
-        console.log(error);
+        Alert('Error', 'Unable to logout!',false);
       });
   }
 
@@ -118,8 +117,9 @@ export class UserProvider extends Component {
             }
           })
           .catch(error => {
-            Alert('Error','Information was not updated',false);
-            console.log(error);
+            this.setState({
+              message: error.response.data.message
+            });
           });
       }
     }
@@ -163,7 +163,6 @@ export class UserProvider extends Component {
               message: ''
             });
             Alert('Error','Password was not changed',false);
-            console.log(error);
           })
         }
       }

@@ -1,8 +1,9 @@
 /* eslint-disable react/react-in-jsx-scope */
-import React from 'react';
-import { confirmAlert } from 'react-confirm-alert';
-import { Button } from 'reactstrap';
-
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import React from "react";
+import "./confirmalert.css";
+import { Button } from "reactstrap";
 export function Alert(title, message, success) {
     console.log(title + message + success);
     confirmAlert({
@@ -18,11 +19,9 @@ export function Alert(title, message, success) {
         customUI: ({onClose}) => {
             return(
             <div className='custom-ui'>
-                {success &&
-                    <p style = {{color:"blue", fontSize: "xx-large" }}>{title}</p>}
-                {!success &&
-                    <p style = {{color:"red", fontSize: "xx-large"}}>{title}</p>}
-                {/* <p>{title}</p> */}
+                {(success &&
+                    (<p className="title-success">{title}</p>))||
+                    (<p className="title-warning">{title}</p>)}
                 <p>{message}</p>
                 <Button outline color='primary' onClick={onClose} >{'  OK  '}</Button>
             </div>

@@ -53,18 +53,20 @@ export default class UnAuthenticated extends Component {
                 </FormGroup>
                 <FormGroup>
                   <br />
-                  <input
-                    type="password"
-                    id="loginPart"
-                    className="effect-6"
-                    placeholder="Input Password"
-                    ref="passwordLogin"
-                  />
+                  <div>
+                    <input
+                      type="password"
+                      id="loginPart"
+                      className="effect-6"
+                      placeholder="Input Password"
+                      ref="passwordLogin"
+                    />
+                  </div>
                 </FormGroup>
               </Form>
               <UserContext.Consumer>
-                {({message}) => (
-                <span>{message}</span>
+                {({ message }) => (
+                  <span className="warning">{message}</span>
                 )}
               </UserContext.Consumer>
             </ModalBody>
@@ -72,10 +74,15 @@ export default class UnAuthenticated extends Component {
               <UserContext.Consumer>
                 {({ loginFunction }) => (
                   <Button
-                    outline
-                    color="primary"
+                    outline color="primary"
                     className="LoginBtn"
                     onClick={() => loginFunction(this.refs.usernameLogin.value, this.refs.passwordLogin.value)}
+                    onKeyUp={(event) => {
+                      if (event.keyCode === 13) {
+                        loginFunction(this.refs.usernameLogin.value, this.refs.passwordLogin.value);
+                        console.log('press enter');
+                      }
+                    }}
                   >
                     Login
               </Button>)}
@@ -203,17 +210,10 @@ export default class UnAuthenticated extends Component {
       registermodal: prevState.registermodal,
       loginAlert: ''
     }));
-    return <UserContext>
-      {({ resetMessage }) => (
-        resetMessage
-      )}
-    </UserContext>
   };
 
   enterPressed(event) {
-    if (event.keyCode === 13 && event.target.id === "loginPart")
-      this.loginBtn();
-    else if (event.keyCode === 13 && event.target.id === "registerPart")
+    if (event.keyCode === 13 && event.target.id === "registerPart")
       this.registerBtn();
   };
 
@@ -237,39 +237,42 @@ export default class UnAuthenticated extends Component {
       if (username.length < 8) {
         this.setState({ registerAlert: "Username does not match required length ( 8 letters or more )" });
       } else {
-        if (password !== passwordValid) {
-          this.setState({ registerAlert: "Validation password does not match" });
-        } else {
-          this.registerToggle();
-          var newUser = {
-            username: username,
-            password: password,
-            email: email,
-            firstName: firstName,
-            lastName: lastName
-          };
-          // axios post automatically transform user to JSON file
-          axios
-            .post(server + "/api/users/register", newUser)
-            .then(response => {
-              if (response.status === 201)
+        if (password.length < 8)
+          this.setState({ registerAlert: "Password does not match required length ( 8 letters or more )" });
+        else {
+          if (password !== passwordValid) {
+            this.setState({ registerAlert: "Validation password does not match" });
+          } else {
+            var newUser = {
+              username: username,
+              password: password,
+              email: email,
+              firstName: firstName,
+              lastName: lastName
+            };
+            // axios post automatically transform user to JSON file
+            axios
+              .post(server + "/api/users/register", newUser)
+              .then(response => {
+                if (response.status === 201)
+                  this.setState({
+                    registermodal: false,
+                    loginModal: true,
+                    registerAlert: ''
+                  });
+                else if (response.status === 422)
+                  this.setState({
+                    registerAlert: response.data.message
+                  })
+              })
+              .catch(error => {
                 this.setState({
-                  registermodal: false,
-                  loginModal: true,
-                  registerAlert: ''
+                  registerAlert: error.response.data.message
                 });
-              else if (response.status === 422)
-                this.setState({
-                  registerAlert: response.data.message
-                })
-            })
-            .catch(error => {
-              console.log(error);
-              this.setState({
-                registerAlert: 'Unable to register'
               });
-            });
+          }
         }
+
       }
     }
   };
