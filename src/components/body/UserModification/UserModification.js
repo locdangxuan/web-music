@@ -39,24 +39,24 @@ export default class UserModification extends Component {
                   <h2 className="change-title text-center">CHANGE FULLNAME</h2>
                   <FormGroup>
                     <Label for="Email">Email</Label>
-                    <input
+                    <span
                       type="text"
                       id="loginPart"
-                      className="effect-6"
+                      className="disable"
                       name="email"
                       value={currentUser.email}
                       onChange={this.onChangeHandler}
-                    />
+                    > <br/>{currentUser.email}</span>
                   </FormGroup>
                   <FormGroup>
                     <Label for="username">Username</Label>
-                    <input
-                      className="effect-6"
+                    <span
+                      className="disable"
                       type="text"
                       name="username"
                       value={currentUser.username}
                       onChange={this.onChangeHandler}
-                    />
+                    ><br/>{currentUser.username}</span>
                   </FormGroup>
                   <FormGroup>
                     <Label for="fullName">Fullname</Label>
