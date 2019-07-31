@@ -12,7 +12,6 @@ export default class SearchResultSet extends Component {
     this.state = {
       keyword: "",
       songList: [],
-      videoFound: false,
       nextPage: ""
     };
     this.getSongList = this.getSongList.bind(this);
@@ -49,7 +48,6 @@ export default class SearchResultSet extends Component {
         result = await this.getSongList(keyword);
         await this.setState({
           keyword: result.keyword,
-          videoFound: result.videoFound,
           nextPage: result.nextPage,
           songList: result.songList
         });
@@ -59,7 +57,6 @@ export default class SearchResultSet extends Component {
           await this.setState({
             keyword: result.keyword,
             songList: result.songList,
-            videoFound: true,
             nextPage: result.nextPage
           });
         } else {
@@ -67,7 +64,6 @@ export default class SearchResultSet extends Component {
           await this.setState({
             keyword: result.keyword,
             songList: result.songList,
-            videoFound: result.videoFound,
             nextPage: result.nextPage
           });
         }
@@ -75,17 +71,15 @@ export default class SearchResultSet extends Component {
     }
   }
 
-  async getSongList (value) {
+  async getSongList(value) {
     let songList = [];
     let nextPage = "";
-    let videoFound = false;
     await axios
       .get(server + `/api/songs/search/${value}`)
       .then(response => {
-        if (response.data.message !== "No video found") {
+        if (response.data.message !== "No video found!") {
           songList = response.data.message.data;
           nextPage = response.data.message.nextPage;
-          videoFound = true;
         }
         this.storageUpdate({
           keyword: value,
@@ -94,18 +88,15 @@ export default class SearchResultSet extends Component {
         });
       })
       .catch(error => {
-        console.log(error);
         return {
           keyword: value,
           songList: songList,
-          videoFound: videoFound,
           nextPage: nextPage
         };
       });
     return {
       keyword: value,
       songList: songList,
-      videoFound: videoFound,
       nextPage: nextPage
     };
   }
@@ -134,12 +125,10 @@ export default class SearchResultSet extends Component {
     axios
       .get(
         server +
-          `/api/songs/search/${this.state.text}?page=${this.state.nextPage}`
+        `/api/songs/search/${this.state.keyword}?page=${this.state.nextPage}`
       )
       .then(response => {
-        if (response.data.message === "No video found") {
-          this.setState({ videoFound: false });
-        } else {
+        if (response.data.message !== "No video found!") {
           this.setState({
             songList: this.state.songList.concat(response.data.message.data),
             nextPage: response.data.message.nextPage
@@ -150,7 +139,7 @@ export default class SearchResultSet extends Component {
   }
 
   render() {
-    const { keyword, videoFound, songList } = this.state;
+    const { keyword, songList } = this.state;
     return (
       <Animated
         animationIn="fadeInUp"
@@ -164,8 +153,8 @@ export default class SearchResultSet extends Component {
             </span>
           </div>
           <div className="result-set">
-            {videoFound === 0 && <div>NO VIDEO FOUND</div>}
-            {videoFound === true && (
+            {songList.length === 0 && <div>NO VIDEO FOUND</div>}
+            {songList.length > 0 && (
               <div>
                 {songList.map((value, key) => {
                   return (
@@ -181,14 +170,15 @@ export default class SearchResultSet extends Component {
               </div>
             )}
           </div>{" "}
-          <Button
-            outline
-            color="primary"
-            className="show-more-button"
-            onClick={this.showMore}
-          >
-            Show more
-          </Button>
+          {songList.length > 0 && (
+            <Button
+              outline
+              color="primary"
+              className="show-more-button"
+              onClick={this.showMore}
+            >
+              Show more
+          </Button>)}
         </div>
       </Animated>
     );

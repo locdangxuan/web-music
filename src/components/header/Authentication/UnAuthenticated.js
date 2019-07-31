@@ -244,10 +244,10 @@ export default class UnAuthenticated extends Component {
   checkSpecialCharacter(text) {
     // eslint-disable-next-line no-useless-escape
     let format = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
-    if (text.match(format)) {
-      return false;
-    } else {
+    if (!format.test(text)) {
       return true;
+    } else {
+      return false;
     }
   }
 
@@ -276,13 +276,12 @@ export default class UnAuthenticated extends Component {
     let passwordWarning = '';
     let passwordValidWarning = '';
     let fullNameWarning = '';
-
     if (firstName.length === 0 || lastName.length === 0) {
       fullNameWarning = 'Please input both Firstname and Lastname';
       result = false;
     }
 
-    if (this.checkFieldEmail) {
+    if (this.checkFieldEmail()) {
       emailWarning += "Invalid email format";
       result = false;
     }
@@ -290,7 +289,7 @@ export default class UnAuthenticated extends Component {
     if (username.length < 8) {
       usernameWarning += "Username does not match required length ( 8 letters or more )";
       result = false;
-    }else if (this.checkSpecialCharacter(username))
+    }else if (!this.checkSpecialCharacter(username))
     {
       usernameWarning += "Username contains illegal characters";
       result = false;
