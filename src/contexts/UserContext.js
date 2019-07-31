@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { server } from "../server";
-import { Alert } from "../ConfirmAlert/confirmalert";
+import { Alert } from "../confirmalert";
 
 export const UserContext = React.createContext();
 
@@ -19,11 +19,7 @@ export class UserProvider extends Component {
       isLoggedIn: isLoggedIn,
       currentUser: user,
       message: "",
-<<<<<<< HEAD
       passwordMessage: ""
-=======
-      messageChangePassword: ""
->>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
     };
     this.loginFunction = this.loginFunction.bind(this);
     this.logoutFunction = this.logoutFunction.bind(this);
@@ -38,6 +34,7 @@ export class UserProvider extends Component {
       .post(server + "/api/users/authenticate", user)
       .then(response => {
         let currentUser = {
+          id: response.data.message._id,
           token: response.data.message.token,
           firstName: response.data.message.firstName,
           lastName: response.data.message.lastName,
@@ -73,7 +70,7 @@ export class UserProvider extends Component {
     })
       .then(response => {
         if (response.status === 200) {
-          Alert("Message", "Logged out Succesfully");
+          Alert("Message", "Logged out Succesfully",true);
           localStorage.removeItem("Token");
           this.setState({
             currentUser: {},
@@ -83,8 +80,6 @@ export class UserProvider extends Component {
         }
       })
       .catch(error => {
-        console.log(JSON.parse(localStorage.getItem("Token")).token);
-        console.log(error);
       });
   }
 
@@ -93,13 +88,11 @@ export class UserProvider extends Component {
       this.setState({ message: "Firstname is required" });
     else {
       let updatedUser = {
-        username:
-          username.length === 0 ? this.state.currentUser.username : username,
+        id: JSON.parse(localStorage.getItem("Token")).id,
+        username:  username.length === 0 ? this.state.currentUser.username : username,
         email: email.length === 0 ? this.state.currentUser.email : email,
-        firstName:
-          firstName.length === 0 ? this.state.currentUser.firstName : firstName,
-        lastName:
-          lastName.length === 0 ? this.state.currentUser.lastName : lastName
+        firstName: firstName.length === 0 ? this.state.currentUser.firstName : firstName,
+        lastName:  lastName.length === 0 ? this.state.currentUser.lastName : lastName
       };
       axios({
         method: "PUT",
@@ -115,6 +108,7 @@ export class UserProvider extends Component {
             await this.setState({
               message: "User successfully updated",
               currentUser: {
+                id: updatedUser.id,
                 username: updatedUser.username,
                 email: updatedUser.email,
                 firstName: updatedUser.firstName,
@@ -130,7 +124,6 @@ export class UserProvider extends Component {
         })
         .catch(error => {
           Alert("Error", "Information was not updated");
-          console.log(error);
         });
     }
   }
@@ -142,41 +135,41 @@ export class UserProvider extends Component {
       newPassword.length === 0
     )
       this.setState({
-        messageChangePassword: "Please input all the three text fields above!"
+        passwordMessage: "Please input all the three text fields above!"
       });
     else {
       if (newPassword.length < 8)
         this.setState({
-          messageChangePassword: "Password must contains 8 digits or more!"
+          passwordMessage: "Password must contains 8 digits or more!"
         });
       else {
         if (newPassword !== newPasswordValid)
           this.setState({
-            messageChangePassword: "Password confirmation does not match!"
+            passwordMessage: "Password confirmation does not match!"
           });
         else {
           axios({
             method: "PUT",
-            url: server + "/api/users/changepassword",
+            url: server + "/api/users/update-password",
             headers: {
               Authorization:
-                "Bearer " + JSON.parse(localStorage.getItem("Token")).token
+                "Bearer " + this.state.currentUser.token
             },
-            data: { oldPassword: oldPassword, newPassword: newPassword }
+            data: { id: this.state.currentUser.id, oldPassword: oldPassword, newPassword: newPassword }
           })
             .then(response => {
               if (response.status === 200)
                 this.setState({
-                  messageChangePassword: ""
+                  passwordMessage: ""
                 });
               Alert("Message", "Password successfully changed");
             })
             .catch(error => {
+              console.log(error.response);
               this.setState({
-                messageChangePassword: ""
+                passwordMessage: ""
               });
               Alert("Error", "Password was not changed");
-              console.log(error);
             });
         }
       }
@@ -186,11 +179,7 @@ export class UserProvider extends Component {
   resetMessage() {
     this.setState({
       message: "",
-<<<<<<< HEAD
       passwordMessage: ""
-=======
-      messageChangePassword: ""
->>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
     });
   }
 
@@ -202,11 +191,7 @@ export class UserProvider extends Component {
             isLoggedIn: this.state.isLoggedIn,
             currentUser: this.state.currentUser,
             message: this.state.message,
-<<<<<<< HEAD
             passwordMessage: this.state.passwordMessage,
-=======
-            messageChangePassword: this.state.messageChangePassword,
->>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
             loginFunction: this.loginFunction,
             logoutFunction: this.logoutFunction,
             resetMessage: this.resetMessage,

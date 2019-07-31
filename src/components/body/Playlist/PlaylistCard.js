@@ -38,7 +38,7 @@ export default class PlaylistCard extends Component {
       className
     } = this.state;
     return (
-      <div className="playlist-card" id = {className}>
+      <div className="playlist-card" id={className}>
         <Link
           to={{
             pathname: "/playing/" + id,
@@ -51,11 +51,11 @@ export default class PlaylistCard extends Component {
           }}
         >
           <div className="thumbnail">
-            
             <div className="rank">
               {this.props.rank === 1 && <img src={GoldMedal} alt="gold-medal" width="40"></img>}
               {this.props.rank === 2 && <img src={SilverMedal} alt="gold-medal" width="40"></img>}
               {this.props.rank === 3 && <img src={BronzeMedal} alt="gold-medal" width="40"></img>}
+              {![1,2,3].includes(this.props.rank) && <span>{this.props.rank}</span>}
             </div>
             <img src={thumbnail} alt="Thumbnail" width={100} />
           </div>

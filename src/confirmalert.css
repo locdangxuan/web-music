@@ -17,3 +17,7 @@
     box-shadow: 0 20px 75px rgba(0, 0, 0, 0.13);
     color: #666;
 }
+
+.cancel{
+    margin-left: 10px; 
+}

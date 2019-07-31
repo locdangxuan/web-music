@@ -261,13 +261,7 @@ export default class UnAuthenticated extends Component {
   checkSpecialCharacter(text) {
     // eslint-disable-next-line no-useless-escape
     let format = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
-<<<<<<< HEAD
     if (!format.test(text)) {
-=======
-    if (format.test(text)) {
-      return false;
-    } else {
->>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
       return true;
     } else {
       return false;
@@ -296,20 +290,11 @@ export default class UnAuthenticated extends Component {
 
   checkField(username, firstName, lastName, password, passwordValid, email) {
     let result = true;
-<<<<<<< HEAD
     let usernameWarning = '';
     let emailWarning = '';
     let passwordWarning = '';
     let passwordValidWarning = '';
     let fullNameWarning = '';
-=======
-    let usernameWarning = "";
-    let emailWarning = "";
-    let passwordWarning = "";
-    let passwordValidWarning = "";
-    let fullNameWarning = "";
-
->>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
     if (firstName.length === 0 || lastName.length === 0) {
       fullNameWarning = "Please input both Firstname and Lastname";
       result = false;
@@ -324,12 +309,7 @@ export default class UnAuthenticated extends Component {
       usernameWarning +=
         "Username does not match required length ( 8 letters or more )";
       result = false;
-<<<<<<< HEAD
-    }else if (!this.checkSpecialCharacter(username))
-    {
-=======
     } else if (!this.checkSpecialCharacter(username)) {
->>>>>>> d702bd10384e728a43a60a4699f1e90aa0ef172a
       usernameWarning += "Username contains illegal characters";
       result = false;
     }

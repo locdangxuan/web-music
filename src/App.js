@@ -22,7 +22,7 @@ class App extends Component {
           <PlaylistProvider>
             <div className="App">
               <Header />
-              <Route exact path="/" component={CountdownClock} />
+              <CountdownClock/>
               <div className="body">
                 <Container>
                   <Route exact path="/" component={Playlist} />

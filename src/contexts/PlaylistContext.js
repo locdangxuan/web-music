@@ -9,7 +9,7 @@ import moment from 'moment';
 import { Alert } from "../ConfirmAlert/confirmalert";
 import schedule from 'node-schedule';
 import {Button} from 'reactstrap';
-import "./PlaylistContext.css"
+import "../confirmalert";
 
 export const PlaylistContext = React.createContext();
 
@@ -18,7 +18,7 @@ export class PlaylistProvider extends Component {
     super();
     this.state = {
       playlist: [],
-      currentSong: { id: "", duration: "" },
+      currentSong: { id: ""},
       playlistStart: false,
       returnToIndex: false,
       playlistEnd: true,
@@ -100,7 +100,6 @@ export class PlaylistProvider extends Component {
           })
           .catch(error => {
             Alert('Warning', 'You have used all your votes today, please comeback tomorrow',false);
-            console.log(error);
           });
       }
     }
@@ -122,11 +121,11 @@ export class PlaylistProvider extends Component {
               <div className="custom-ui">
                 <h1 className="title-confirm">Confirm</h1>
                 <p className="message">You can only add one song a day</p>
-                <Button onClick={() => {
+                <Button outline color = "primary" onClick={() => {
                   this.addToPlaylist(videoId);
                   onClose();
                 }}>Add</Button>
-                <Button onClick={onClose} className="cancel">Cancel</Button>
+                <Button outline color = "primary" onClick={onClose} className="cancel">Cancel</Button>
               </div>
             );
           },
@@ -158,7 +157,7 @@ export class PlaylistProvider extends Component {
         this.getPlaylist();
       })
       .catch(error => {
-        Alert('Warning', 'This account has already added a song, try again tomorrow');
+        Alert('Warning', 'This account has already added a song, try again tomorrow',false);
       });
   };
 
@@ -231,7 +230,7 @@ export class PlaylistProvider extends Component {
         {playlistStart &&
           <Redirect to={{
             pathname: `/playing/${currentSong.id}`,
-            state: { playlistStart: true }
+            state: { playlistStart: true}
           }} />}
       </div>
     );

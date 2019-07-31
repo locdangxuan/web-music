@@ -4,6 +4,7 @@ import Icon from "../../Image/user.svg";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContext";
+import { PlaylistContext } from "../../../contexts/PlaylistContext";
 
 export default class Authenticated extends Component {
   constructor(props) {
@@ -30,23 +31,36 @@ export default class Authenticated extends Component {
           <img src={Icon} width={40} alt="Icon" />
         </div>
         <div className="user-info">
+
           <UserContext.Consumer>
-            {({currentUser,resetMessage}) => (
-          <Link
-            className="user"
-            to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
-            onClick={resetMessage}
-          >
-            <p>{currentUser.firstName + " " + currentUser.lastName}</p>
-          </Link>)}
+            {({ currentUser, resetMessage }) => (
+              <PlaylistContext.Consumer>
+                {({playlistStart}) => (
+                  <div>
+                  {!playlistStart && 
+                <Link
+                  className="user"
+                  to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
+                  onClick={resetMessage}
+                >
+                  <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+                </Link>}
+                {playlistStart && 
+                  <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+                }
+                </div>
+                )}
+              </PlaylistContext.Consumer>
+            )}
           </UserContext.Consumer>
+
         </div>
         <div className="logout-btn">
           <Link to={'/'}>
             <UserContext.Consumer>
-              {({logoutFunction}) => (
-            <Button onClick={()=> logoutFunction()} className="button">
-              Logout
+              {({ logoutFunction }) => (
+                <Button onClick={() => logoutFunction()} className="button">
+                  Logout
             </Button>)}
             </UserContext.Consumer>
           </Link>

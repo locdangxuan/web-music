@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Countdown from 'react-countdown-now';
 import './CountdownClock.css';
-import moment from 'moment'
+import moment from 'moment';
 import schedule from 'node-schedule';
 
 const renderer = ({ hours, minutes, seconds, completed }) => {

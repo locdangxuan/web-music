@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SidebarPlaylistCard from "./SidebarPlaylistCard";
 import "./SidebarPlaylist.css";
 import { PlaylistContext } from "../../../contexts/PlaylistContext";
-import heading from "../../Image/Playlist.svg";
+import heading from "../../Image/Leaderboard.svg";
 import { Animated } from "react-animated-css";
 
 export default class SidebarPlaylist extends Component {

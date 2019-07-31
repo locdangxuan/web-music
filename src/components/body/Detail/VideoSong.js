@@ -66,6 +66,7 @@ export default class VideoSong extends Component {
       title: data.title,
       status: data.status,
       startAt: startAt,
+      addedUser: data.addedUser,
       autoplay: 1,
       control: 0,
       iframeId: "playlist-start"
@@ -133,14 +134,12 @@ export default class VideoSong extends Component {
           </div>
           <div className="detail">
             <p className="title">{title}</p>
-            {status && (
-              <div>
-                <p>
-                  {singer} - added by{" "}
-                  <strong className="addedUser">{addedUser}</strong>
-                </p>
-              </div>
-            )}
+            <div>
+              <p>
+                {singer}{" - "}{!(addedUser === '') && <span>added by{" "}<strong className="addedUser">{addedUser}</strong></span> 
+                }
+              </p>
+            </div>
           </div>
         </div>
       </Animated>
