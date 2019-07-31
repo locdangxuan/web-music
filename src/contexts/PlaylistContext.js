@@ -6,7 +6,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import io from "socket.io-client";
 import { Redirect } from "react-router-dom";
 import moment from 'moment';
-import { Alert } from "../ConfirmAlert/confirmalert";
+import { Alert } from "../confirmalert";
 import schedule from 'node-schedule';
 import {Button} from 'reactstrap';
 import "../confirmalert";

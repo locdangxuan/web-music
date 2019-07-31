@@ -5,7 +5,7 @@ import axios from "axios";
 import "./UnAuthenticated.css";
 import { server } from "../../../server";
 import { UserContext } from "../../../contexts/UserContext";
-import { Alert } from "../../../ConfirmAlert/confirmalert";
+import { Alert } from "../../../confirmalert";
 
 export default class UnAuthenticated extends Component {
   constructor(props) {
