@@ -36,9 +36,15 @@ export default class UnAuthenticated extends Component {
         <div className="login">
           <UserContext.Consumer>
             {({ resetMessage }) => (
-              <Button className="button" onClick={() => { this.loginToggle(); resetMessage() }}>
+              <Button
+                className="button"
+                onClick={() => {
+                  this.loginToggle();
+                  resetMessage();
+                }}
+              >
                 Login
-          </Button>
+              </Button>
             )}
           </UserContext.Consumer>
           <Modal
@@ -93,8 +99,10 @@ export default class UnAuthenticated extends Component {
                     }}
                   >
                     Login
-              </Button>)}
-              </UserContext.Consumer>{"  "}
+                  </Button>
+                )}
+              </UserContext.Consumer>
+              {"  "}
               <Button outline color="primary" onClick={this.loginToggle}>
                 Cancel
               </Button>
@@ -219,7 +227,7 @@ export default class UnAuthenticated extends Component {
       passwordWarning: '',
       passwordValidWarning: ''
     }));
-  };
+  }
 
   loginToggle() {
     this.setState(prevState => ({
@@ -231,7 +239,7 @@ export default class UnAuthenticated extends Component {
   enterPressed(event) {
     if (event.keyCode === 13 && event.target.id === "registerPart")
       this.registerBtn();
-  };
+  }
 
   checkSpecialCharacter(text) {
     // eslint-disable-next-line no-useless-escape

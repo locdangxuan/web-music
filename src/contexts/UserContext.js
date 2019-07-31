@@ -19,7 +19,11 @@ export class UserProvider extends Component {
       isLoggedIn: isLoggedIn,
       currentUser: user,
       message: "",
+<<<<<<< HEAD
       passwordMessage: ""
+=======
+      messageChangePassword: ""
+>>>>>>> a5d2b9a9a1027512c5c0bd361a1ed5b832191608
     };
     this.loginFunction = this.loginFunction.bind(this);
     this.logoutFunction = this.logoutFunction.bind(this);
@@ -134,17 +138,17 @@ export class UserProvider extends Component {
       newPassword.length === 0
     )
       this.setState({
-        messageUpdate: "Please input all the three text fields above!"
+        messageChangePassword: "Please input all the three text fields above!"
       });
     else {
       if (newPassword.length < 8)
         this.setState({
-          messageUpdate: "Password must contains 8 digits or more!"
+          messageChangePassword: "Password must contains 8 digits or more!"
         });
       else {
         if (newPassword !== newPasswordValid)
           this.setState({
-            messageUpdate: "Password confirmation does not match!"
+            messageChangePassword: "Password confirmation does not match!"
           });
         else {
           axios({
@@ -159,13 +163,13 @@ export class UserProvider extends Component {
             .then(response => {
               if (response.status === 200)
                 this.setState({
-                  messageUpdate: ""
+                  messageChangePassword: ""
                 });
               Alert("Message", "Password successfully changed",true);
             })
             .catch(error => {
               this.setState({
-                messageUpdate: ""
+                messageChangePassword: ""
               });
               Alert('Error', 'Password was not changed', false);
             });
@@ -177,7 +181,11 @@ export class UserProvider extends Component {
   resetMessage() {
     this.setState({
       message: "",
+<<<<<<< HEAD
       passwordMessage: ""
+=======
+      messageChangePassword: ""
+>>>>>>> a5d2b9a9a1027512c5c0bd361a1ed5b832191608
     });
   }
 
@@ -189,7 +197,11 @@ export class UserProvider extends Component {
             isLoggedIn: this.state.isLoggedIn,
             currentUser: this.state.currentUser,
             message: this.state.message,
+<<<<<<< HEAD
             passwordMessage: this.state.passwordMessage,
+=======
+            messageChangePassword: this.state.messageChangePassword,
+>>>>>>> a5d2b9a9a1027512c5c0bd361a1ed5b832191608
             loginFunction: this.loginFunction,
             logoutFunction: this.logoutFunction,
             resetMessage: this.resetMessage,

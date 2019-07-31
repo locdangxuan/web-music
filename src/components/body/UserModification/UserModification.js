@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
 import { Button } from "reactstrap";
-// import  UserContext  from "../../../contexts/UserContext";
 import { UserContext } from "../../../contexts/UserContext";
 import { Animated } from "react-animated-css";
 
@@ -47,7 +46,7 @@ export default class UserModification extends Component {
                   </FormGroup>
                   <FormGroup>
                     <Label for="username">Username</Label>
-                    <br/>
+                    <br />
                     <span>
                       {currentUser.username}
                     </span>
