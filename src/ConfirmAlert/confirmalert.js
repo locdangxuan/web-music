@@ -8,7 +8,7 @@ export function Alert(title, message) {
   confirmAlert({
     customUI: ({ onClose }) => {
       return (
-        <div className="custom-ui">
+        <div className="custom-ui text-center">
           {((title === "Warning" || title === "Error") && (
             <h1 className="title-warning">{title}</h1>
           )) || <h1 className="title-message">{title}</h1>}

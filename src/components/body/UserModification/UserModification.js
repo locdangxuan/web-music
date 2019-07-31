@@ -155,23 +155,24 @@ export default class UserModification extends Component {
               />
             </FormGroup>
             <UserContext.Consumer>
-              {({ changePassword, message }) => (
+              {({ changePassword, messageUpdate, resetMessage }) => (
                 <div>
                   <Button
                     outline
                     color="primary"
                     style={{ float: "right" }}
-                    onClick={() =>
+                    onClick={() => {
                       changePassword(
                         this.state.oldPassword,
                         this.state.newPassword,
                         this.state.newPasswordValidation
-                      )
-                    }
+                      );
+                      // resetMessage();
+                    }}
                   >
                     Change
                   </Button>
-                  <span className="warning">{message}</span>
+                  <span className="warning">{messageUpdate}</span>
                 </div>
               )}
             </UserContext.Consumer>

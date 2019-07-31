@@ -240,7 +240,7 @@ export default class UnAuthenticated extends Component {
         if (password !== passwordValid) {
           this.setState({ registerAlert: "Validation password does not match" });
         } else {
-          // this.registerToggle();
+          this.registerToggle();
           var newUser = {
             username: username,
             password: password,
