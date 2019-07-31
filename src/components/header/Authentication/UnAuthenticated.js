@@ -5,8 +5,8 @@ import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import axios from "axios";
 import "./UnAuthenticated.css";
 import { server } from "../../../server";
-import  {UserContext}  from "../../../contexts/UserContext";
-
+import { UserContext } from "../../../contexts/UserContext";
+import { Alert } from "../../../ConfirmAlert/confirmalert";
 
 export default class UnAuthenticated extends Component {
   constructor(props) {
@@ -14,8 +14,8 @@ export default class UnAuthenticated extends Component {
     this.state = {
       loginModal: false,
       registerModal: false,
-      registerAlert: '',
-      loginAlert: ''
+      registerAlert: "",
+      loginAlert: ""
     };
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
@@ -28,9 +28,15 @@ export default class UnAuthenticated extends Component {
         <div className="login">
           <UserContext.Consumer>
             {({ resetMessage }) => (
-              <Button className="button" onClick={() => { this.loginToggle(); resetMessage() }}>
+              <Button
+                className="button"
+                onClick={() => {
+                  this.loginToggle();
+                  resetMessage();
+                }}
+              >
                 Login
-          </Button>
+              </Button>
             )}
           </UserContext.Consumer>
           <Modal
@@ -63,9 +69,7 @@ export default class UnAuthenticated extends Component {
                 </FormGroup>
               </Form>
               <UserContext.Consumer>
-                {({message}) => (
-                <span className="warning">{message}</span>
-                )}
+                {({ message }) => <span className="warning">{message}</span>}
               </UserContext.Consumer>
             </ModalBody>
             <ModalFooter>
@@ -75,11 +79,18 @@ export default class UnAuthenticated extends Component {
                     outline
                     color="primary"
                     className="LoginBtn"
-                    onClick={() => loginFunction(this.refs.usernameLogin.value, this.refs.passwordLogin.value)}
+                    onClick={() =>
+                      loginFunction(
+                        this.refs.usernameLogin.value,
+                        this.refs.passwordLogin.value
+                      )
+                    }
                   >
                     Login
-              </Button>)}
-              </UserContext.Consumer>{"  "}
+                  </Button>
+                )}
+              </UserContext.Consumer>
+              {"  "}
               <Button outline color="primary" onClick={this.loginToggle}>
                 Cancel
               </Button>
@@ -168,7 +179,9 @@ export default class UnAuthenticated extends Component {
                   />
                 </FormGroup>
               </Form>
-              <span className="warning-register">{this.state.registerAlert}</span>
+              <span className="warning-register">
+                {this.state.registerAlert}
+              </span>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -193,29 +206,25 @@ export default class UnAuthenticated extends Component {
     this.setState(prevState => ({
       registermodal: !prevState.registermodal,
       loginModal: prevState.loginModal,
-      registerAlert: ''
+      registerAlert: ""
     }));
-  };
+  }
 
   loginToggle() {
     this.setState(prevState => ({
       loginModal: !prevState.loginModal,
       registermodal: prevState.registermodal,
-      loginAlert: ''
+      loginAlert: ""
     }));
-    return <UserContext>
-      {({ resetMessage }) => (
-        resetMessage
-      )}
-    </UserContext>
-  };
+    return <UserContext>{({ resetMessage }) => resetMessage}</UserContext>;
+  }
 
   enterPressed(event) {
     if (event.keyCode === 13 && event.target.id === "loginPart")
       this.loginBtn();
     else if (event.keyCode === 13 && event.target.id === "registerPart")
       this.registerBtn();
-  };
+  }
 
   registerBtn = () => {
     let username = this.refs.userNameRegister.value;
@@ -232,13 +241,18 @@ export default class UnAuthenticated extends Component {
       email === "" ||
       lastName === ""
     )
-      this.setState({ registerAlert: 'Please fill all the information below' });
+      this.setState({ registerAlert: "Please fill all the information below" });
     else {
       if (username.length < 8) {
-        this.setState({ registerAlert: "Username does not match required length ( 8 letters or more )" });
+        this.setState({
+          registerAlert:
+            "Username does not match required length ( 8 letters or more )"
+        });
       } else {
         if (password !== passwordValid) {
-          this.setState({ registerAlert: "Validation password does not match" });
+          this.setState({
+            registerAlert: "Validation password does not match"
+          });
         } else {
           this.registerToggle();
           var newUser = {
@@ -255,23 +269,23 @@ export default class UnAuthenticated extends Component {
               if (response.status === 201)
                 this.setState({
                   registermodal: false,
-                  loginModal: true,
-                  registerAlert: ''
+                  loginModal: false,
+                  registerAlert: ""
                 });
               else if (response.status === 422)
                 this.setState({
                   registerAlert: response.data.message
-                })
+                });
+                Alert("Message", "Successfully created user");
             })
             .catch(error => {
               console.log(error);
               this.setState({
-                registerAlert: 'Unable to register'
+                registerAlert: "Unable to register"
               });
             });
         }
       }
     }
   };
-
 }

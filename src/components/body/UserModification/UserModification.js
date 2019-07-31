@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
 import "./UserModification.css";
 import { Button } from "reactstrap";
-// import  UserContext  from "../../../contexts/UserContext";
 import { UserContext } from "../../../contexts/UserContext";
 import { Animated } from "react-animated-css";
 
@@ -155,7 +154,7 @@ export default class UserModification extends Component {
               />
             </FormGroup>
             <UserContext.Consumer>
-              {({ changePassword, messageUpdate, resetMessage }) => (
+              {({ changePassword, messageChangePassword}) => (
                 <div>
                   <Button
                     outline
@@ -167,12 +166,11 @@ export default class UserModification extends Component {
                         this.state.newPassword,
                         this.state.newPasswordValidation
                       );
-                      // resetMessage();
                     }}
                   >
                     Change
                   </Button>
-                  <span className="warning">{messageUpdate}</span>
+                  <span className="warning">{messageChangePassword}</span>
                 </div>
               )}
             </UserContext.Consumer>
