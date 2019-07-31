@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import React, { Component } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Form, FormGroup, Label, Row, Col } from "reactstrap";
@@ -14,13 +13,20 @@ export default class UnAuthenticated extends Component {
     this.state = {
       loginModal: false,
       registerModal: false,
-      registerAlert: "",
-      loginAlert: ""
+      emailWarning: "",
+      usernameWarning: "",
+      fullNameWarning: "",
+      passwordWarning: "",
+      passwordValidWarning: "",
+      finalWarning: ""
     };
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
     this.registerBtn = this.registerBtn.bind(this);
     this.enterPressed = this.enterPressed.bind(this);
+    this.checkField = this.checkField.bind(this);
+    this.checkFieldEmail = this.checkFieldEmail.bind(this);
+    this.checkSpecialCharacter = this.checkSpecialCharacter.bind(this);
   }
   render() {
     return (
@@ -59,13 +65,15 @@ export default class UnAuthenticated extends Component {
                 </FormGroup>
                 <FormGroup>
                   <br />
-                  <input
-                    type="password"
-                    id="loginPart"
-                    className="effect-6"
-                    placeholder="Input Password"
-                    ref="passwordLogin"
-                  />
+                  <div>
+                    <input
+                      type="password"
+                      id="loginPart"
+                      className="effect-6"
+                      placeholder="Input Password"
+                      ref="passwordLogin"
+                    />
+                  </div>
                 </FormGroup>
               </Form>
               <UserContext.Consumer>
@@ -85,6 +93,15 @@ export default class UnAuthenticated extends Component {
                         this.refs.passwordLogin.value
                       )
                     }
+                    onKeyUp={event => {
+                      if (event.keyCode === 13) {
+                        loginFunction(
+                          this.refs.usernameLogin.value,
+                          this.refs.passwordLogin.value
+                        );
+                        console.log("press enter");
+                      }
+                    }}
                   >
                     Login
                   </Button>
@@ -120,6 +137,9 @@ export default class UnAuthenticated extends Component {
                     onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
+                <span className="warning-register">
+                  {this.state.emailWarning}
+                </span>
                 <FormGroup>
                   <Label for="userName">Username</Label>
                   <input
@@ -131,6 +151,9 @@ export default class UnAuthenticated extends Component {
                     onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
+                <span className="warning-register">
+                  {this.state.usernameWarning}
+                </span>
                 <FormGroup>
                   <Label for="fullName">Fullname</Label>
                   <Row>
@@ -156,6 +179,9 @@ export default class UnAuthenticated extends Component {
                     </Col>
                   </Row>
                 </FormGroup>
+                <span className="warning-register">
+                  {this.state.fullNameWarning}
+                </span>
                 <FormGroup>
                   <Label for="passWord">Password</Label>
                   <input
@@ -167,6 +193,9 @@ export default class UnAuthenticated extends Component {
                     onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
+                <span className="warning-register">
+                  {this.state.passwordWarning}
+                </span>
                 <FormGroup>
                   <Label for="passWordAuth">Confirm Password</Label>
                   <input
@@ -178,9 +207,12 @@ export default class UnAuthenticated extends Component {
                     onKeyUp={this.enterPressed}
                   />
                 </FormGroup>
+                <span className="warning-register">
+                  {this.state.passwordValidWarning}
+                </span>
               </Form>
               <span className="warning-register">
-                {this.state.registerAlert}
+                {this.state.finalWarning}
               </span>
             </ModalBody>
             <ModalFooter>
@@ -206,86 +238,161 @@ export default class UnAuthenticated extends Component {
     this.setState(prevState => ({
       registermodal: !prevState.registermodal,
       loginModal: prevState.loginModal,
-      registerAlert: ""
+      emailWarning: "",
+      usernameWarning: "",
+      fullNameWarning: "",
+      passwordWarning: "",
+      passwordValidWarning: ""
     }));
   }
 
   loginToggle() {
     this.setState(prevState => ({
       loginModal: !prevState.loginModal,
-      registermodal: prevState.registermodal,
-      loginAlert: ""
+      registermodal: prevState.registermodal
     }));
-    return <UserContext>{({ resetMessage }) => resetMessage}</UserContext>;
   }
 
   enterPressed(event) {
-    if (event.keyCode === 13 && event.target.id === "loginPart")
-      this.loginBtn();
-    else if (event.keyCode === 13 && event.target.id === "registerPart")
+    if (event.keyCode === 13 && event.target.id === "registerPart")
       this.registerBtn();
   }
 
-  registerBtn = () => {
+  checkSpecialCharacter(text) {
+    // eslint-disable-next-line no-useless-escape
+    let format = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+    if (format.test(text)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  checkFieldEmail() {
+    let email = this.refs.emailRegister.value;
+    let at = email.indexOf("@");
+    let dot = email.lastIndexOf(".");
+    let space = email.indexOf(" ");
+    if (
+      at !== -1 && //có ký tự @
+      at !== 0 && //ký tự @ không nằm ở vị trí đầu
+      dot !== -1 && //có ký tự .
+      dot > at + 1 &&
+      dot < email.length - 1 && //phải có ký tự nằm giữa @ và . cuối cùng
+      space === -1
+    ) {
+      //không có khoẳng trắng
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  checkField(username, firstName, lastName, password, passwordValid, email) {
+    let result = true;
+    let usernameWarning = "";
+    let emailWarning = "";
+    let passwordWarning = "";
+    let passwordValidWarning = "";
+    let fullNameWarning = "";
+
+    if (firstName.length === 0 || lastName.length === 0) {
+      fullNameWarning = "Please input both Firstname and Lastname";
+      result = false;
+    }
+
+    if (this.checkFieldEmail()) {
+      emailWarning += "Invalid email format";
+      result = false;
+    }
+
+    if (username.length < 8) {
+      usernameWarning +=
+        "Username does not match required length ( 8 letters or more )";
+      result = false;
+    } else if (!this.checkSpecialCharacter(username)) {
+      usernameWarning += "Username contains illegal characters";
+      result = false;
+    }
+
+    if (password.length < 8) {
+      passwordWarning +=
+        "Password does not match required length ( 8 letters or more )";
+      result = false;
+    }
+
+    if (password !== passwordValid) {
+      passwordValidWarning += "Validation password does not match";
+      result = false;
+    }
+    return {
+      status: result,
+      usernameWarning: usernameWarning,
+      emailWarning: emailWarning,
+      passwordWarning: passwordWarning,
+      passwordValidWarning: passwordValidWarning,
+      fullNameWarning: fullNameWarning
+    };
+  }
+
+  registerBtn() {
     let username = this.refs.userNameRegister.value;
     let firstName = this.refs.firstname.value;
     let lastName = this.refs.lastname.value;
     let password = this.refs.password.value;
-    let passwordValid = this.refs.passwordValid.value;
     let email = this.refs.emailRegister.value;
-    if (
-      username === "" ||
-      firstName === "" ||
-      password === "" ||
-      passwordValid === "" ||
-      email === "" ||
-      lastName === ""
-    )
-      this.setState({ registerAlert: "Please fill all the information below" });
-    else {
-      if (username.length < 8) {
-        this.setState({
-          registerAlert:
-            "Username does not match required length ( 8 letters or more )"
-        });
-      } else {
-        if (password !== passwordValid) {
-          this.setState({
-            registerAlert: "Validation password does not match"
-          });
-        } else {
-          this.registerToggle();
-          var newUser = {
-            username: username,
-            password: password,
-            email: email,
-            firstName: firstName,
-            lastName: lastName
-          };
-          // axios post automatically transform user to JSON file
-          axios
-            .post(server + "/api/users/register", newUser)
-            .then(response => {
-              if (response.status === 201)
-                this.setState({
-                  registermodal: false,
-                  loginModal: false,
-                  registerAlert: ""
-                });
-              else if (response.status === 422)
-                this.setState({
-                  registerAlert: response.data.message
-                });
-                Alert("Message", "Successfully created user");
-            })
-            .catch(error => {
-              console.log(error);
-              this.setState({
-                registerAlert: "Unable to register"
-              });
+    let passwordValid = this.refs.passwordValid.value;
+    let result = this.checkField(
+      username,
+      firstName,
+      lastName,
+      password,
+      passwordValid,
+      email
+    );
+    if (!result.status) {
+      this.setState({
+        usernameWarning: result.usernameWarning,
+        emailWarning: result.emailWarning,
+        passwordWarning: result.passwordWarning,
+        passwordValidWarning: result.passwordValidWarning,
+        fullNameWarning: result.fullNameWarning
+      });
+    } else {
+      var newUser = {
+        username: username,
+        password: password,
+        email: email,
+        firstName: firstName,
+        lastName: lastName
+      };
+      // axios post automatically transform user to JSON file
+      axios
+        .post(server + "/api/users/register", newUser)
+        .then(response => {
+          if (response.status === 201) {
+            this.setState({
+              registermodal: false,
+              emailWarning: "",
+              usernameWarning: "",
+              fullNameWarning: "",
+              passwordWarning: "",
+              passwordValidWarning: "",
+              finalWarning: "User was successfully created"
             });
-        }
-      }
+            Alert("Message", "User was successfully created");
+          }
+        })
+        .catch(error => {
+          this.setState({
+            emailWarning: "",
+            usernameWarning: "",
+            fullNameWarning: "",
+            passwordWarning: "",
+            passwordValidWarning: "",
+            finalWarning: error.response.data.message
+          });
+        });
     }
-  };
+  }
 }

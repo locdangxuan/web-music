@@ -97,7 +97,6 @@ export class UserProvider extends Component {
         lastName:
           lastName.length === 0 ? this.state.currentUser.lastName : lastName
       };
-      console.log(updatedUser);
       axios({
         method: "PUT",
         url: server + "/api/users/update",

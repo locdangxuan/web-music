@@ -116,7 +116,6 @@ export default class UserModification extends Component {
               )}
             </UserContext.Consumer>
           </Animated>
-
           <br />
           <br />
           <br />
@@ -154,7 +153,7 @@ export default class UserModification extends Component {
               />
             </FormGroup>
             <UserContext.Consumer>
-              {({ changePassword, messageChangePassword}) => (
+              {({ changePassword, passwordMessage }) => (
                 <div>
                   <Button
                     outline
@@ -170,7 +169,7 @@ export default class UserModification extends Component {
                   >
                     Change
                   </Button>
-                  <span className="warning">{messageChangePassword}</span>
+                  <span className="warning">{passwordMessage}</span>
                 </div>
               )}
             </UserContext.Consumer>
