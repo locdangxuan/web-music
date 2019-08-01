@@ -22,14 +22,9 @@ export default class UnAuthenticated extends Component {
         this.loginToggle = this.loginToggle.bind(this);
         this.registerToggle = this.registerToggle.bind(this);
         this.registerBtn = this.registerBtn.bind(this);
-        this.enterPressed = this.enterPressed.bind(this);
         this.checkField = this.checkField.bind(this);
         this.checkFieldEmail = this.checkFieldEmail.bind(this);
         this.checkSpecialCharacter = this.checkSpecialCharacter.bind(this);
-    }
-    componentDidCatch(error, info) {
-        console.log(error);
-        console.log(info);
     }
     render() {
         return (
@@ -44,7 +39,7 @@ export default class UnAuthenticated extends Component {
                                     resetMessage();
                                 }}>
                                 Login
-              </Button>
+                            </Button>
                         )}
                     </UserContext.Consumer>
                     <Modal
@@ -109,14 +104,14 @@ export default class UnAuthenticated extends Component {
                             {"  "}
                             <Button outline color="primary" onClick={this.loginToggle}>
                                 Cancel
-              </Button>
+                            </Button>
                         </ModalFooter>
                     </Modal>
                 </div>
                 <div className="register">
                     <Button className="button" onClick={this.registerToggle}>
                         Register
-          </Button>
+                    </Button>
                     <Modal
                         isOpen={this.state.registermodal}
                         toggle={this.registerToggle}
@@ -133,7 +128,6 @@ export default class UnAuthenticated extends Component {
                                         id="registerPart"
                                         placeholder="example@gmail.com"
                                         ref="emailRegister"
-                                        onKeyUp={this.enterPressed}
                                     />
                                 </FormGroup>
                                 <span className="warning-register">
@@ -147,7 +141,6 @@ export default class UnAuthenticated extends Component {
                                         id="registerPart"
                                         placeholder="Username"
                                         ref="userNameRegister"
-                                        onKeyUp={this.enterPressed}
                                     />
                                 </FormGroup>
                                 <span className="warning-register">
@@ -163,7 +156,6 @@ export default class UnAuthenticated extends Component {
                                                 id="registerPart"
                                                 placeholder="First Name"
                                                 ref="firstname"
-                                                onKeyUp={this.enterPressed}
                                             />
                                         </Col>
                                         <Col xs="6">
@@ -173,7 +165,6 @@ export default class UnAuthenticated extends Component {
                                                 id="registerPart"
                                                 placeholder="Last Name"
                                                 ref="lastname"
-                                                onKeyUp={this.enterPressed}
                                             />
                                         </Col>
                                     </Row>
@@ -189,7 +180,6 @@ export default class UnAuthenticated extends Component {
                                         id="registerPart"
                                         placeholder="Input Password"
                                         ref="password"
-                                        onKeyUp={this.enterPressed}
                                     />
                                 </FormGroup>
                                 <span className="warning-register">
@@ -203,7 +193,6 @@ export default class UnAuthenticated extends Component {
                                         id="registerPart"
                                         placeholder="Input Password Again"
                                         ref="passwordValid"
-                                        onKeyUp={this.enterPressed}
                                     />
                                 </FormGroup>
                                 <span className="warning-register">
@@ -222,10 +211,10 @@ export default class UnAuthenticated extends Component {
                                 onClick={this.registerBtn}
                             >
                                 Sign Up
-              </Button>{" "}
+                            </Button>{" "}
                             <Button outline color="primary" onClick={this.registerToggle}>
                                 Cancel
-              </Button>
+                            </Button>
                         </ModalFooter>
                     </Modal>
                 </div>
@@ -250,11 +239,6 @@ export default class UnAuthenticated extends Component {
             loginModal: !prevState.loginModal,
             registermodal: prevState.registermodal
         }));
-    }
-
-    enterPressed(event) {
-        if (event.keyCode === 13 && event.target.id === "registerPart")
-            this.registerBtn();
     }
 
     checkSpecialCharacter(text) {
