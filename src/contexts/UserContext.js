@@ -55,8 +55,8 @@ export class UserProvider extends Component {
       });
   }
 
-  logoutFunction() {
-    axios({
+  async logoutFunction() {
+    await axios({
       method: "POST",
       url: server + "/api/users/logout",
       headers: {
@@ -80,6 +80,9 @@ export class UserProvider extends Component {
       })
       .catch(error => {
       });
+    if (window.location.pathname.toString().includes('/info/') && localStorage.getItem('token') === null) {
+      window.location.assign(window.location.origin);
+    }
   }
 
   changeInfo(username, email, firstName, lastName) {

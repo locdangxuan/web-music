@@ -57,7 +57,10 @@ export default class Authenticated extends Component {
         <div className="logout-btn">
           <UserContext.Consumer>
             {({ logoutFunction }) => (
-              <Button onClick={() => logoutFunction()} className="button">
+              <Button onClick={() => {
+                logoutFunction();
+            }
+              } className="button">
                 Logout
             </Button>)}
           </UserContext.Consumer>

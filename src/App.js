@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Header from "./components/header/Header";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import SidebarPlaylist from "./components/body/Playlist/SidebarPlaylist";
 import VideoSong from "./components/body/Detail/VideoSong";
@@ -14,6 +14,10 @@ import { UserProvider } from "./contexts/UserContext";
 import Footer from "./components/Footer/Footer";
 import FooterDetail from "./components/Footer/FooterDetail";
 
+const notFound = () => (
+  <div className = "not-found">404 Not Found</div>
+)
+
 class App extends Component {
   render() {
     return (
@@ -22,7 +26,7 @@ class App extends Component {
           <PlaylistProvider>
             <div className="App">
               <Header />
-              <CountdownClock/>
+              <CountdownClock />
               <div className="body">
                 <Container>
                   <Route exact path="/" component={Playlist} />
@@ -44,6 +48,7 @@ class App extends Component {
                       <Route path="/searching/" component={SidebarPlaylist} />
                     </Col>
                   </Row>
+                  <Route component={notFound} />
                 </Container>
                 <Route exact path="/" component={Footer} />
                 <Route exact path="/searching" component={FooterDetail} />
