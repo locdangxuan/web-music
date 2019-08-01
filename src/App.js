@@ -22,7 +22,7 @@ class App extends Component {
         <UserProvider>
           <PlaylistProvider>
             <div className="App">
-              <Header />
+              <Header/>
               <CountdownClock />
               <div className="body">
                 <Container>

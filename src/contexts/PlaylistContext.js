@@ -32,6 +32,7 @@ export class PlaylistProvider extends Component {
     this.clickToAdd = this.clickToAdd.bind(this);
     this.playlistStart = this.playlistStart.bind(this);
     this.playlistEnd = this.playlistEnd.bind(this);
+    this.voteForSong = this.voteForSong.bind(this);
   }
 
   componentDidMount() {
@@ -42,6 +43,14 @@ export class PlaylistProvider extends Component {
       unlockScheduled.minute = 30;
       schedule.scheduleJob(unlockScheduled, this.serviceActivate(true));
     }
+    else if(moment().isBefore(moment('17:30:0', 'hh:mm:ss')))
+    {
+      unlockScheduled.hour = 17;
+      unlockScheduled.minute = 30;
+      schedule.scheduleJob(unlockScheduled, this.serviceActivate(false));
+    }
+    else if(moment().isAfter(moment('17:30:0', 'hh:mm:ss')))
+      this.serviceActivate(false);
     else
       this.serviceActivate(true);
   }
@@ -73,39 +82,59 @@ export class PlaylistProvider extends Component {
     })
   }
 
-  clickToVote(Id, isUpvote) {
+  clickToVote(id, isUpvote) {
     if (this.state.serviceAvailable) {
       const token = localStorage.getItem("Token");
       if (token === null) {
         Alert('Warning', 'Please log in to vote ', false);
       } else {
-        axios({
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("Token")).token
-              }`
+        confirmAlert({
+          customUI: ({ onClose }) => {
+            return (
+              <div className="custom-ui">
+                <h1 className="title-confirm">Confirm</h1>
+                <p className="message">You can only vote 5 times a day</p>
+                <Button outline color="primary" onClick={() => {
+                  this.voteForSong(id, isUpvote);
+                  onClose();
+                }}>Vote</Button>
+                <Button outline color="primary" onClick={onClose} className="cancel">Cancel</Button>
+              </div>
+            );
           },
-          url: server + '/api/songs/vote',
-          data: {
-            video_id: Id,
-            isUpvote: isUpvote
-          }
-        })
-          .then(response => {
-            if (response.status === 200) {
-              Alert('Message', 'Successfully Voted', true);
-              this.getPlaylist();
-            }
-          })
-          .catch(error => {
-            Alert('Warning', 'You have used all your votes today, please comeback tomorrow', false);
-          });
+          closeOnClickOutside: true,
+          closeOnEscape: true
+        });
       }
     }
     else {
-      Alert('Warning', 'Time for the playlist to play. \n You can not vote now.', false)
+      Alert('Warning', 'Time for the playlist to play, you can not vote now.', false)
     }
+  }
+
+  voteForSong(id, isUpvote) {
+    axios({
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("Token")).token
+          }`
+      },
+      url: server + '/api/songs/vote',
+      data: {
+        video_id: id,
+        isUpvote: isUpvote
+      }
+    })
+      .then(response => {
+        if (response.status === 200) {
+          Alert('Message', 'Successfully Voted', true);
+          this.getPlaylist();
+        }
+      })
+      .catch(error => {
+        Alert('Warning', 'You have used all your votes today, please comeback tomorrow', false);
+      });
   }
 
   clickToAdd(videoId) {
@@ -170,7 +199,7 @@ export class PlaylistProvider extends Component {
           this.setState({
             playlist: []
           });
-        else{
+        else {
           this.setState({
             playlist: []
           });
