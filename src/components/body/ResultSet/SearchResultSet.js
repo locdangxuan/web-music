@@ -142,7 +142,7 @@ export default class SearchResultSet extends Component {
           });
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => {});
   }
 
   render() {

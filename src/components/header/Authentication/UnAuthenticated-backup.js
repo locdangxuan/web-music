@@ -49,13 +49,6 @@ export default class UnAuthenticated extends Component {
             isOpen={this.state.loginModal}
             toggle={this.loginToggle}
             className={this.props.className}
-            onKeyUp={(event) => {
-              console.log(event.keyCode);
-              if(event.keyCode === 13)
-              {
-                
-              }
-            }}
           >
             <ModalHeader toggle={this.loginToggle}>Login</ModalHeader>
             <ModalBody>
@@ -100,15 +93,6 @@ export default class UnAuthenticated extends Component {
                         this.refs.passwordLogin.value
                       )
                     }
-                    onKeyUp={event => {
-                      if (event.keyCode === 13) {
-                        loginFunction(
-                          this.refs.usernameLogin.value,
-                          this.refs.passwordLogin.value
-                        );
-                        console.log("press enter");
-                      }
-                    }}
                   >
                     Login
                   </Button>
