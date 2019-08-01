@@ -14,9 +14,6 @@ import { UserProvider } from "./contexts/UserContext";
 import Footer from "./components/Footer/Footer";
 import FooterDetail from "./components/Footer/FooterDetail";
 
-const notFound = () => (
-  <div className = "not-found">404 Not Found</div>
-)
 
 class App extends Component {
   render() {
@@ -48,7 +45,6 @@ class App extends Component {
                       <Route path="/searching/" component={SidebarPlaylist} />
                     </Col>
                   </Row>
-                  <Route component={notFound} />
                 </Container>
                 <Route exact path="/" component={Footer} />
                 <Route exact path="/searching" component={FooterDetail} />
