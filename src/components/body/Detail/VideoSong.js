@@ -6,6 +6,7 @@ import { PlaylistContext } from "../../../contexts/PlaylistContext";
 import { server } from "../../../server";
 import io from "socket.io-client";
 import { Animated } from "react-animated-css";
+import { Redirect } from "react-router-dom";
 
 export default class VideoSong extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ export default class VideoSong extends Component {
       startAt: startAt,
       autoplay: autoplay,
       control: control,
-      iframeId: iframeid
+      iframeId: iframeid,
+      returnToIndex: false
     };
   }
 
@@ -37,6 +39,7 @@ export default class VideoSong extends Component {
         });
         this.socket.on("end", response => {
           window.location.assign(window.location.hostname);
+          this.setState({ returnToIndex: true });
         });
       } else {
         this.setState({
@@ -95,7 +98,7 @@ export default class VideoSong extends Component {
       autoplay,
       control,
       iframeId,
-      status,
+      returnToIndex,
       addedUser
     } = this.state;
     let url = `https://www.youtube.com/embed/${id}?autoplay=${autoplay}&start=${startAt}&controls=${control}`;
@@ -136,11 +139,12 @@ export default class VideoSong extends Component {
             <p className="title">{title}</p>
             <div>
               <p>
-                {singer}{" - "}{!(addedUser === '') && <span>added by{" "}<strong className="addedUser">{addedUser}</strong></span> 
+                {singer}{" - "}{!(addedUser === '') && <span>added by{" "}<strong className="addedUser">{addedUser}</strong></span>
                 }
               </p>
             </div>
           </div>
+          {returnToIndex && <Redirect to={'/'}></Redirect>}
         </div>
       </Animated>
     );

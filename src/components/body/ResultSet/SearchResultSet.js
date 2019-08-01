@@ -12,7 +12,8 @@ export default class SearchResultSet extends Component {
     this.state = {
       keyword: "",
       songList: [],
-      nextPage: ""
+      nextPage: "",
+      status: true
     };
     this.getSongList = this.getSongList.bind(this);
     this.loadResult = this.loadResult.bind(this);
@@ -22,22 +23,22 @@ export default class SearchResultSet extends Component {
   }
 
   componentDidMount() {
-    this.loadResult(new URLSearchParams(this.props.location.search).get("q"));
+    let currentKeyWord = new URLSearchParams(this.props.location.search).get("q");
+    this.loadResult(currentKeyWord);
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      new URLSearchParams(prevProps.location.search).get("q") !==
-      new URLSearchParams(this.props.location.search).get("q")
-    )
-      this.loadResult(new URLSearchParams(this.props.location.search).get("q"));
+    let previousKeyWord = new URLSearchParams(prevProps.location.search).get("q");
+    let currentKeyWord = new URLSearchParams(this.props.location.search).get("q");
+    if (previousKeyWord !== currentKeyWord)
+      this.loadResult(currentKeyWord);
   }
 
   async loadResult(keyword) {
     if (keyword !== this.state.text) {
       //clear the current list in state
       if (this.state.songList.length !== 0) {
-        await this.setState({
+        this.setState({
           songList: []
         });
       }
@@ -46,25 +47,28 @@ export default class SearchResultSet extends Component {
       let result = null;
       if (storage === null) {
         result = await this.getSongList(keyword);
-        await this.setState({
+        this.setState({
           keyword: result.keyword,
           nextPage: result.nextPage,
-          songList: result.songList
+          songList: result.songList,
+          status: result.status
         });
       } else {
         let result = this.checkStorage(keyword, JSON.parse(storage));
         if (result !== null) {
-          await this.setState({
+          this.setState({
             keyword: result.keyword,
             songList: result.songList,
-            nextPage: result.nextPage
+            nextPage: result.nextPage,
+            status: (result.songList.length === 0) ? false : true
           });
         } else {
           result = await this.getSongList(keyword);
-          await this.setState({
+          this.setState({
             keyword: result.keyword,
             songList: result.songList,
-            nextPage: result.nextPage
+            nextPage: result.nextPage,
+            status: result.status
           });
         }
       }
@@ -74,12 +78,14 @@ export default class SearchResultSet extends Component {
   async getSongList(value) {
     let songList = [];
     let nextPage = "";
+    let status = false;
     await axios
       .get(server + `/api/songs/search/${value}`)
       .then(response => {
         if (response.data.message !== "No video found!") {
           songList = response.data.message.data;
           nextPage = response.data.message.nextPage;
+          status = true;
         }
         this.storageUpdate({
           keyword: value,
@@ -97,7 +103,8 @@ export default class SearchResultSet extends Component {
     return {
       keyword: value,
       songList: songList,
-      nextPage: nextPage
+      nextPage: nextPage,
+      status: status
     };
   }
 
@@ -139,7 +146,7 @@ export default class SearchResultSet extends Component {
   }
 
   render() {
-    const { keyword, songList } = this.state;
+    const { keyword, songList, status } = this.state;
     return (
       <Animated
         animationIn="fadeInUp"
@@ -153,8 +160,8 @@ export default class SearchResultSet extends Component {
             </span>
           </div>
           <div className="result-set">
-            {songList.length === 0 && <div>NO VIDEO FOUND</div>}
-            {songList.length > 0 && (
+            {!status && <div>NO VIDEO FOUND</div>}
+            {status && (
               <div>
                 {songList.map((value, key) => {
                   return (

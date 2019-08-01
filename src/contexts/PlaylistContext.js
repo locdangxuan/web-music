@@ -8,7 +8,7 @@ import { Redirect } from "react-router-dom";
 import moment from 'moment';
 import { Alert } from "../confirmalert";
 import schedule from 'node-schedule';
-import {Button} from 'reactstrap';
+import { Button } from 'reactstrap';
 import "../confirmalert";
 
 export const PlaylistContext = React.createContext();
@@ -18,7 +18,7 @@ export class PlaylistProvider extends Component {
     super();
     this.state = {
       playlist: [],
-      currentSong: { id: ""},
+      currentSong: { id: "" },
       playlistStart: false,
       returnToIndex: false,
       playlistEnd: true,
@@ -77,7 +77,7 @@ export class PlaylistProvider extends Component {
     if (this.state.serviceAvailable) {
       const token = localStorage.getItem("Token");
       if (token === null) {
-        Alert('Warning', 'Please log in to vote ',false);
+        Alert('Warning', 'Please log in to vote ', false);
       } else {
         axios({
           method: "POST",
@@ -94,17 +94,17 @@ export class PlaylistProvider extends Component {
         })
           .then(response => {
             if (response.status === 200) {
-              Alert('Message', 'Successfully Voted',true);
+              Alert('Message', 'Successfully Voted', true);
               this.getPlaylist();
             }
           })
           .catch(error => {
-            Alert('Warning', 'You have used all your votes today, please comeback tomorrow',false);
+            Alert('Warning', 'You have used all your votes today, please comeback tomorrow', false);
           });
       }
     }
     else {
-      Alert('Warning', 'Time for the playlist to play. \n You can not vote now.',false)
+      Alert('Warning', 'Time for the playlist to play. \n You can not vote now.', false)
     }
   }
 
@@ -112,7 +112,7 @@ export class PlaylistProvider extends Component {
     if (this.state.serviceAvailable) {
       const storage = localStorage.getItem("Token");
       if (storage === null) {
-        Alert('Warning', 'Please login to add this song to the playlist',false);
+        Alert('Warning', 'Please login to add this song to the playlist', false);
       }
       else {
         confirmAlert({
@@ -121,11 +121,11 @@ export class PlaylistProvider extends Component {
               <div className="custom-ui">
                 <h1 className="title-confirm">Confirm</h1>
                 <p className="message">You can only add one song a day</p>
-                <Button outline color = "primary" onClick={() => {
+                <Button outline color="primary" onClick={() => {
                   this.addToPlaylist(videoId);
                   onClose();
                 }}>Add</Button>
-                <Button outline color = "primary" onClick={onClose} className="cancel">Cancel</Button>
+                <Button outline color="primary" onClick={onClose} className="cancel">Cancel</Button>
               </div>
             );
           },
@@ -135,7 +135,7 @@ export class PlaylistProvider extends Component {
       }
     }
     else {
-      Alert('Warning', 'Time for the playlist to play. \n You can not add this now.',false)
+      Alert('Warning', 'Time for the playlist to play. \n You can not add this now.', false)
     }
   }
 
@@ -153,31 +153,41 @@ export class PlaylistProvider extends Component {
       }
     })
       .then(response => {
-        Alert('Message', 'Successfully added',true);
+        Alert('Message', 'Successfully added', true);
         this.getPlaylist();
       })
       .catch(error => {
-        Alert('Warning', 'This account has already added a song, try again tomorrow',false);
+        Alert('Warning', 'This account has already added a song, try again tomorrow', false);
       });
   };
 
   getPlaylist() {
-    this.setState({
-      playlist: []
-    });
+
     axios
       .get(server + "/api/songs/playlist")
       .then(response => {
-        this.setState({
-          playlist: response.data.message
-        });
-
+        if (response.data.message === 'There is no song in the play list now!')
+          this.setState({
+            playlist: []
+          });
+        else{
+          this.setState({
+            playlist: []
+          });
+          this.setState({
+            playlist: response.data.message
+          });
+        }
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        this.setState({
+          playlist: []
+        })
+      });
   }
 
-  async playlistStart(response) {
-    await this.setState({
+  playlistStart(response) {
+    this.setState({
       currentSong: {
         id: response.videoId
       },
@@ -230,7 +240,7 @@ export class PlaylistProvider extends Component {
         {playlistStart &&
           <Redirect to={{
             pathname: `/playing/${currentSong.id}`,
-            state: { playlistStart: true}
+            state: { playlistStart: true }
           }} />}
       </div>
     );

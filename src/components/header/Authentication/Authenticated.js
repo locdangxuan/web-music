@@ -35,35 +35,32 @@ export default class Authenticated extends Component {
           <UserContext.Consumer>
             {({ currentUser, resetMessage }) => (
               <PlaylistContext.Consumer>
-                {({playlistStart}) => (
+                {({ playlistStart }) => (
                   <div>
-                  {!playlistStart && 
-                <Link
-                  className="user"
-                  to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
-                  onClick={resetMessage}
-                >
-                  <p>{currentUser.firstName + " " + currentUser.lastName}</p>
-                </Link>}
-                {playlistStart && 
-                  <p>{currentUser.firstName + " " + currentUser.lastName}</p>
-                }
-                </div>
+                    {!playlistStart &&
+                      <Link
+                        className="user"
+                        to={`/info/${currentUser.firstName}_${currentUser.lastName}`}
+                        onClick={resetMessage}
+                      >
+                        <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+                      </Link>}
+                    {playlistStart &&
+                      <p>{currentUser.firstName + " " + currentUser.lastName}</p>
+                    }
+                  </div>
                 )}
               </PlaylistContext.Consumer>
             )}
           </UserContext.Consumer>
-
         </div>
         <div className="logout-btn">
-          <Link to={'/'}>
-            <UserContext.Consumer>
-              {({ logoutFunction }) => (
-                <Button onClick={() => logoutFunction()} className="button">
-                  Logout
+          <UserContext.Consumer>
+            {({ logoutFunction }) => (
+              <Button onClick={() => logoutFunction()} className="button">
+                Logout
             </Button>)}
-            </UserContext.Consumer>
-          </Link>
+          </UserContext.Consumer>
         </div>
       </div>
     );

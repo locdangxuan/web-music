@@ -53,24 +53,26 @@ export default class Playlist extends Component {
               isVisible={true}
             >
               <div className="playlist-body">
-                {playlist.map((value, index) => {
-                  return (
-                    <PlaylistCard
-                      id={value.videoId}
-                      songTitle={value.title}
-                      singer={value.channelTitle}
-                      addedUser={value.addedUser}
-                      thumbnail={value.thumbnails}
-                      upvote={value.upvote}
-                      downvote={value.downvote}
-                      key={index}
-                      duration={value.duration}
-                      votingID={value._id}
-                      className={`rank-${++index}`}
-                      rank={index++}
-                    />
-                  );
-                })}
+                {(playlist.length > 0) &&
+                  playlist.map((value, index) => {
+                    return (
+                      <PlaylistCard
+                        id={value.videoId}
+                        songTitle={value.title}
+                        singer={value.channelTitle}
+                        addedUser={value.addedUser}
+                        thumbnail={value.thumbnails}
+                        upvote={value.upvote}
+                        downvote={value.downvote}
+                        key={index}
+                        duration={value.duration}
+                        votingID={value._id}
+                        className={`rank-${++index}`}
+                        rank={index++}
+                      />
+                    );
+                  })}
+                {(playlist.length === 0) && <div className="empty-playlist">There is no song in the playlist</div>}
               </div>
             </Animated>
           )}

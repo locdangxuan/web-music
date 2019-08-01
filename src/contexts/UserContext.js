@@ -49,7 +49,6 @@ export class UserProvider extends Component {
         });
       })
       .catch(error => {
-        console.log(error);
         this.setState({
           message: "Invalid username or password"
         });
@@ -70,7 +69,7 @@ export class UserProvider extends Component {
     })
       .then(response => {
         if (response.status === 200) {
-          Alert("Message", "Logged out Succesfully",true);
+          Alert("Message", "Logged out Succesfully", true);
           localStorage.removeItem("Token");
           this.setState({
             currentUser: {},
@@ -84,93 +83,104 @@ export class UserProvider extends Component {
   }
 
   changeInfo(username, email, firstName, lastName) {
-    if (firstName.length === 0)
-      this.setState({ message: "Firstname is required" });
+    const storage = localStorage.getItem("Token");
+    if (storage === null) {
+      Alert('Warning', 'Login to change the information', false);
+    }
     else {
-      let updatedUser = {
-        id: JSON.parse(localStorage.getItem("Token")).id,
-        username:  username.length === 0 ? this.state.currentUser.username : username,
-        email: email.length === 0 ? this.state.currentUser.email : email,
-        firstName: firstName.length === 0 ? this.state.currentUser.firstName : firstName,
-        lastName:  lastName.length === 0 ? this.state.currentUser.lastName : lastName
-      };
-      axios({
-        method: "PUT",
-        url: server + "/api/users/update",
-        headers: {
-          Authorization:
-            "Bearer " + JSON.parse(localStorage.getItem("Token")).token
-        },
-        data: updatedUser
-      })
-        .then(async response => {
-          if (response.status === 200) {
-            await this.setState({
-              message: "User successfully updated",
-              currentUser: {
-                id: updatedUser.id,
-                username: updatedUser.username,
-                email: updatedUser.email,
-                firstName: updatedUser.firstName,
-                lastName: updatedUser.lastName,
-                token: this.state.currentUser.token
-              }
-            });
-            localStorage.setItem(
-              "Token",
-              JSON.stringify(this.state.currentUser)
-            );
-          }
+      if (firstName.length === 0)
+        this.setState({ message: "Firstname is required" });
+      else {
+        let updatedUser = {
+          id: JSON.parse(storage).id,
+          username: username.length === 0 ? this.state.currentUser.username : username,
+          email: email.length === 0 ? this.state.currentUser.email : email,
+          firstName: firstName.length === 0 ? this.state.currentUser.firstName : firstName,
+          lastName: lastName.length === 0 ? this.state.currentUser.lastName : lastName
+        };
+        axios({
+          method: "PUT",
+          url: server + "/api/users/update",
+          headers: {
+            Authorization:
+              "Bearer " + JSON.parse(storage).token
+          },
+          data: updatedUser
         })
-        .catch(error => {
-          Alert("Error", "Information was not updated");
-        });
+          .then(async response => {
+            if (response.status === 200) {
+              await this.setState({
+                message: "User successfully updated",
+                currentUser: {
+                  id: updatedUser.id,
+                  username: updatedUser.username,
+                  email: updatedUser.email,
+                  firstName: updatedUser.firstName,
+                  lastName: updatedUser.lastName,
+                  token: this.state.currentUser.token
+                }
+              });
+              localStorage.setItem(
+                "Token",
+                JSON.stringify(this.state.currentUser)
+              );
+            }
+          })
+          .catch(error => {
+            Alert("Error", "Information was not updated");
+          });
+      }
     }
   }
 
   changePassword(oldPassword, newPassword, newPasswordValid) {
-    if (
-      oldPassword.length === 0 ||
-      newPassword.length === 0 ||
-      newPassword.length === 0
-    )
-      this.setState({
-        passwordMessage: "Please input all the three text fields above!"
-      });
+    const storage = localStorage.getItem("Token");
+    if (storage === null) {
+      Alert('Warning', 'Login to change the password', false);
+    }
     else {
-      if (newPassword.length < 8)
+      if (
+        oldPassword.length === 0 ||
+        newPassword.length === 0 ||
+        newPassword.length === 0
+      )
         this.setState({
-          passwordMessage: "Password must contains 8 digits or more!"
+          passwordMessage: "Please input all the three text fields above!"
         });
       else {
-        if (newPassword !== newPasswordValid)
+        if (newPassword.length < 8)
           this.setState({
-            passwordMessage: "Password confirmation does not match!"
+            passwordMessage: "Password must contains 8 digits or more!"
           });
         else {
-          axios({
-            method: "PUT",
-            url: server + "/api/users/update-password",
-            headers: {
-              Authorization:
-                "Bearer " + this.state.currentUser.token
-            },
-            data: { id: this.state.currentUser.id, oldPassword: oldPassword, newPassword: newPassword }
-          })
-            .then(response => {
-              if (response.status === 200)
+          if (newPassword !== newPasswordValid)
+            this.setState({
+              passwordMessage: "Password confirmation does not match!"
+            });
+          else {
+            axios({
+              method: "PUT",
+              url: server + "/api/users/update-password",
+              headers: {
+                Authorization:
+                  "Bearer " + this.state.currentUser.token
+              },
+              data: { id: this.state.currentUser.id, oldPassword: oldPassword, newPassword: newPassword }
+            })
+              .then(response => {
+                if (response.status === 200)
+                  this.setState({
+                    passwordMessage: ""
+                  });
+                Alert("Message", "Password successfully changed");
+              })
+              .catch(error => {
                 this.setState({
                   passwordMessage: ""
                 });
-              Alert("Message", "Password successfully changed");
-            })
-            .catch(error => {
-              console.log(error.response);
-              this.setState({
-                passwordMessage: ""
+                Alert("Error", "Password was not changed");
               });
-              Alert("Error", "Password was not changed");
-            });
+          }
         }
       }
     }
