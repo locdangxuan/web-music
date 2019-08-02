@@ -5,7 +5,6 @@ import { server } from "../../../server.js";
 import { Button } from "reactstrap";
 import "./SearchResultSet.css";
 import { Animated } from "react-animated-css";
-import Iframe from "react-iframe";
 
 export default class SearchResultSet extends Component {
   constructor(props) {

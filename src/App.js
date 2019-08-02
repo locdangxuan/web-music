@@ -13,11 +13,10 @@ import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
 import Footer from "./components/Footer/Footer";
 import FooterDetail from "./components/Footer/FooterDetail";
-import { NOTFOUND } from "dns";
 
 const NoMatch = ({ location }) => (
-  <div style= {{textAlign:"center"}}>
-    <h3>404 Not Found</h3>
+  <div style={{ textAlign: "center" }}>
+    <h2>404 Not Found</h2>
   </div>
 )
 class App extends Component {
@@ -31,22 +30,15 @@ class App extends Component {
               <CountdownClock />
               <div className="body">
                 <Container>
-                  <Switch>
-                    <Route exact path="/" component={Playlist} />
-                    <Route path="/info/" component={UserModification} />
-                  </Switch>
+                  <Route exact path="/" component={Playlist} />
                   <Row style={{ backgroundColor: "white", paddingTop: "20px" }}>
                     <Col xs="8">
-                      <Switch>
-                        <Route path="/searching/" component={SearchResultSet} />
-                        <Route exact path="/playing/:songId" component={VideoSong} />
-                      </Switch>
+                      <Route path="/searching/" component={SearchResultSet} />
+                      <Route exact path="/playing/:songId" component={VideoSong} />
                     </Col>
                     <Col xs="4">
-                      <Switch>
-                        <Route path="/playing/:songId" component={SidebarPlaylist} />
-                        <Route path="/searching/" component={SidebarPlaylist} />
-                      </Switch>
+                      <Route path="/playing/:songId" component={SidebarPlaylist} />
+                      <Route path="/searching/" component={SidebarPlaylist} />
                     </Col>
                   </Row>
                 </Container>
@@ -54,6 +46,7 @@ class App extends Component {
                   <Route exact path="/" component={Footer} />
                   <Route exact path="/searching" component={FooterDetail} />
                   <Route path="/playing/:songId" component={FooterDetail} />
+                  <Route path="/info/" component={()=>{return (<div><UserModification/> <FooterDetail/></div>)}} />
                   <Route component={NoMatch} />
                 </Switch>
               </div>
