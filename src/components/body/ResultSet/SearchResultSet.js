@@ -24,21 +24,21 @@ export default class SearchResultSet extends Component {
 
   componentDidMount() {
     let currentKeyWord = new URLSearchParams(this.props.location.search).get("q");
-    this.loadResult(currentKeyWord);
+    this.loadResult(currentKeyWord.trim());
   }
 
   componentDidUpdate(prevProps) {
     let previousKeyWord = new URLSearchParams(prevProps.location.search).get("q");
     let currentKeyWord = new URLSearchParams(this.props.location.search).get("q");
     if (previousKeyWord !== currentKeyWord)
-      this.loadResult(currentKeyWord);
+      this.loadResult(currentKeyWord.trim());
   }
 
   async loadResult(keyword) {
     if (keyword !== this.state.text) {
       //clear the current list in state
       if (this.state.songList.length !== 0) {
-        this.setState({
+        await this.setState({
           songList: []
         });
       }
@@ -142,7 +142,7 @@ export default class SearchResultSet extends Component {
           });
         }
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   render() {

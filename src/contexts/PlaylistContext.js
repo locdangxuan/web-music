@@ -37,22 +37,28 @@ export class PlaylistProvider extends Component {
 
   componentDidMount() {
     this.getPlaylist();
-    let unlockScheduled = new schedule.RecurrenceRule();
-    if (moment().isBefore(moment('5:30:0', 'hh:mm:ss'))) {
+
+    if (moment().isBefore(moment('5:30:00', 'hh:mm:ss'))) {
+      let unlockScheduled = new schedule.RecurrenceRule();
+      this.serviceActivate(false);
       unlockScheduled.hour = 5;
       unlockScheduled.minute = 30;
-      schedule.scheduleJob(unlockScheduled, this.serviceActivate(true));
+      schedule.scheduleJob(unlockScheduled, () => { this.serviceActivate(true) });
     }
-    else if(moment().isBefore(moment('17:30:0', 'hh:mm:ss')))
-    {
-      unlockScheduled.hour = 17;
-      unlockScheduled.minute = 30;
-      schedule.scheduleJob(unlockScheduled, this.serviceActivate(false));
-    }
-    else if(moment().isAfter(moment('17:30:0', 'hh:mm:ss')))
-      this.serviceActivate(false);
-    else
+    else if (moment().isBefore(moment('17:30:00', 'hh:mm:ss'))) {
+      let lockScheduled = new schedule.RecurrenceRule();
       this.serviceActivate(true);
+      lockScheduled.hour = 17;
+      lockScheduled.minute = 30;
+      schedule.scheduleJob(lockScheduled, () => { this.serviceActivate(false) });
+
+    }
+    else if (moment().isAfter(moment('17:30:00', 'hh:mm:ss'))) {
+      this.serviceActivate(false);
+    }
+    else {
+      this.serviceActivate(true);
+    }
   }
 
   componentWillMount() {
@@ -79,7 +85,7 @@ export class PlaylistProvider extends Component {
   serviceActivate(status) {
     this.setState({
       serviceAvailable: status
-    })
+    });
   }
 
   clickToVote(id, isUpvote) {
@@ -164,7 +170,7 @@ export class PlaylistProvider extends Component {
       }
     }
     else {
-      Alert('Warning', 'Time for the playlist to play. \n You can not add this now.', false)
+      Alert('Warning', 'Time for the playlist to play.You can not add this now.', false)
     }
   }
 
