@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import Header from "./components/header/Header";
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 import SidebarPlaylist from "./components/body/Playlist/SidebarPlaylist";
 import VideoSong from "./components/body/Detail/VideoSong";
@@ -13,8 +13,13 @@ import CountdownClock from "./components/clock/CountdownClock";
 import { UserProvider } from "./contexts/UserContext";
 import Footer from "./components/Footer/Footer";
 import FooterDetail from "./components/Footer/FooterDetail";
+import { NOTFOUND } from "dns";
 
-
+const NoMatch = ({ location }) => (
+  <div style= {{textAlign:"center"}}>
+    <h3>404 Not Found</h3>
+  </div>
+)
 class App extends Component {
   render() {
     return (
@@ -22,38 +27,40 @@ class App extends Component {
         <UserProvider>
           <PlaylistProvider>
             <div className="App">
-              <Header/>
+              <Header />
               <CountdownClock />
               <div className="body">
                 <Container>
-                  <Route exact path="/" component={Playlist} />
-                  <Route path="/info/" component={UserModification} />
+                  <Switch>
+                    <Route exact path="/" component={Playlist} />
+                    <Route path="/info/" component={UserModification} />
+                  </Switch>
                   <Row style={{ backgroundColor: "white", paddingTop: "20px" }}>
                     <Col xs="8">
-                      <Route path="/searching/" component={SearchResultSet} />
-                      <Route
-                        exact
-                        path="/playing/:songId"
-                        component={VideoSong}
-                      />
+                      <Switch>
+                        <Route path="/searching/" component={SearchResultSet} />
+                        <Route exact path="/playing/:songId" component={VideoSong} />
+                      </Switch>
                     </Col>
                     <Col xs="4">
-                      <Route
-                        path="/playing/:songId"
-                        component={SidebarPlaylist}
-                      />
-                      <Route path="/searching/" component={SidebarPlaylist} />
+                      <Switch>
+                        <Route path="/playing/:songId" component={SidebarPlaylist} />
+                        <Route path="/searching/" component={SidebarPlaylist} />
+                      </Switch>
                     </Col>
                   </Row>
                 </Container>
-                <Route exact path="/" component={Footer} />
-                <Route exact path="/searching" component={FooterDetail} />
-                <Route path="/playing/:songId" component={FooterDetail} />
+                <Switch>
+                  <Route exact path="/" component={Footer} />
+                  <Route exact path="/searching" component={FooterDetail} />
+                  <Route path="/playing/:songId" component={FooterDetail} />
+                  <Route component={NoMatch} />
+                </Switch>
               </div>
             </div>
           </PlaylistProvider>
         </UserProvider>
-      </Router>
+      </Router >
     );
   }
 }

@@ -5,6 +5,7 @@ import { server } from "../../../server.js";
 import { Button } from "reactstrap";
 import "./SearchResultSet.css";
 import { Animated } from "react-animated-css";
+import Iframe from "react-iframe";
 
 export default class SearchResultSet extends Component {
   constructor(props) {
@@ -24,7 +25,13 @@ export default class SearchResultSet extends Component {
 
   componentDidMount() {
     let currentKeyWord = new URLSearchParams(this.props.location.search).get("q");
-    this.loadResult(currentKeyWord.trim());
+    if (currentKeyWord === null) {
+      window.location.assign(window.location.origin);
+    }
+    else {
+      this.loadResult(currentKeyWord.trim());
+
+    }
   }
 
   componentDidUpdate(prevProps) {

@@ -139,7 +139,7 @@ export default class VideoSong extends Component {
             <p className="title">{title}</p>
             <div>
               <p>
-                {singer}{" - "}{!(addedUser === '') && <span>added by{" "}<strong className="addedUser">{addedUser}</strong></span>
+                {singer}{!(addedUser === ''||addedUser === undefined) && <span> - added by{" "}<strong className="addedUser">{addedUser}</strong></span>
                 }
               </p>
             </div>
